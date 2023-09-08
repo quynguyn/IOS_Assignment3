@@ -11,6 +11,14 @@
 		15265DD82AAAEF6300AB48A3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15265DD72AAAEF6300AB48A3 /* ContentView.swift */; };
 		15265DDA2AAAEF6400AB48A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15265DD92AAAEF6400AB48A3 /* Assets.xcassets */; };
 		15265DDE2AAAEF6400AB48A3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15265DDD2AAAEF6400AB48A3 /* Preview Assets.xcassets */; };
+		15265DF52AAAFE8F00AB48A3 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15265DF42AAAFE8F00AB48A3 /* LogIn.swift */; };
+		15265DF72AAAFE9E00AB48A3 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15265DF62AAAFE9E00AB48A3 /* Account.swift */; };
+		15265DF92AAAFEAA00AB48A3 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15265DF82AAAFEAA00AB48A3 /* AccountService.swift */; };
+		15265DFF2AAAFEC300AB48A3 /* action.wav in Resources */ = {isa = PBXBuildFile; fileRef = 15265DFA2AAAFEC200AB48A3 /* action.wav */; };
+		15265E002AAAFEC300AB48A3 /* lose.wav in Resources */ = {isa = PBXBuildFile; fileRef = 15265DFB2AAAFEC300AB48A3 /* lose.wav */; };
+		15265E012AAAFEC300AB48A3 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 15265DFC2AAAFEC300AB48A3 /* background.mp3 */; };
+		15265E022AAAFEC300AB48A3 /* newGame.wav in Resources */ = {isa = PBXBuildFile; fileRef = 15265DFD2AAAFEC300AB48A3 /* newGame.wav */; };
+		15265E032AAAFEC300AB48A3 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = 15265DFE2AAAFEC300AB48A3 /* win.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +28,14 @@
 		15265DD92AAAEF6400AB48A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15265DDB2AAAEF6400AB48A3 /* Assignment3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Assignment3.entitlements; sourceTree = "<group>"; };
 		15265DDD2AAAEF6400AB48A3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		15265DF42AAAFE8F00AB48A3 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
+		15265DF62AAAFE9E00AB48A3 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		15265DF82AAAFEAA00AB48A3 /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
+		15265DFA2AAAFEC200AB48A3 /* action.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = action.wav; sourceTree = "<group>"; };
+		15265DFB2AAAFEC300AB48A3 /* lose.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lose.wav; sourceTree = "<group>"; };
+		15265DFC2AAAFEC300AB48A3 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
+		15265DFD2AAAFEC300AB48A3 /* newGame.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = newGame.wav; sourceTree = "<group>"; };
+		15265DFE2AAAFEC300AB48A3 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +70,10 @@
 			children = (
 				15265DD52AAAEF6300AB48A3 /* Assignment3App.swift */,
 				15265DD72AAAEF6300AB48A3 /* ContentView.swift */,
+				15265DF32AAAFE3F00AB48A3 /* Sound */,
+				15265DF22AAAFE2A00AB48A3 /* Services */,
+				15265DF12AAAFE2300AB48A3 /* Models */,
+				15265DF02AAAFE1B00AB48A3 /* Views */,
 				15265DD92AAAEF6400AB48A3 /* Assets.xcassets */,
 				15265DDB2AAAEF6400AB48A3 /* Assignment3.entitlements */,
 				15265DDC2AAAEF6400AB48A3 /* Preview Content */,
@@ -67,6 +87,42 @@
 				15265DDD2AAAEF6400AB48A3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		15265DF02AAAFE1B00AB48A3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				15265DF42AAAFE8F00AB48A3 /* LogIn.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		15265DF12AAAFE2300AB48A3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				15265DF62AAAFE9E00AB48A3 /* Account.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		15265DF22AAAFE2A00AB48A3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				15265DF82AAAFEAA00AB48A3 /* AccountService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		15265DF32AAAFE3F00AB48A3 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				15265DFA2AAAFEC200AB48A3 /* action.wav */,
+				15265DFC2AAAFEC300AB48A3 /* background.mp3 */,
+				15265DFB2AAAFEC300AB48A3 /* lose.wav */,
+				15265DFD2AAAFEC300AB48A3 /* newGame.wav */,
+				15265DFE2AAAFEC300AB48A3 /* win.wav */,
+			);
+			path = Sound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,8 +183,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15265E032AAAFEC300AB48A3 /* win.wav in Resources */,
 				15265DDE2AAAEF6400AB48A3 /* Preview Assets.xcassets in Resources */,
+				15265E012AAAFEC300AB48A3 /* background.mp3 in Resources */,
 				15265DDA2AAAEF6400AB48A3 /* Assets.xcassets in Resources */,
+				15265E022AAAFEC300AB48A3 /* newGame.wav in Resources */,
+				15265DFF2AAAFEC300AB48A3 /* action.wav in Resources */,
+				15265E002AAAFEC300AB48A3 /* lose.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +201,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				15265DD82AAAEF6300AB48A3 /* ContentView.swift in Sources */,
+				15265DF72AAAFE9E00AB48A3 /* Account.swift in Sources */,
+				15265DF52AAAFE8F00AB48A3 /* LogIn.swift in Sources */,
+				15265DF92AAAFEAA00AB48A3 /* AccountService.swift in Sources */,
 				15265DD62AAAEF6300AB48A3 /* Assignment3App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
