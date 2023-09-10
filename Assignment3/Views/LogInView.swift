@@ -16,7 +16,7 @@ struct LogInView: View {
     var body: some View {
         NavigationView{
             VStack {
-                Image("logo")
+                Image("icon")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 200, height: 200)

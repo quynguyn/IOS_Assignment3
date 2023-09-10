@@ -19,7 +19,7 @@ struct SplashView: View {
         }
         else{
             VStack{
-                Image("logo")
+                Image("icon")
                     .resizable()
                     .scaledToFit()
                     .scaleEffect(size)
