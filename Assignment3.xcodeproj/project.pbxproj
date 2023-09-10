@@ -37,6 +37,7 @@
 		45C139DC2AADA964008AECDA /* EditableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139DB2AADA964008AECDA /* EditableText.swift */; };
 		45C139DE2AADA9F6008AECDA /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139DD2AADA9F6008AECDA /* MapView.swift */; };
 		45C139E02AADAB70008AECDA /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139DF2AADAB70008AECDA /* AddressView.swift */; };
+		45C139E22AADAEBE008AECDA /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139E12AADAEBE008AECDA /* CheckoutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		45C139DB2AADA964008AECDA /* EditableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableText.swift; sourceTree = "<group>"; };
 		45C139DD2AADA9F6008AECDA /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		45C139DF2AADAB70008AECDA /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
+		45C139E12AADAEBE008AECDA /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 				45C139DB2AADA964008AECDA /* EditableText.swift */,
 				45C139DD2AADA9F6008AECDA /* MapView.swift */,
 				45C139DF2AADAB70008AECDA /* AddressView.swift */,
+				45C139E12AADAEBE008AECDA /* CheckoutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				10FB6A9A2AAB9071003ECA6D /* AuthStore.swift in Sources */,
 				45C139E02AADAB70008AECDA /* AddressView.swift in Sources */,
 				10A3C3F22AACA76300937127 /* EnvironmentWrapper.swift in Sources */,
+				45C139E22AADAEBE008AECDA /* CheckoutView.swift in Sources */,
 				15265DF72AAAFE9E00AB48A3 /* Account.swift in Sources */,
 				15265DF52AAAFE8F00AB48A3 /* LogIn.swift in Sources */,
 				15265DF92AAAFEAA00AB48A3 /* AccountService.swift in Sources */,

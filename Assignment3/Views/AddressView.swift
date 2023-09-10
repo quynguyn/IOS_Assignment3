@@ -24,7 +24,7 @@ struct AddressView: View {
                         Text("Contact")
                             .font(.system(size: 18, design: .rounded))
                             .fontWeight(.bold)
-                        .foregroundColor(Color("#A2CDB0"))
+                            .foregroundColor(Color("#A2CDB0"))
                         
                         HStack {
                             EditableText(text: $customerName)
@@ -111,8 +111,8 @@ struct AddressView: View {
                 .background(Color("#A2CDB0"))
                 .cornerRadius(20)
                 .shadow(radius: 5)
+                .navigationBarTitle("Address", displayMode: .inline)
             }
-            .navigationBarTitle("Address")
         }
     }
 }
