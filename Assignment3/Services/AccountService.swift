@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct signUpManager {
+    // Other authentication-related code...
+
+    // Define the signUp function as public or internal
+    public func signUp(email: String, password: String, phone: String, name: String) {
+        // Your sign-up logic here
+    }
+}
