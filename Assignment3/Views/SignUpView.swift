@@ -12,21 +12,23 @@ struct SignUpView: View {
     @State private var password = ""
     @State private var phone = ""
     @State private var name = ""
+    @State private var address = ""
     
     var body: some View {
         VStack {
-            Image("logo")
+            Image("icon")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 200, height: 200)
                 .padding(.top, 20)
-            VStack {
-                CustomTextField(placeholder: "Email", iconName: "envelope.circle.fill", text: $email)
+            VStack (spacing: 15) {
+                CustomTextField(placeholder: "Email", iconName: "envelope.fill", text: $email)
                     .keyboardType(.emailAddress)
-                CustomSecureField(placeholder: "Password", iconName: "lock.circle.fill", text: $password)
-                CustomTextField(placeholder: "Phone", iconName: "phone.circle.fill", text: $phone)
+                CustomSecureField(placeholder: "Password", iconName: "lock.fill", text: $password)
+                CustomTextField(placeholder: "Phone", iconName: "phone.fill", text: $phone)
                     .keyboardType(.phonePad)
-                CustomTextField(placeholder: "Name", iconName: "person.circle.fill", text: $name)
+                CustomTextField(placeholder: "Name", iconName: "person.fill", text: $name)
+                CustomTextField(placeholder: "address", iconName: "house.fill", text: $address)
                 
                 Button(action: {
                     signUpManager().signUp(email: email, password: password, phone: phone, name: name)

@@ -21,6 +21,7 @@
 		10FB6A9A2AAB9071003ECA6D /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FB6A992AAB9071003ECA6D /* AuthStore.swift */; };
 		10FB6A9D2AAB90B6003ECA6D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 10FB6A9C2AAB90B6003ECA6D /* GoogleSignIn */; };
 		10FB6A9F2AAB90B6003ECA6D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 10FB6A9E2AAB90B6003ECA6D /* GoogleSignInSwift */; };
+		1518F8F72AADF9AB00522C5A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518F8F62AADF9AB00522C5A /* ProfileView.swift */; };
 		15265DD62AAAEF6300AB48A3 /* Assignment3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15265DD52AAAEF6300AB48A3 /* Assignment3App.swift */; };
 		15265DD82AAAEF6300AB48A3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15265DD72AAAEF6300AB48A3 /* ContentView.swift */; };
 		15265DDA2AAAEF6400AB48A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15265DD92AAAEF6400AB48A3 /* Assets.xcassets */; };
@@ -48,6 +49,7 @@
 		10FB6A852AAB50E8003ECA6D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		10FB6A992AAB9071003ECA6D /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
 		10FB6AA02AAB9C13003ECA6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1518F8F62AADF9AB00522C5A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		15265DD22AAAEF6300AB48A3 /* Assignment3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15265DD52AAAEF6300AB48A3 /* Assignment3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment3App.swift; sourceTree = "<group>"; };
 		15265DD72AAAEF6300AB48A3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			children = (
 				15C77D6E2AADEEAC0009C600 /* CustomSetUp.swift */,
 				15C77D712AADEEAC0009C600 /* DetailView.swift */,
+				1518F8F62AADF9AB00522C5A /* ProfileView.swift */,
 				15C77D702AADEEAC0009C600 /* LogInView.swift */,
 				15C77D6F2AADEEAC0009C600 /* SignUpView.swift */,
 				15C77D6D2AADEEAC0009C600 /* SplashView.swift */,
@@ -291,6 +294,7 @@
 			files = (
 				15265DD82AAAEF6300AB48A3 /* ContentView.swift in Sources */,
 				15C77D762AADEEAC0009C600 /* DetailView.swift in Sources */,
+				1518F8F72AADF9AB00522C5A /* ProfileView.swift in Sources */,
 				15C77D722AADEEAC0009C600 /* SplashView.swift in Sources */,
 				10FB6A9A2AAB9071003ECA6D /* AuthStore.swift in Sources */,
 				15C77D7A2AADEEC30009C600 /* Color.swift in Sources */,
