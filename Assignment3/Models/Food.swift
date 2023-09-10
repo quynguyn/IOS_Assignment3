@@ -2,23 +2,65 @@
 //  Food.swift
 //  Assignment3
 //
-//  Created by quy.nguyn on 09/09/2023.
+//  Created by Trung Nguyen on 10/09/2023.
 //
 
 import Foundation
+import FirebaseFirestore
 
-struct Food {
+struct CreateFood : Hashable, Codable {
     let name: String
-    let image: String // You can replace this with URL if you are using remote images
+    let image: String
+    let category: String
     let price: Double
     let description: String
-    let category: String
-
-    // You can also include additional properties and methods as needed
+    
+    let calories: Int?
+    let rate: Int?
+    let comment: String?
+    let ingredients: [String]?
 }
 
-let pizza = Food(name: "Margherita Pizza",
-                 image: "pizza_image", // Replace with your image file name or URL
-                 price: 12.99,
-                 description: "Classic margherita pizza with fresh tomatoes and basil.",
-                 category: "Italian")
+struct UpdateFood : Hashable, Codable {
+    var name: String? = nil
+    var image: String? = nil
+    var category: String? = nil
+    var price: Double? = nil
+    var description: String? = nil
+    
+    var calories: Int? = nil
+    var rate: Int? = nil
+    var comment: String? = nil
+    var ingredients: [String]? = nil
+    
+    init() {
+        
+    }
+}
+
+struct Food : Identifiable, Hashable, Codable {
+    static let sampleData = Food(
+        id: "123",
+        name: "Margherita Pizza",
+        image: "pizza_image", // Replace with your image file name or URL
+        category: "Italian",
+        price: 12.99,
+        description: "Classic margherita pizza with fresh tomatoes and basil.",
+        calories: nil,
+        rate: nil,
+        comment: nil,
+        ingredients: nil
+    )
+    
+    let id: String
+    let name: String
+    let image: String
+    let category: String
+    let price: Double
+    let description: String
+    
+    let calories: Int?
+    let rate: Int?
+    let comment: String?
+    let ingredients: [String]?
+}

@@ -88,8 +88,15 @@ struct detailView_Previews: PreviewProvider {
     }
 }
 
-let burger = Food(name: "Delicious Burger",
-                  image: "burger",
-                  price: 9.99,
-                  description: "A mouthwatering burger with all the toppings.",
-                  category: "Fast Food")
+let burger = Food(
+    id: "123",
+    name: "Delicious Burger",
+    image: "burger",
+    category: "Fast Food",
+    price: 9.99,
+    description: "A mouthwatering burger with all the toppings.",
+    calories: nil,
+    rate: nil,
+    comment: nil,
+    ingredients: nil
+)
