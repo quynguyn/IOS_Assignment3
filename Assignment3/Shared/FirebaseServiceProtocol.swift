@@ -6,11 +6,14 @@
 //
 
 import Foundation
-
+import FirebaseFirestore
 
 protocol FirebaseService {
+    associatedtype GetType
     associatedtype CreateType
     associatedtype UpdateType
+    
+    static func fromFirebaseDocument(_ docSnapshot: DocumentSnapshot) -> GetType?
     
     static func create(
         _ dto: CreateType,
