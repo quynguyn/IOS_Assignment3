@@ -8,33 +8,48 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var cartManager = CartManager()
     @State private var searchValue: String = ""
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 16) {
-                Text("Welcome, Dustin")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color("#85A389"))
-                
-                Text("What would you like to eat today ?")
-                    .font(.title)
-                    .fontWeight(.bold)
-                
-                SearchView(search: $searchValue)
-                
-                PopularDishesView()
-                
-                Text("Menu")
-                    .font(.system(size: 24, design: .rounded))
-                    .fontWeight(.bold)
-
-                
-                MenuView()
-                
-                MenuView()
+        NavigationView {
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack {
+                        Text("Welcome, Dustin")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundColor(Color("#85A389"))
+                        Spacer()
+                        NavigationLink {
+                            CartView()
+                        } label: {
+                            CartButton(numberOfItems: cartManager.items.count)
+                        }
+                    }
+                    
+                    Text("What would you like to eat today ?")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    SearchView(search: $searchValue)
+                    
+                    PopularDishesView()
+                    
+                    Text("Menu")
+                        .font(.system(size: 24, design: .rounded))
+                        .fontWeight(.bold)
+                    
+                    
+                    MenuView()
+                    
+                    MenuView()
+                    
+                    NavigationLink {
+                        HistoryView()
+                    } label: {HistoryButton()}
+                }
+                .padding()
             }
-            .padding()
         }
     }
 }

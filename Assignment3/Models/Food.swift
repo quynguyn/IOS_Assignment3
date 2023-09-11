@@ -86,3 +86,9 @@ struct Food : Identifiable, Hashable, Codable {
     let comment: String?
     let ingredients: [String]?
 }
+
+var FoodList = [Food(id: "1", name: "Burger", image: "burger", thumbnail: "burger", category: "American", price: 12.99, description: "Burger!", calories: nil, rate: nil, comment: nil, ingredients: nil),
+                Food(id: "2", name: "Pizza", image: "pizza", thumbnail: "pizza", category: "Italian", price: 10.99, description: "Pizza!", calories: nil, rate: nil, comment: nil, ingredients: nil),
+                Food(id: "3", name: "French fries", image: "frenchfries", thumbnail: "frenchfries", category: "American", price: 2.99, description: "French fries!", calories: nil, rate: nil, comment: nil, ingredients: nil),
+                Food(id: "4", name: "Fried chicken", image: "friedchicken", thumbnail: "friedchicken", category: "American", price: 11.99, description: "Fried chicken!", calories: nil, rate: nil, comment: nil, ingredients: nil),
+                Food(id: "5", name: "Sushi", image: "sushi", thumbnail: "sushi", category: "Japanese", price: 15.99, description: "Sushi!", calories: nil, rate: nil, comment: nil, ingredients: nil)]

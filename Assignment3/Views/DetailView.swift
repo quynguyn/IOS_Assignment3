@@ -7,10 +7,12 @@
 
 import SwiftUI
 struct DetailView: View {
+    @EnvironmentObject var cartManager: CartManager
     @State private var quantity = 1
     var food: Food
     
     var body: some View {
+        NavigationView {
             VStack(spacing: 20) {
                 Image(food.image)
                     .resizable()
@@ -61,9 +63,9 @@ struct DetailView: View {
                         }
                     }
                     
+                    //cart function
                     Button(action: {
-                        // Implement cart functionality here
-                        // You can add this food item to the cart
+                        cartManager.addToCart(item: food)
                     }) {
                         Text("Add to Cart")
                             .font(.headline)
@@ -78,6 +80,7 @@ struct DetailView: View {
             }
             .edgesIgnoringSafeArea(.top)
             .navigationBarTitle("Food Detail", displayMode: .automatic)
+        }
     }
 }
 
@@ -85,6 +88,7 @@ struct DetailView: View {
 struct detailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(food: burger)
+            .environmentObject(CartManager())
     }
 }
 
