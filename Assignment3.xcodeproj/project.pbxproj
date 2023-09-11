@@ -47,6 +47,11 @@
 		15C77D7A2AADEEC30009C600 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C77D782AADEEC30009C600 /* Color.swift */; };
 		15C77D7C2AADEED10009C600 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C77D7B2AADEED10009C600 /* Food.swift */; };
 		15C77D7E2AADEF640009C600 /* Image in Resources */ = {isa = PBXBuildFile; fileRef = 15C77D7D2AADEF640009C600 /* Image */; };
+		45C139DA2AACB507008AECDA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139D92AACB507008AECDA /* HomeView.swift */; };
+		45C139DC2AADA964008AECDA /* EditableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139DB2AADA964008AECDA /* EditableText.swift */; };
+		45C139DE2AADA9F6008AECDA /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139DD2AADA9F6008AECDA /* MapView.swift */; };
+		45C139E02AADAB70008AECDA /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139DF2AADAB70008AECDA /* AddressView.swift */; };
+		45C139E22AADAEBE008AECDA /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C139E12AADAEBE008AECDA /* CheckoutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +89,11 @@
 		15C77D782AADEEC30009C600 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		15C77D7B2AADEED10009C600 /* Food.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
 		15C77D7D2AADEF640009C600 /* Image */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Image; sourceTree = "<group>"; };
+		45C139D92AACB507008AECDA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		45C139DB2AADA964008AECDA /* EditableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableText.swift; sourceTree = "<group>"; };
+		45C139DD2AADA9F6008AECDA /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		45C139DF2AADAB70008AECDA /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
+		45C139E12AADAEBE008AECDA /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +199,12 @@
 				15C77D702AADEEAC0009C600 /* LogInView.swift */,
 				15C77D6F2AADEEAC0009C600 /* SignUpView.swift */,
 				15C77D6D2AADEEAC0009C600 /* SplashView.swift */,
+				15265DF42AAAFE8F00AB48A3 /* LogIn.swift */,
+				45C139D92AACB507008AECDA /* HomeView.swift */,
+				45C139DB2AADA964008AECDA /* EditableText.swift */,
+				45C139DD2AADA9F6008AECDA /* MapView.swift */,
+				45C139DF2AADAB70008AECDA /* AddressView.swift */,
+				45C139E12AADAEBE008AECDA /* CheckoutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -320,17 +336,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45C139DC2AADA964008AECDA /* EditableText.swift in Sources */,
+				45C139DA2AACB507008AECDA /* HomeView.swift in Sources */,
 				15265DD82AAAEF6300AB48A3 /* ContentView.swift in Sources */,
 				101208C62AAE28DF00B45FAF /* EncodableExtension.swift in Sources */,
 				101208C42AAE28BB00B45FAF /* Constants.swift in Sources */,
 				15C77D762AADEEAC0009C600 /* DetailView.swift in Sources */,
 				1518F8F72AADF9AB00522C5A /* ProfileView.swift in Sources */,
 				15C77D722AADEEAC0009C600 /* SplashView.swift in Sources */,
+				45C139DE2AADA9F6008AECDA /* MapView.swift in Sources */,
 				10FB6A9A2AAB9071003ECA6D /* AuthStore.swift in Sources */,
 				10F1F7582AAEB74100E1D768 /* AppUser.swift in Sources */,
 				101208C12AAE1A3200B45FAF /* FoodService.swift in Sources */,
 				15C77D7A2AADEEC30009C600 /* Color.swift in Sources */,
+				45C139E02AADAB70008AECDA /* AddressView.swift in Sources */,
 				10A3C3F22AACA76300937127 /* EnvironmentWrapper.swift in Sources */,
+				45C139E22AADAEBE008AECDA /* CheckoutView.swift in Sources */,
 				15265DF72AAAFE9E00AB48A3 /* Account.swift in Sources */,
 				15C77D7C2AADEED10009C600 /* Food.swift in Sources */,
 				101208C82AAE2C6C00B45FAF /* FirebaseServiceProtocol.swift in Sources */,
