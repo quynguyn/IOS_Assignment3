@@ -10,6 +10,7 @@ import FirebaseFirestore
 
 
 struct FoodService : FirebaseService {
+    typealias GetType = Food
     typealias CreateType = CreateFood
     typealias UpdateType = UpdateFood
     
@@ -19,18 +20,20 @@ struct FoodService : FirebaseService {
         let id = docSnapshot.documentID
         let name = docSnapshot.get("name") as? String
         let image = docSnapshot.get("image") as? String
+        let thumbnail = docSnapshot.get("thumbnail") as? String
         let category = docSnapshot.get("category") as? String
         let price = docSnapshot.get("price") as? Double
         let description = docSnapshot.get("description") as? String
         
         let calories = docSnapshot.get("calories") as? Int
-        let rate = docSnapshot.get("rate") as? Int
+        let rate = docSnapshot.get("rate") as? Double
         let comment = docSnapshot.get("comment") as? String
         let ingredients = docSnapshot.get("ingredients") as? [String]
         
         guard
             let name,
             let image,
+            let thumbnail,
             let category,
             let price,
             let description
@@ -41,6 +44,7 @@ struct FoodService : FirebaseService {
         return Food(id: id,
                     name: name,
                     image: image,
+                    thumbnail: thumbnail,
                     category: category,
                     price: price,
                     description: description,
@@ -126,6 +130,29 @@ struct FoodService : FirebaseService {
             
             onSuccess()
         }
+    }
+    
+    // https://firebase.google.com/docs/reference/swift/firebasefirestore/api/reference/Classes/FieldPath#/c:objc(cs)FIRFieldPath(cm)documentID
+    static func getFoodList(foodOrder: FoodOrder) async -> FoodOrderWithFoodList? {
+        do {
+            let querySnapshot = try await Firestore
+                .firestore()
+                .collection(FOODS_COLLECTION_PATH)
+                .whereField(FieldPath.documentID(), in: foodOrder.foodIdList)
+                .getDocuments()
+            
+            let foods = querySnapshot.documents.compactMap(Self.fromFirebaseDocument)
+            
+            return FoodOrderWithFoodList(
+                id: foodOrder.id,
+                userId: foodOrder.userId,
+                foodList: foods,
+                status: foodOrder.status,
+                orderedAt: foodOrder.orderedAt)
+        } catch {
+            return nil
+        }
+        
     }
     
 }
