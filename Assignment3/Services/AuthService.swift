@@ -58,6 +58,8 @@ struct AuthService {
     static func createUserWithEmailAndPassword(
         email: String,
         password: String,
+        phone: String?,
+        address: String?,
         onSuccess: @escaping () -> Void = {},
         onError: @escaping (_ error: any Error) -> Void = {error in }
     ) {
@@ -67,7 +69,11 @@ struct AuthService {
                 return
             }
             
-            if authResult != nil {
+            if let authResult {
+                let extraInfo = UpdateAppUser(displayName: nil,
+                                              address: address,
+                                              phone: phone)
+                UserService.createAppUserFromFirebaseUser(firebaseUser: authResult.user, extraInfo: extraInfo)
                 onSuccess()
             }
         }

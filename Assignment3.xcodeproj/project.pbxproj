@@ -13,6 +13,8 @@
 		101208C82AAE2C6C00B45FAF /* FirebaseServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101208C72AAE2C6C00B45FAF /* FirebaseServiceProtocol.swift */; };
 		10A3C3F22AACA76300937127 /* EnvironmentWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C3F12AACA76300937127 /* EnvironmentWrapper.swift */; };
 		10A3C3F42AACA9C400937127 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C3F32AACA9C400937127 /* AuthService.swift */; };
+		10F1F7562AAEB35F00E1D768 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F1F7552AAEB35F00E1D768 /* UserService.swift */; };
+		10F1F7582AAEB74100E1D768 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F1F7572AAEB74100E1D768 /* AppUser.swift */; };
 		10FB6A862AAB50E8003ECA6D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10FB6A852AAB50E8003ECA6D /* GoogleService-Info.plist */; };
 		10FB6A892AAB51AB003ECA6D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10FB6A882AAB51AB003ECA6D /* FirebaseAuth */; };
 		10FB6A8B2AAB51AB003ECA6D /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 10FB6A8A2AAB51AB003ECA6D /* FirebaseDatabase */; };
@@ -55,6 +57,8 @@
 		10A3C3F12AACA76300937127 /* EnvironmentWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentWrapper.swift; sourceTree = "<group>"; };
 		10A3C3F32AACA9C400937127 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		10A3C3F72AADA51F00937127 /* FoodStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodStore.swift; sourceTree = "<group>"; };
+		10F1F7552AAEB35F00E1D768 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		10F1F7572AAEB74100E1D768 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		10FB6A852AAB50E8003ECA6D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		10FB6A992AAB9071003ECA6D /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
 		10FB6AA02AAB9C13003ECA6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 			children = (
 				15265DF62AAAFE9E00AB48A3 /* Account.swift */,
 				15C77D7B2AADEED10009C600 /* Food.swift */,
+				10F1F7572AAEB74100E1D768 /* AppUser.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 				15C77D782AADEEC30009C600 /* Color.swift */,
 				10A3C3F32AACA9C400937127 /* AuthService.swift */,
 				101208C02AAE1A3200B45FAF /* FoodService.swift */,
+				10F1F7552AAEB35F00E1D768 /* UserService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -321,6 +327,7 @@
 				1518F8F72AADF9AB00522C5A /* ProfileView.swift in Sources */,
 				15C77D722AADEEAC0009C600 /* SplashView.swift in Sources */,
 				10FB6A9A2AAB9071003ECA6D /* AuthStore.swift in Sources */,
+				10F1F7582AAEB74100E1D768 /* AppUser.swift in Sources */,
 				101208C12AAE1A3200B45FAF /* FoodService.swift in Sources */,
 				15C77D7A2AADEEC30009C600 /* Color.swift in Sources */,
 				10A3C3F22AACA76300937127 /* EnvironmentWrapper.swift in Sources */,
@@ -330,6 +337,7 @@
 				15C77D742AADEEAC0009C600 /* SignUpView.swift in Sources */,
 				15C77D732AADEEAC0009C600 /* CustomSetUp.swift in Sources */,
 				15C77D752AADEEAC0009C600 /* LogInView.swift in Sources */,
+				10F1F7562AAEB35F00E1D768 /* UserService.swift in Sources */,
 				15C77D792AADEEC30009C600 /* AccountService.swift in Sources */,
 				15265DD62AAAEF6300AB48A3 /* Assignment3App.swift in Sources */,
 				10A3C3F42AACA9C400937127 /* AuthService.swift in Sources */,

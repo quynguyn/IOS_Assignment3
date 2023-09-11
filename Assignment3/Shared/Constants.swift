@@ -9,4 +9,4 @@ import Foundation
 
 let FOODS_COLLECTION_PATH = "foods"
 
-
+let USERS_COLLECTION_PATH = "users"

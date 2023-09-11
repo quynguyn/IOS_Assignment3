@@ -26,13 +26,24 @@ struct RuntimeError: LocalizedError {
 @MainActor
 class AuthStore : ObservableObject {
     @Published
-    var user: User?
+    var user: AppUser?
     
     private var handle: AuthStateDidChangeListenerHandle?
     
     init() {
         self.handle = Auth.auth().addStateDidChangeListener { auth, user in
-            self.user = user
+            guard let currentUser = user else {
+                self.user = nil
+                return
+            }
+
+            UserService.syncAppUserWithFirebaseUser(firebaseUser: currentUser)
+            UserService.getAppUser(uid: currentUser.uid, completion: {
+                appUser in
+                if let appUser {
+                    self.user = appUser
+                }
+            })
         }
     }
     
