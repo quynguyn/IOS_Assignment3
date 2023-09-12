@@ -12,13 +12,19 @@ struct EnvironmentWrapper<Content: View>: View {
     
     // Global objects
     @StateObject private var authStore = AuthStore()
+    @StateObject private var cartManager = CartManager()
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             content
         }
         .environmentObject(authStore)
-        
+        .environmentObject(cartManager)
     }
 }
 
