@@ -12,6 +12,8 @@ struct LogInView: View {
     @State private var password = ""
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @State private var isLoggedIn = false
+
     
     var body: some View {
         NavigationView{
@@ -60,24 +62,36 @@ struct LogInView: View {
                     .background(RoundedRectangle(cornerRadius: 15).stroke(Color(hex: 0x85a389), lineWidth: 3))
                 }
                 
-                Button("Log In") {
-                    // Implement your login logic here
-                    if email.isEmpty || password.isEmpty {
-                        showAlert = true
-                        alertMessage = "Please enter your email and password."
-                    } else {
-                        // Perform login action (e.g., using Firebase)
-                        // If successful, navigate to the main app screen
-                        // If failed, show an error message
-                    }
-                }
+                NavigationLink(
+                    destination: HomeView(),
+                    isActive: $isLoggedIn,
+                    label: { EmptyView() }
+                )
+                .hidden()
                 .padding()
+                
+                HStack {
+                    Image(systemName: "door.right.hand.open")
+                    Button("Log In") {
+                        // Implement your login logic here
+                        if email.isEmpty || password.isEmpty {
+                            showAlert = true
+                            alertMessage = "Please enter your email and password."
+                        } else {
+                            // Perform login action (e.g., using Firebase)
+                            // If successful, navigate to the main app screen
+                            // If failed, show an error message
+                            isLoggedIn = true
+                        }
+                    }
+                    
+                }
+                .font(.title)
+                .foregroundColor(.white)
+                .padding(.vertical, 10) // Adjust vertical padding as needed
+                .padding(.horizontal, 20)
                 .background(Color(hex: 0x85a389))
                 .cornerRadius(10)
-                .foregroundColor(.white)
-                .font(.headline)
-                .padding(.horizontal, 20)
-                
                 Spacer()
                 
                 HStack {
@@ -102,8 +116,12 @@ struct LogInView: View {
                 )
             }
         }
+        
     }
+    
+    
 }
+
 
 struct LogIn_Previews: PreviewProvider {
     static var previews: some View {

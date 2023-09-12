@@ -90,65 +90,68 @@ struct PopularDishesView: View {
 
 struct DishCard: View {
     var body: some View {
-        ZStack {
-            VStack(alignment: .leading, spacing: 8) {
-                
-                Image(systemName: "heart")
-                    .foregroundColor(.gray)
-                    .padding(.bottom,60)
-                
-                Text("Broken Rice with Grilled Pork")
-                    .fontWeight(.medium)
-                .lineLimit(1)
-                
-                HStack (spacing: 2) {
-                    ForEach(0 ..< 5) { item in
-                        Image(systemName: "star.fill")
-                            .renderingMode(.template)
-                            .foregroundColor(Color("#F1C27B"))
+        NavigationLink(destination: DetailView(food: burger)){
+            ZStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    
+                    Image(systemName: "heart")
+                        .foregroundColor(.gray)
+                        .padding(.bottom,60)
+                    
+                    Text("Broken Rice with Grilled Pork")
+                        .fontWeight(.medium)
+                    .lineLimit(1)
+                    
+                    HStack (spacing: 2) {
+                        ForEach(0 ..< 5) { item in
+                            Image(systemName: "star.fill")
+                                .renderingMode(.template)
+                                .foregroundColor(Color("#F1C27B"))
+                                .font(.caption2)
+                        }
+                        
+                        Spacer().frame(width: 5)
+                        
+                        Text("4.5")
+                            .foregroundColor(.gray)
                             .font(.caption2)
                     }
                     
-                    Spacer().frame(width: 5)
+                    Text("120 calories")
+                        .foregroundColor(Color("#F1C27B"))
+                        .font(.caption2)
                     
-                    Text("4.5")
-                        .foregroundColor(.gray)
-                        .font(.caption2)
-                }
-                
-                Text("120 calories")
-                    .foregroundColor(Color("#F1C27B"))
-                    .font(.caption2)
-                
-                HStack {
-                    Image(systemName: "dollarsign")
-                        .foregroundColor(Color("#E25E3E"))
-                        .font(.caption2)
-                    Text("40,000 VND")
-                        .foregroundColor(.gray)
-                        .font(.caption2)
-                    Spacer().frame(width: 20)
-                    
-                    Image(systemName: "location.fill")
-                        .foregroundColor(Color("#A2CDB0"))
-                        .font(.caption2)
-                    Text("1.7km")
-                        .foregroundColor(.gray)
-                        .font(.caption2)
+                    HStack {
+                        Image(systemName: "dollarsign")
+                            .foregroundColor(Color("#E25E3E"))
+                            .font(.caption2)
+                        Text("40,000 VND")
+                            .foregroundColor(.gray)
+                            .font(.caption2)
+                        Spacer().frame(width: 20)
+                        
+                        Image(systemName: "location.fill")
+                            .foregroundColor(Color("#A2CDB0"))
+                            .font(.caption2)
+                        Text("1.7km")
+                            .foregroundColor(.gray)
+                            .font(.caption2)
 
+                    }
                 }
+                .padding()
+                .background(Color(.tertiarySystemBackground))
+                .cornerRadius(20)
+                .shadow(radius: 5)
+                .frame(width: 200)
+                
+                Image("image1")
+                    .resizable()
+                    .frame(width: 150, height: 150)
+                    .offset(x: 60, y: -60)
             }
-            .padding()
-            .background(Color(.tertiarySystemBackground))
-            .cornerRadius(20)
-            .shadow(radius: 5)
-            .frame(width: 200)
-            
-            Image("image1")
-                .resizable()
-                .frame(width: 150, height: 150)
-                .offset(x: 60, y: -60)
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
