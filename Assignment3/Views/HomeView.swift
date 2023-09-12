@@ -59,6 +59,7 @@ struct HomeView: View {
                 // ShoppingCartView
                 CartView()
                     .tabItem {
+                        //CartButton(numberOfItems: cartManager.items.count)
                         Image(systemName: "cart.fill")
                         Text("Cart")
                     }
