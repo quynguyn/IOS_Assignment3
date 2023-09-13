@@ -21,10 +21,16 @@ struct AddressView: View {
                 VStack(alignment: .leading, spacing: 30) {
                     // MARK: - Contact section
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("Contact")
-                            .font(.system(size: 18, design: .rounded))
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("#A2CDB0"))
+                        HStack {
+                            Image(systemName: "phone.fill")
+                                .font(.system(size: 20, design: .rounded))
+                                .foregroundColor(Color("#F1C27B"))
+                            
+                            Text("Contact")
+                                .font(.system(size: 24, design: .rounded))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("#F1C27B"))
+                        }
                         
                         HStack {
                             EditableText(text: $customerName)
@@ -47,10 +53,16 @@ struct AddressView: View {
                     
                     // MARK: - Delivery address section
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("Delivery Address")
-                            .font(.system(size: 18, design: .rounded))
-                            .fontWeight(.bold)
-                        .foregroundColor(Color("#A2CDB0"))
+                        HStack {
+                            Image(systemName: "map.fill")
+                                .font(.system(size: 20, design: .rounded))
+                                .foregroundColor(Color("#F1C27B"))
+                            
+                            Text("Delivery Address")
+                                .font(.system(size: 24, design: .rounded))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("#F1C27B"))
+                        }
                         
                         HStack {
                             EditableText(text: $address)
@@ -69,7 +81,7 @@ struct AddressView: View {
                                 isWorkButtonPressed = false
                             }) {
                                 Image(systemName: isHomeButtonPressed ? "house.fill" : "house")
-                                    .foregroundColor(isHomeButtonPressed ? Color("#A2CDB0") : .gray)
+                                    .foregroundColor(isHomeButtonPressed ? Color("#F1C27B") : .gray)
                                     .font(.title)
                                     .padding()
                             }
@@ -83,7 +95,7 @@ struct AddressView: View {
                                 isHomeButtonPressed = false
                             }) {
                                 Image(systemName: isWorkButtonPressed ? "briefcase.fill" : "briefcase")
-                                    .foregroundColor(isWorkButtonPressed ? Color("#A2CDB0") : .gray)
+                                    .foregroundColor(isWorkButtonPressed ? Color("#F1C27B") : .gray)
                                     .font(.title)
                                     .padding()
                             }
@@ -108,7 +120,7 @@ struct AddressView: View {
                         .foregroundColor(.white)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                 }
-                .background(Color("#A2CDB0"))
+                .background(Color("#F1C27B"))
                 .cornerRadius(20)
                 .shadow(radius: 5)
                 .navigationBarTitle("Address", displayMode: .inline)

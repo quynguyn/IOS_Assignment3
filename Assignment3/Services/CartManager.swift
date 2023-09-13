@@ -22,4 +22,11 @@ class CartManager: ObservableObject {
             total -= item.price
         }
     }
+    
+    // Calculate the total price of items in the cart
+    var totalPrice: Double {
+        items.reduce(0) { (result, food) -> Double in
+            result + food.price
+        }
+    }
 }
