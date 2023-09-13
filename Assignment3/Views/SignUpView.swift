@@ -16,7 +16,7 @@ struct SignUpView: View {
     @State private var isFormValid = false
     @State private var isShowingAlert = false
     @State private var navigateToHomeView = false
-    @State private var isLoggedIn = false
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
         NavigationView{
@@ -109,6 +109,11 @@ struct SignUpView: View {
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView()
+        EnvironmentWrapper {
+            Group{
+//                SignUpView(isLoggedIn: .constant(true))
+                SignUpView(isLoggedIn: .constant(false))
+            }
+        }
     }
 }

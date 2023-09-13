@@ -24,69 +24,75 @@ struct HomeView: View {
     }
     
     var body: some View {
-        NavigationView {
-            TabView(selection: $selectedTab) {
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 16) {
-                        Text("Welcome, Dustin")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                            .foregroundColor(Color("#85A389"))
-                        
-                        Text("What would you like to eat today ?")
-                            .font(.title)
-                            .fontWeight(.bold)
-                        
-                        SearchView(search: $searchValue)
-                        
-                        PopularDishesView()
-                        
-                        Text("Menu")
-                            .font(.system(size: 24, design: .rounded))
-                            .fontWeight(.bold)
-                        
-                        ForEach(filteredFoodList) { foodItem in
-                            MenuView(food: foodItem)
+        if isLoggedIn{
+            NavigationView {
+                TabView(selection: $selectedTab) {
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("Welcome, Dustin")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color("#85A389"))
+                            
+                            Text("What would you like to eat today ?")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            
+                            SearchView(search: $searchValue)
+                            
+                            PopularDishesView()
+                            
+                            Text("Menu")
+                                .font(.system(size: 24, design: .rounded))
+                                .fontWeight(.bold)
+                            
+                            ForEach(filteredFoodList) { foodItem in
+                                MenuView(food: foodItem)
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                        Text("Home")
+                    }
+                    .tag(0)
+                    
+                    // ShoppingCartView
+                    CartView()
+                        .tabItem {
+                            //CartButton(numberOfItems: cartManager.items.count)
+                            Image(systemName: "cart.fill")
+                            Text("Cart")
+                        }
+                        .tag(1)
+                    
+                    // HistoryView
+                    HistoryView()
+                        .tabItem {
+                            Image(systemName: "clock.fill")
+                            Text("History")
+                        }
+                        .tag(2)
+                    
+                    ProfileView(isLoggedIn: $isLoggedIn) // Updated tag to 3
+                        .tabItem {
+                            Image(systemName: "person.circle.fill")
+                            Text("Profile")
+                        }
+                        .tag(3) // Updated tag to 3
+                    
                 }
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
-                }
-                .tag(0)
-                
-                // ShoppingCartView
-                CartView()
-                    .tabItem {
-                        //CartButton(numberOfItems: cartManager.items.count)
-                        Image(systemName: "cart.fill")
-                        Text("Cart")
-                    }
-                    .tag(1)
-                
-                // HistoryView
-                HistoryView()
-                    .tabItem {
-                        Image(systemName: "clock.fill")
-                        Text("History")
-                    }
-                    .tag(2)
-                
-                ProfileView(isLoggedIn: $isLoggedIn) // Updated tag to 3
-                    .tabItem {
-                        Image(systemName: "person.circle.fill")
-                        Text("Profile")
-                    }
-                    .tag(3) // Updated tag to 3
-                
+                .accentColor(Color("#A2CDB0"))
             }
-            .accentColor(Color("#A2CDB0"))
-        }
-        .navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden()
+        
+    } else {
+        LogInView()
     }
 }
+}
+
 
 struct SearchView: View {
     @Binding var search: String
@@ -265,8 +271,12 @@ struct MenuView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
+        
         EnvironmentWrapper {
-            HomeView(, isLoggedIn: true)
+            Group{
+                HomeView(isLoggedIn: .constant(true))
+                HomeView(isLoggedIn: .constant(false))
+            }
         }
     }
 }

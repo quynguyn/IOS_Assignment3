@@ -100,7 +100,7 @@ struct LogInView: View {
                     Text("Don't have an Account?")
                         .foregroundColor(.gray)
                     
-                    NavigationLink(destination: SignUpView()) {
+                    NavigationLink(destination: SignUpView(isLoggedIn: $isLoggedIn)) {
                         Text("Create")
                             .bold()
                             .foregroundColor(Color(hex: 0x85a389))

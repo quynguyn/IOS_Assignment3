@@ -12,7 +12,7 @@ struct ProfileView: View {
     @State private var phone = "123-456-7890"
     @State private var email = "johndoe@example.com"
     @State private var address = "123 Main Street, City, Country"
-    @State private var isLoggedIn = true
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
         VStack {
@@ -64,6 +64,11 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        EnvironmentWrapper {
+            Group{
+                ProfileView(isLoggedIn: .constant(true))
+//                ProfileView(isLoggedIn: .constant(false))
+            }
+        }
     }
 }
