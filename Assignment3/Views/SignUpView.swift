@@ -16,6 +16,7 @@ struct SignUpView: View {
     @State private var isFormValid = false
     @State private var isShowingAlert = false
     @State private var navigateToHomeView = false
+    @State private var isLoggedIn = false
     
     var body: some View {
         NavigationView{
@@ -35,7 +36,7 @@ struct SignUpView: View {
                     CustomTextField(placeholder: "address", iconName: "house.fill", text: $address)
                     
                     NavigationLink(
-                        destination: HomeView(),
+                        destination: HomeView(isLoggedIn: $isLoggedIn),
                         isActive: $navigateToHomeView,
                         label: {
                             EmptyView() // This link will remain hidden until isActive is set to true
@@ -48,6 +49,7 @@ struct SignUpView: View {
                             // All fields are filled, proceed with sign-up
                             signUpManager().signUp(email: email, password: password, phone: phone, name: name)
                             navigateToHomeView = true
+                            isLoggedIn = true
                         } else {
                             // Show an error message or alert to inform the user
                             // that all fields must be filled.

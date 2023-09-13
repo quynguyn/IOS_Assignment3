@@ -12,6 +12,7 @@ struct ProfileView: View {
     @State private var phone = "123-456-7890"
     @State private var email = "johndoe@example.com"
     @State private var address = "123 Main Street, City, Country"
+    @State private var isLoggedIn = true
     
     var body: some View {
         VStack {
@@ -38,7 +39,7 @@ struct ProfileView: View {
                         .foregroundColor(Color.white)
                     
                     Button(action: {
-                        
+                        isLoggedIn = false
                     })  {
                         Text("Log Out")
                             .font(.system(size: 25,weight: .bold))

@@ -13,7 +13,7 @@ struct LogInView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var isLoggedIn = false
-
+    
     
     var body: some View {
         NavigationView{
@@ -43,7 +43,7 @@ struct LogInView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .background(Color.white.opacity(0.5))
                             .cornerRadius(10)
-        
+                        
                     }
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 15).stroke(Color(hex: 0x85a389), lineWidth: 3))
@@ -62,13 +62,15 @@ struct LogInView: View {
                     .background(RoundedRectangle(cornerRadius: 15).stroke(Color(hex: 0x85a389), lineWidth: 3))
                 }
                 
-                NavigationLink(
-                    destination: HomeView(),
-                    isActive: $isLoggedIn,
-                    label: { EmptyView() }
-                )
-                .hidden()
-                .padding()
+                if isLoggedIn {
+                    
+                    NavigationLink(
+                        destination: HomeView(isLoggedIn: $isLoggedIn),
+                        isActive: $isLoggedIn,
+                        label: { EmptyView() }
+                    )
+                    .hidden()
+                }
                 
                 HStack {
                     Image(systemName: "door.right.hand.open")

@@ -11,6 +11,7 @@ struct HomeView: View {
     @StateObject var cartManager = CartManager()
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
+    @Binding var isLoggedIn: Bool
     
     var filteredFoodList: [Food] {
         if searchValue.isEmpty {
@@ -63,7 +64,7 @@ struct HomeView: View {
                         Text("Cart")
                     }
                     .tag(1)
-                                
+                
                 // HistoryView
                 HistoryView()
                     .tabItem {
@@ -72,16 +73,17 @@ struct HomeView: View {
                     }
                     .tag(2)
                 
-                ProfileView()
+                ProfileView(isLoggedIn: $isLoggedIn) // Updated tag to 3
                     .tabItem {
                         Image(systemName: "person.circle.fill")
                         Text("Profile")
                     }
-                    .tag(2)
+                    .tag(3) // Updated tag to 3
                 
             }
             .accentColor(Color("#A2CDB0"))
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
@@ -132,7 +134,7 @@ struct DishCard: View {
                     
                     Text("Broken Rice with Grilled Pork")
                         .fontWeight(.medium)
-                    .lineLimit(1)
+                        .lineLimit(1)
                     
                     HStack (spacing: 2) {
                         ForEach(0 ..< 5) { item in
@@ -168,7 +170,7 @@ struct DishCard: View {
                         Text("1.7km")
                             .foregroundColor(.gray)
                             .font(.caption2)
-
+                        
                     }
                 }
                 .padding()
@@ -238,14 +240,14 @@ struct MenuView: View {
                         Text("$\(food.price, specifier: "%.2f")")
                             .foregroundColor(.gray)
                             .font(.caption2)
-//                        Spacer().frame(width: 20)
-//                        
-//                        Image(systemName: "location.fill")
-//                            .foregroundColor(Color("#A2CDB0"))
-//                            .font(.caption2)
-//                        Text("1.7km")
-//                            .foregroundColor(.gray)
-//                            .font(.caption2)
+                        //                        Spacer().frame(width: 20)
+                        //
+                        //                        Image(systemName: "location.fill")
+                        //                            .foregroundColor(Color("#A2CDB0"))
+                        //                            .font(.caption2)
+                        //                        Text("1.7km")
+                        //                            .foregroundColor(.gray)
+                        //                            .font(.caption2)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -254,7 +256,7 @@ struct MenuView: View {
             .background(Color(.tertiarySystemBackground))
             .cornerRadius(20)
             .shadow(radius: 5)
-        .frame(maxWidth:.infinity)
+            .frame(maxWidth:.infinity)
         }
     }
 }
@@ -263,7 +265,7 @@ struct MenuView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         EnvironmentWrapper {
-            HomeView()
+            HomeView(, isLoggedIn: true)
         }
     }
 }
