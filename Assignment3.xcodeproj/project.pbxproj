@@ -218,19 +218,19 @@
 		15265DF02AAAFE1B00AB48A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				15C77D6E2AADEEAC0009C600 /* CustomSetUp.swift */,
-				15C77D712AADEEAC0009C600 /* DetailView.swift */,
-				1518F8F62AADF9AB00522C5A /* ProfileView.swift */,
+				15C77D6D2AADEEAC0009C600 /* SplashView.swift */,
 				15C77D702AADEEAC0009C600 /* LogInView.swift */,
 				15C77D6F2AADEEAC0009C600 /* SignUpView.swift */,
-				15C77D6D2AADEEAC0009C600 /* SplashView.swift */,
 				45C139D92AACB507008AECDA /* HomeView.swift */,
-				45C139DB2AADA964008AECDA /* EditableText.swift */,
-				45C139DD2AADA9F6008AECDA /* MapView.swift */,
+				15C77D712AADEEAC0009C600 /* DetailView.swift */,
+				1518F8F62AADF9AB00522C5A /* ProfileView.swift */,
 				45C139DF2AADAB70008AECDA /* AddressView.swift */,
 				45C139E12AADAEBE008AECDA /* CheckoutView.swift */,
 				BD230BD82AAF6F02008484EF /* CartView.swift */,
 				BD230BDC2AAF6F3B008484EF /* HistoryView.swift */,
+				45C139DB2AADA964008AECDA /* EditableText.swift */,
+				15C77D6E2AADEEAC0009C600 /* CustomSetUp.swift */,
+				45C139DD2AADA9F6008AECDA /* MapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
