@@ -9,14 +9,17 @@ import Foundation
 
 class CartManager: ObservableObject {
     @Published private(set) var items: [Food] = []
+    @Published private(set) var total: Double = 0
     
     func addToCart(item: Food) {
         items.append(item)
+        total += item.price
     }
     
     func deleteFromCart(item: Food) {
         if let removeItem = items.firstIndex(where: {$0.id == item.id}) {
-                    items.remove(at: removeItem)
-                }
+            items.remove(at: removeItem)
+            total -= item.price
+        }
     }
 }
