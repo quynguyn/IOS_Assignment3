@@ -25,6 +25,7 @@ struct ItemRow: View {
             }
             Spacer()
             Image(systemName: "trash")
+                .foregroundColor(Color("#85A389"))
                 .onTapGesture {
                     cartManager.deleteFromCart(item: item)
                 }
