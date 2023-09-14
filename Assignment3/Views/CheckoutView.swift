@@ -10,7 +10,7 @@ import SwiftUI
 struct CheckoutView: View {
     @EnvironmentObject var cartManager: CartManager
     var body: some View {
-        NavigationView() {
+        VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
                     // MARK: - Address section

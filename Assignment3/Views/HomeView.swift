@@ -11,6 +11,7 @@ import Firebase
 struct HomeView: View {
     @StateObject var cartManager = CartManager()
     @StateObject private var foodStore = FoodStore()
+    @EnvironmentObject private var authStore : AuthStore
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
     @Binding var isLoggedIn: Bool
@@ -31,7 +32,7 @@ struct HomeView: View {
                 TabView(selection: $selectedTab) {
                     ScrollView(showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("Welcome, Dustin")
+                            Text("Welcome, \(authStore.user?.displayName ?? "user")")
                                 .font(.title3)
                                 .fontWeight(.semibold)
                                 .foregroundColor(Color("#F1C27B"))

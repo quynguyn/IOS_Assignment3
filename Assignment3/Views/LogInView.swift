@@ -63,7 +63,7 @@ struct LogInView: View {
                 }
                 
                 if isLoggedIn {
-                    
+                    // https://stackoverflow.com/questions/62348642/how-to-switch-to-another-view-programmatically-in-swiftui-without-a-button-pres
                     NavigationLink(
                         destination: HomeView(isLoggedIn: $isLoggedIn),
                         isActive: $isLoggedIn,
