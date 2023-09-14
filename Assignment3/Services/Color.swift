@@ -49,3 +49,17 @@ extension Color{
         return Color("SecondaryTextColor")
     }
 }
+
+func loadImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
+    if let url = URL(string: urlString) {
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            } else {
+                completion(nil)
+            }
+        }
+    }
+}

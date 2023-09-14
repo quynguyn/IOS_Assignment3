@@ -9,18 +9,27 @@ import SwiftUI
 struct DetailView: View {
     @EnvironmentObject var cartManager: CartManager
     @State private var quantity = 1
+    @State private var foodImage: UIImage? = nil
     var food: Food
     
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Image(food.image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 300) // Adjust as needed
-                    .clipped()
-                    .shadow(radius: 5)
+                
+                if let uiImage = foodImage {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 300) // Adjust as needed
+                        .clipped()
+                        .shadow(radius: 5)
+                } else {
+                    Rectangle()  // Placeholder till image loads
+                        .foregroundColor(.gray)
+                        .frame(width: 100, height: 100)
+                }
+            
                 
                 VStack(alignment: .center, spacing: 20) {
                     Text(food.name)
@@ -28,8 +37,18 @@ struct DetailView: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color(.black))
                     
-                    Text("Price: $\(food.price, specifier: "%.2f")")
-                        .font(.headline)
+                    HStack{
+                        Text("Price: $\(food.price, specifier: "%.2f")")
+                            .font(.headline)
+                        
+                        Spacer()
+                        
+                        if let calories = food.calories {
+                            Text("\(calories) calories")
+                                .font(.headline)
+                        }
+                    }
+                    
                     
                     ScrollView {
                         Text(food.description)
@@ -40,28 +59,28 @@ struct DetailView: View {
                     
                     Spacer()
                     
-                    HStack {
-                        Button(action: {
-                            if quantity > 1 {
-                                quantity -= 1
-                            }
-                        }) {
-                            Image(systemName: "minus.rectangle")
-                                .font(.title)
-                                .foregroundColor(Color(hex: 0xf1c27b))
-                        }
-                        
-                        Text("Quantity: \(quantity)")
-                            .font(.headline)
-                        
-                        Button(action: {
-                            quantity += 1
-                        }) {
-                            Image(systemName: "plus.rectangle")
-                                .font(.title)
-                                .foregroundColor(Color(hex: 0xf1c27b))
-                        }
-                    }
+//                    HStack {
+//                        Button(action: {
+//                            if quantity > 1 {
+//                                quantity -= 1
+//                            }
+//                        }) {
+//                            Image(systemName: "minus.rectangle")
+//                                .font(.title)
+//                                .foregroundColor(Color(hex: 0xf1c27b))
+//                        }
+//
+//                        Text("Quantity: \(quantity)")
+//                            .font(.headline)
+//
+//                        Button(action: {
+//                            quantity += 1
+//                        }) {
+//                            Image(systemName: "plus.rectangle")
+//                                .font(.title)
+//                                .foregroundColor(Color(hex: 0xf1c27b))
+//                        }
+//                    }
                     
                     //cart function
                     Button(action: {
@@ -72,14 +91,18 @@ struct DetailView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color(hex: 0xffd89c))
+                            .background(Color(hex: 0xa2cdb0))
                             .cornerRadius(10)
                     }
                 }
                 .padding()
             }
             .edgesIgnoringSafeArea(.top)
-            .navigationBarTitle("Food Detail", displayMode: .automatic)
+            .onAppear {
+                loadImageFromURL(urlString: food.image) { image in
+                    self.foodImage = image
+                }
+            }
         }
     }
 }
