@@ -16,7 +16,9 @@ struct SignUpView: View {
     @State private var isFormValid = false
     @State private var isShowingAlert = false
     @State private var navigateToHomeView = false
+    
     @Binding var isLoggedIn: Bool
+    
     
     var body: some View {
         NavigationView{

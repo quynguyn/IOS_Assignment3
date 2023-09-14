@@ -120,7 +120,7 @@ struct AddressView: View {
                         .foregroundColor(.white)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                 }
-                .background(Color("#F1C27B"))
+                .background(Color(hex: 0xa2cdb0))
                 .cornerRadius(20)
                 .shadow(radius: 5)
                 .navigationBarTitle("Address", displayMode: .inline)
