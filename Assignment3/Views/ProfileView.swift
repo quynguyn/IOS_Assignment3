@@ -33,6 +33,25 @@ struct ProfileView: View {
                 Spacer()
                 
                 HStack{
+                    HStack{
+                        Image(systemName: "square.and.arrow.down")
+                            .font(.system(size: 25,weight: .bold))
+                            .foregroundColor(Color.white)
+                        
+                        Button(action: {
+                            isLoggedIn = false
+                        })  {
+                            Text("Save")
+                                .font(.system(size: 25,weight: .bold))
+                                .foregroundColor(Color.white)
+                                .padding()
+                        }
+                    }.frame(maxWidth: .infinity)
+                        .background(Color(hex: 0xa2cdb0))
+                        .cornerRadius(15)
+                
+                
+                HStack{
                     
                     Image(systemName: "door.left.hand.open")
                         .font(.system(size: 25,weight: .bold))
@@ -50,7 +69,8 @@ struct ProfileView: View {
                 }.frame(maxWidth: .infinity)
                     .background(Color(hex: 0xa2cdb0))
                     .cornerRadius(15)
-                
+            }
+        
                 
                 
             }

@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import SimpleToast
 struct DetailView: View {
     @EnvironmentObject var cartManager: CartManager
     @State private var quantity = 1
     @State private var foodImage: UIImage? = nil
+    @State private var showToast = false
+    
     var food: Food
+    private let toastOpstions = SimpleToastOptions(
+        alignment: .top,
+        hideAfter: 1,
+        backdropColor: Color.black.opacity(0.5),
+        animation: .default,
+        modifierType: .slide
+    )
     
     var body: some View {
         NavigationView {
@@ -46,6 +56,7 @@ struct DetailView: View {
                         if let calories = food.calories {
                             Text("\(calories) calories")
                                 .font(.headline)
+                                .foregroundColor(Color(hex: 0xcc9849))
                         }
                     }
                     
@@ -85,6 +96,7 @@ struct DetailView: View {
                     //cart function
                     Button(action: {
                         cartManager.addToCart(item: food)
+                        showToast.toggle()
                     }) {
                         Text("Add to Cart")
                             .font(.headline)
@@ -95,6 +107,16 @@ struct DetailView: View {
                             .cornerRadius(10)
                     }
                 }
+                .simpleToast(isPresented: $showToast, options: toastOpstions){
+                    HStack{
+                        Image(systemName: "checkmark.seal.fill")
+                        Text("Added to Cart").bold()
+                    }
+                        .padding(20)
+                        .background(Color(hex: 0xf1c27b))
+                        .foregroundColor(Color.white)
+                        .cornerRadius(15)
+                }
                 .padding()
             }
             .edgesIgnoringSafeArea(.top)
@@ -103,6 +125,7 @@ struct DetailView: View {
                     self.foodImage = image
                 }
             }
+            
         }
     }
 }

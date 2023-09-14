@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import GoogleSignIn
+import GoogleSignInSwift
 
 struct LogInView: View {
     @State private var email = ""
@@ -13,7 +15,6 @@ struct LogInView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var isLoggedIn = false
-    
     
     var body: some View {
         NavigationView{
@@ -86,6 +87,7 @@ struct LogInView: View {
                             isLoggedIn = true
                         }
                     }
+                   
                     
                 }
                 .font(.title)
@@ -94,6 +96,7 @@ struct LogInView: View {
                 .padding(.horizontal, 20)
                 .background(Color(hex: 0x85a389))
                 .cornerRadius(10)
+               
                 Spacer()
                 
                 HStack {
@@ -107,6 +110,11 @@ struct LogInView: View {
                     }
                 }
                 .padding()
+                
+                GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .wide, state: .normal)) {
+                    
+                }
+                
                 
             }
             .padding()
