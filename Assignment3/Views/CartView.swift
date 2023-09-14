@@ -12,44 +12,49 @@ struct CartView: View {
     @State private var selectedTab: Int = 0
     
     var body: some View {
-        GeometryReader { geo in
-            NavigationView {
-                ScrollView {
-                    Spacer()
-                    VStack {
-                        if (cartManager.items.count > 0) {
-                            ForEach(cartManager.items, id: \.id) {
-                                item in
-                                ItemRow(item: item)
-                                    .padding()
-                            }
-                        }
-                        else { Text("Your cart is empty!") }
+        VStack {
+            GeometryReader { geo in
+                NavigationView {
+                    ScrollView {
+                        
                         VStack {
-                            HStack {
-                                Text("Your total is:")
-                                    .padding()
-                                Text("$\(cartManager.total, specifier: "%.2f")")
-                                    .padding()
-                                    .bold()
+                            if (cartManager.items.count > 0) {
+                                ForEach(cartManager.items, id: \.id) {
+                                    item in
+                                    ItemRow(item: item)
+                                        .padding()
+                                }
                             }
-                            NavigationLink {
-                                CheckoutView()
-                            } label: {
-                                Text("Check out")
-                                    .bold()
-                                    .font(.system(size: 20))
-                                    .foregroundColor(Color.white)
-                                    .frame(width: CGFloat(120), height: CGFloat(65))
-                                    .background(Color("#A2CDB0"))
-                                    .cornerRadius(10)
-                                    .padding()
-                            }.padding()
-                        }.frame(maxWidth: .infinity, minHeight: geo.size.height, alignment: .bottom)
+                            else { Text("Your cart is empty!") }
+                            
+                        }
                     }
                 }
             }
+            Spacer()
+            VStack {
+                HStack {
+                    Text("Your total is:")
+                        .padding()
+                    Text("$\(cartManager.total, specifier: "%.2f")")
+                        .padding()
+                        .bold()
+                }
+                NavigationLink {
+                    CheckoutView()
+                } label: {
+                    Text("Check out")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundColor(Color.white)
+                        .frame(width: CGFloat(120), height: CGFloat(65))
+                        .background(Color("#A2CDB0"))
+                        .cornerRadius(10)
+                        .padding()
+                }.padding()
+            }.frame(maxWidth: .infinity, minHeight: 150, alignment: .bottom)
         }
+        
         .navigationTitle(Text("My Cart"))
         .padding(.top)
     }
