@@ -277,6 +277,8 @@ struct HomeView_Previews: PreviewProvider {
                 HomeView(isLoggedIn: .constant(true))
                 HomeView(isLoggedIn: .constant(false))
             }
+            
         }
+       
     }
 }

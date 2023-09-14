@@ -40,28 +40,28 @@ struct DetailView: View {
                     
                     Spacer()
                     
-                    HStack {
-                        Button(action: {
-                            if quantity > 1 {
-                                quantity -= 1
-                            }
-                        }) {
-                            Image(systemName: "minus.rectangle")
-                                .font(.title)
-                                .foregroundColor(Color(hex: 0xf1c27b))
-                        }
-                        
-                        Text("Quantity: \(quantity)")
-                            .font(.headline)
-                        
-                        Button(action: {
-                            quantity += 1
-                        }) {
-                            Image(systemName: "plus.rectangle")
-                                .font(.title)
-                                .foregroundColor(Color(hex: 0xf1c27b))
-                        }
-                    }
+//                    HStack {
+//                        Button(action: {
+//                            if quantity > 1 {
+//                                quantity -= 1
+//                            }
+//                        }) {
+//                            Image(systemName: "minus.rectangle")
+//                                .font(.title)
+//                                .foregroundColor(Color(hex: 0xf1c27b))
+//                        }
+//
+//                        Text("Quantity: \(quantity)")
+//                            .font(.headline)
+//
+//                        Button(action: {
+//                            quantity += 1
+//                        }) {
+//                            Image(systemName: "plus.rectangle")
+//                                .font(.title)
+//                                .foregroundColor(Color(hex: 0xf1c27b))
+//                        }
+//                    }
                     
                     //cart function
                     Button(action: {
@@ -79,7 +79,6 @@ struct DetailView: View {
                 .padding()
             }
             .edgesIgnoringSafeArea(.top)
-            .navigationBarTitle("Food Detail", displayMode: .automatic)
         }
     }
 }
