@@ -16,7 +16,6 @@ struct CartView: View {
             GeometryReader { geo in
                 NavigationView {
                     ScrollView {
-                        
                         VStack {
                             if (cartManager.items.count > 0) {
                                 ForEach(cartManager.items, id: \.id) {
@@ -54,9 +53,9 @@ struct CartView: View {
                 }.padding()
             }.frame(maxWidth: .infinity, minHeight: 150, alignment: .bottom)
         }
-        
-        .navigationTitle(Text("My Cart"))
         .padding(.top)
+        
+       
     }
 }
 

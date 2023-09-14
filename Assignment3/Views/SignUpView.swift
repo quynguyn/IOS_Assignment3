@@ -85,18 +85,7 @@ struct SignUpView: View {
                 
                 Spacer()
                 
-                Text("Sign up using one of the following methods")
-                    .font(.title3)
-                    .foregroundColor(.gray)
-                
-                HStack{
-                    Button("Google"){
-                        
-                    }
-                    Button("Apple"){
-                        
-                    }
-                }
+               
             }
         }
         

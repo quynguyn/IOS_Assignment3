@@ -158,12 +158,12 @@ struct DishCard: View {
                         
                         Text("4.5")
                             .foregroundColor(.gray)
-                            .font(.caption2)
+                            .font(.caption)
                     }
                     
                     Text("120 calories")
-                        .foregroundColor(Color("#F1C27B"))
-                        .font(.caption2)
+                        .foregroundColor(Color(hex: 0xd8a936))
+                        .font(.caption)
                     
                     HStack {
                         Image(systemName: "dollarsign")
@@ -236,18 +236,13 @@ struct MenuView: View {
                     
                     if let calories = food.calories {
                         Text("\(calories) calories")
-                            .foregroundColor(Color("#F1C27B"))
-                            .font(.caption2)
+                            .foregroundColor(Color(hex: 0xcc9849))
+                            .font(.caption)
                     }
                     
-                    HStack {
-                        Image(systemName: "dollarsign")
-                            .foregroundColor(Color("#E25E3E"))
-                            .font(.caption2)
-                        Text("\(food.price, specifier: "%.2f")")
-                            .foregroundColor(.gray)
-                            .font(.caption2)
-                    }
+                    Text("$ \(food.price, specifier: "%.2f")")
+                        .font(.title3)
+                        .foregroundColor(.black)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -257,7 +252,7 @@ struct MenuView: View {
             .shadow(radius: 5)
             .frame(maxWidth:.infinity)
             .onAppear {
-                loadImageFromURL(urlString: food.image) { image in
+                loadImageFromURL(urlString: food.thumbnail) { image in
                     self.foodImage = image
                 }
             }
