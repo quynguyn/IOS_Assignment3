@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CheckoutView: View {
+    @EnvironmentObject var cartManager: CartManager
     var body: some View {
         NavigationView() {
             ScrollView {
@@ -17,12 +18,12 @@ struct CheckoutView: View {
                         HStack {
                             Image(systemName: "map.fill")
                                 .font(.system(size: 20, design: .rounded))
-                                .foregroundColor(Color("#A2CDB0"))
+                                .foregroundColor(Color("#F1C27B"))
                             
                             Text("Address")
                                 .font(.system(size: 24, design: .rounded))
                                 .fontWeight(.bold)
-                                .foregroundColor(Color("#A2CDB0"))
+                                .foregroundColor(Color("#F1C27B"))
                         }
                         
                         NavigationLink(destination: AddressView()) {
@@ -49,16 +50,17 @@ struct CheckoutView: View {
                         HStack {
                             Image(systemName: "fork.knife")
                                 .font(.system(size: 20, design: .rounded))
-                                .foregroundColor(Color("#A2CDB0"))
+                                .foregroundColor(Color("#F1C27B"))
                             
                             Text("Your Order")
                                 .font(.system(size: 24, design: .rounded))
                                 .fontWeight(.bold)
-                                .foregroundColor(Color("#A2CDB0"))
+                                .foregroundColor(Color("#F1C27B"))
                         }
     
-                        YourOrderView()
-                        YourOrderView()
+                        ForEach(cartManager.items, id: \.id) { item in
+                            YourOrderView(item: item)
+                        }
                     }
                     
                     // MARK: - Your Order section
@@ -66,12 +68,12 @@ struct CheckoutView: View {
                         HStack {
                             Image(systemName: "doc.plaintext")
                                 .font(.system(size: 20, design: .rounded))
-                                .foregroundColor(Color("#A2CDB0"))
+                                .foregroundColor(Color("#F1C27B"))
                             
                             Text("Payment Detail")
                                 .font(.system(size: 24, design: .rounded))
                                 .fontWeight(.bold)
-                                .foregroundColor(Color("#A2CDB0"))
+                                .foregroundColor(Color("#F1C27B"))
                         }
     
                         PaymentDetailView()
@@ -88,7 +90,7 @@ struct CheckoutView: View {
                         .foregroundColor(.white)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                 }
-                .background(Color("#A2CDB0"))
+                .background(Color("#F1C27B"))
                 .cornerRadius(20)
                 .shadow(radius: 5)
                 .navigationBarTitle("Checkout", displayMode: .inline)
@@ -98,24 +100,31 @@ struct CheckoutView: View {
 }
 
 struct YourOrderView: View {
+    let item: Food
+    @State private var foodImage: UIImage? = nil
     var body: some View {
         HStack {
-            Image("image1")
-                .resizable()
+            if let uiImage = foodImage {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .aspectRatio(1, contentMode: .fill)
+                    .cornerRadius(20)
+            } else {
+                Rectangle()  // Placeholder till image loads
+                .foregroundColor(.gray)
                 .frame(width: 100, height: 100)
-                .aspectRatio(1, contentMode: .fill)
+            }
             
             VStack(alignment: .leading, spacing: 10) {
-                Text("Broken Rice with Grilled Pork")
+                Text(item.name)
                     .lineLimit(1)
                 
                 HStack {
-                    Text("40,000 VND")
-                        .foregroundColor(.gray)
+                    Image(systemName: "dollarsign")
+                        .foregroundColor(Color("#E25E3E"))
                     
-                    Spacer()
-                    
-                    Text("x1")
+                    Text("\(item.price, specifier: "%.2f")")
                         .foregroundColor(.gray)
                 }
             }
@@ -126,24 +135,32 @@ struct YourOrderView: View {
         .cornerRadius(20)
         .shadow(radius: 5)
         .frame(maxWidth:.infinity)
+        .onAppear {
+            loadImageFromURL(urlString: item.image) { image in
+                self.foodImage = image
+            }
+        }
+    }
+    
+    func loadImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        if let url = URL(string: urlString) {
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        completion(image)
+                    }
+                } else {
+                    completion(nil)
+                }
+            }
+        }
     }
 }
 
 struct PaymentDetailView: View {
+    @EnvironmentObject var cartManager: CartManager
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("Mechandise subtotal")
-                Spacer()
-                Text("80,000 VND")
-            }
-            
-            HStack {
-                Text("Shipping subtotal")
-                Spacer()
-                Text("0 VND")
-            }
-            
             HStack {
                 Text("Total payment")
                     .font(.system(size: 24, design: .rounded))
@@ -151,10 +168,10 @@ struct PaymentDetailView: View {
                 
                 Spacer()
                 
-                Text("80,000 VND")
+                Text("\(cartManager.totalPrice, specifier: "%.2f")")
                     .font(.system(size: 20, design: .rounded))
                     .fontWeight(.bold)
-                    .foregroundColor(Color("#E25E3E"))
+                    .foregroundColor(Color("#F1C27B"))
             }
         }
         .padding()
@@ -165,8 +182,10 @@ struct PaymentDetailView: View {
     }
 }
 
+
 struct CheckoutView_Previews: PreviewProvider {
     static var previews: some View {
         CheckoutView()
+            .environmentObject(CartManager())
     }
 }

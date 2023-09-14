@@ -6,18 +6,20 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct HomeView: View {
     @StateObject var cartManager = CartManager()
+    @StateObject private var foodStore = FoodStore()
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
     @Binding var isLoggedIn: Bool
     
     var filteredFoodList: [Food] {
         if searchValue.isEmpty {
-            return FoodList
+            return foodStore.foodList
         } else {
-            return FoodList.filter { food in
+            return foodStore.foodList.filter { food in
                 return food.name.lowercased().contains(searchValue.lowercased())
             }
         }
@@ -32,7 +34,7 @@ struct HomeView: View {
                             Text("Welcome, Dustin")
                                 .font(.title3)
                                 .fontWeight(.semibold)
-                                .foregroundColor(Color("#85A389"))
+                                .foregroundColor(Color("#F1C27B"))
                             
                             Text("What would you like to eat today ?")
                                 .font(.title)
@@ -83,7 +85,7 @@ struct HomeView: View {
                         .tag(3) // Updated tag to 3
                     
                 }
-                .accentColor(Color("#A2CDB0"))
+                .accentColor(Color("#F1C27B"))
             }
             .navigationBarBackButtonHidden()
         
@@ -169,14 +171,6 @@ struct DishCard: View {
                         Text("40,000 VND")
                             .foregroundColor(.gray)
                             .font(.caption2)
-                        Spacer().frame(width: 20)
-                        
-                        Image(systemName: "location.fill")
-                            .foregroundColor(Color("#A2CDB0"))
-                            .font(.caption2)
-                        Text("1.7km")
-                            .foregroundColor(.gray)
-                            .font(.caption2)
                         
                     }
                 }
@@ -198,13 +192,21 @@ struct DishCard: View {
 
 struct MenuView: View {
     var food: Food
+    @State private var foodImage: UIImage? = nil
     var body: some View {
         NavigationLink(destination: DetailView(food: food)) {
             HStack {
-                Image(food.image)
-                    .resizable()
+                if let uiImage = foodImage {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .aspectRatio(1, contentMode: .fill)
+                        .cornerRadius(20)
+                } else {
+                    Rectangle()  // Placeholder till image loads
+                    .foregroundColor(.gray)
                     .frame(width: 100, height: 100)
-                    .aspectRatio(1, contentMode: .fill)
+                }
                 
                 VStack(alignment: .leading, spacing: 5) {
                     HStack {
@@ -214,9 +216,6 @@ struct MenuView: View {
                             .foregroundColor(.black)
                         
                         Spacer()
-                        
-                        Image(systemName: "heart")
-                            .foregroundColor(.gray)
                     }
                     
                     HStack (spacing: 2) {
@@ -244,17 +243,9 @@ struct MenuView: View {
                         Image(systemName: "dollarsign")
                             .foregroundColor(Color("#E25E3E"))
                             .font(.caption2)
-                        Text("$\(food.price, specifier: "%.2f")")
+                        Text("\(food.price, specifier: "%.2f")")
                             .foregroundColor(.gray)
                             .font(.caption2)
-                        //                        Spacer().frame(width: 20)
-                        //
-                        //                        Image(systemName: "location.fill")
-                        //                            .foregroundColor(Color("#A2CDB0"))
-                        //                            .font(.caption2)
-                        //                        Text("1.7km")
-                        //                            .foregroundColor(.gray)
-                        //                            .font(.caption2)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -264,9 +255,30 @@ struct MenuView: View {
             .cornerRadius(20)
             .shadow(radius: 5)
             .frame(maxWidth:.infinity)
+            .onAppear {
+                loadImageFromURL(urlString: food.image) { image in
+                    self.foodImage = image
+                }
+            }
+        }
+    }
+    
+    func loadImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        if let url = URL(string: urlString) {
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        completion(image)
+                    }
+                } else {
+                    completion(nil)
+                }
+            }
         }
     }
 }
+
+
 
 
 struct HomeView_Previews: PreviewProvider {
