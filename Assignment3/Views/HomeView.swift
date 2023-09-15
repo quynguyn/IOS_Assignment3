@@ -15,15 +15,27 @@ struct HomeView: View {
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
     @Binding var isLoggedIn: Bool
+
+    var foodCategories = ["All", "Noddle Dishes", "Dessert", "Rice Dishes", "Sandwich", "Salad"]
+    
+    @State private var selectedCategory = "All"
     
     var filteredFoodList: [Food] {
-        if searchValue.isEmpty {
-            return foodStore.foodList
-        } else {
-            return foodStore.foodList.filter { food in
-                return food.name.lowercased().contains(searchValue.lowercased())
+        var filteredFood = foodStore.foodList
+            
+        if !searchValue.isEmpty {
+            filteredFood = filteredFood.filter { food in
+                food.name.lowercased().contains(searchValue.lowercased())
             }
         }
+            
+        if selectedCategory != "All" {
+            filteredFood = filteredFood.filter { food in
+                food.category == selectedCategory
+            }
+        }
+            
+        return filteredFood
     }
     
     var body: some View {
@@ -41,16 +53,47 @@ struct HomeView: View {
                                 .font(.title)
                                 .fontWeight(.bold)
                             
-                            SearchView(search: $searchValue)
+                            HStack {
+                                SearchView(search: $searchValue)
+                                
+                                Picker("Select category", selection: $selectedCategory) {
+                                    ForEach(foodCategories, id: \.self) { category in
+                                        Text(category).tag(category)
+                                    }
+                                }
+                                .pickerStyle(MenuPickerStyle())
+                            }
                             
-                            PopularDishesView()
+                            // Popular dishes
+                            if searchValue.isEmpty {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("Popular Dishes")
+                                        .font(.system(size: 24, design: .rounded))
+                                        .fontWeight(.bold)
+                                    
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack (spacing: 20) {
+                                            ForEach(foodStore.top5RatedFoods) { foodItem in
+                                                DishCard(food: foodItem)
+                                            }
+                                        }
+                                        .padding()
+                                    }
+                                }
+                            }
                             
+                            // Menu list
                             Text("Menu")
                                 .font(.system(size: 24, design: .rounded))
                                 .fontWeight(.bold)
                             
-                            ForEach(filteredFoodList) { foodItem in
-                                MenuView(food: foodItem)
+                            if filteredFoodList.isEmpty && !searchValue.isEmpty {
+                                Text("No result found")
+                                    .foregroundColor(.gray)
+                            } else {
+                                ForEach(filteredFoodList) { foodItem in
+                                    MenuView(food: foodItem)
+                                }
                             }
                         }
                         .padding()
@@ -89,13 +132,12 @@ struct HomeView: View {
                 .accentColor(Color("#F1C27B"))
             }
             .navigationBarBackButtonHidden()
-        
-    } else {
-        LogInView()
+            
+        } else {
+            LogInView()
+        }
     }
 }
-}
-
 
 struct SearchView: View {
     @Binding var search: String
@@ -113,78 +155,64 @@ struct SearchView: View {
     }
 }
 
-struct PopularDishesView: View {
-    var body: some View {
-        VStack (alignment: .leading, spacing: 10) {
-            Text("Popular Dishes")
-                .font(.system(size: 24, design: .rounded))
-                .fontWeight(.bold)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack (spacing: 40) {
-                    DishCard()
-                    DishCard()
-                    DishCard()
-                }
-                .padding()
-            }
-        }
-    }
-}
-
 struct DishCard: View {
+    @State private var foodImage: UIImage? = nil
+    var food: Food
     var body: some View {
-        NavigationLink(destination: DetailView(food: burger)){
-            ZStack {
-                VStack(alignment: .leading, spacing: 8) {
-                    
-                    Image(systemName: "heart")
-                        .foregroundColor(.gray)
-                        .padding(.bottom,60)
-                    
-                    Text("Broken Rice with Grilled Pork")
-                        .fontWeight(.medium)
-                        .lineLimit(1)
-                    
-                    HStack (spacing: 2) {
-                        ForEach(0 ..< 5) { item in
-                            Image(systemName: "star.fill")
-                                .renderingMode(.template)
-                                .foregroundColor(Color("#F1C27B"))
-                                .font(.caption2)
-                        }
-                        
-                        Spacer().frame(width: 5)
-                        
-                        Text("4.5")
+        NavigationLink(destination: DetailView(food: food)){
+            VStack(alignment: .leading, spacing: 8) {
+                HStack() {
+                    Spacer()
+                    if let uiImage = foodImage {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .frame(width: 150, height: 150)
+                            .aspectRatio(1, contentMode: .fill)
+                            .cornerRadius(20)
+                    } else {
+                        Rectangle()  // Placeholder till image loads
                             .foregroundColor(.gray)
-                            .font(.caption)
+                            .frame(width: 100, height: 100)
                     }
-                    
-                    Text("120 calories")
-                        .foregroundColor(Color(hex: 0xd8a936))
-                        .font(.caption)
-                    
-                    HStack {
-                        Image(systemName: "dollarsign")
-                            .foregroundColor(Color("#E25E3E"))
-                            .font(.caption2)
-                        Text("40,000 VND")
-                            .foregroundColor(.gray)
-                            .font(.caption2)
-                        
-                    }
+                    Spacer()
                 }
-                .padding()
-                .background(Color(.tertiarySystemBackground))
-                .cornerRadius(20)
-                .shadow(radius: 5)
-                .frame(width: 200)
                 
-                Image("image1")
-                    .resizable()
-                    .frame(width: 150, height: 150)
-                    .offset(x: 60, y: -60)
+                Text(food.name)
+                    .fontWeight(.medium)
+                    .lineLimit(1)
+                
+                HStack (spacing: 2) {
+                    RatingView(rate: food.rate ?? 0)
+                        .foregroundColor(.gray)
+                        .font(.caption2)
+                    
+                    Spacer().frame(width: 5)
+                    
+                    Text("\(food.rate ?? 0, specifier: "%.1f")")
+                        .foregroundColor(.gray)
+                        .font(.caption2)
+                }
+                
+                if let calories = food.calories {
+                    Text("\(calories) calories")
+                        .foregroundColor(Color(hex: 0xd8a936))
+                        .font(.caption2)
+                }
+                
+                Text("$ \(food.price, specifier: "%.2f")")
+                    .font(.title3)
+                    .foregroundColor(.black)
+                
+            }
+            .padding()
+            .background(Color(.tertiarySystemBackground))
+            .cornerRadius(20)
+            .shadow(radius: 5)
+            .frame(width: 200)
+            .onAppear {
+                loadImageFromURL(urlString: food.image) { image in
+                    self.foodImage = image
+                }
             }
         }
         .buttonStyle(PlainButtonStyle())
@@ -220,12 +248,9 @@ struct MenuView: View {
                     }
                     
                     HStack (spacing: 2) {
-                        ForEach(0 ..< 5) { item in
-                            Image(systemName: "star.fill")
-                                .renderingMode(.template)
-                                .foregroundColor(Color("#F1C27B"))
-                                .font(.caption2)
-                        }
+                        RatingView(rate: food.rate ?? 0)
+                            .foregroundColor(.gray)
+                            .font(.caption2)
                         
                         Spacer().frame(width: 5)
                         
@@ -260,8 +285,30 @@ struct MenuView: View {
     }
 }
 
-
-
+struct RatingView: View {
+    var rate: Double
+    
+    var body: some View {
+        HStack(spacing: 2) {
+            ForEach(0..<5) { index in
+                let starIndex = Double(index)
+                if rate >= starIndex + 1.0 {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(Color("#F1C27B"))
+                        .font(.caption2)
+                } else if rate >= starIndex + 0.1 {
+                    Image(systemName: "star.leadinghalf.fill")
+                        .foregroundColor(Color("#F1C27B"))
+                        .font(.caption2)
+                } else {
+                    Image(systemName: "star")
+                        .foregroundColor(Color("#F1C27B"))
+                        .font(.caption2)
+                }
+            }
+        }
+    }
+}
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
