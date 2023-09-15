@@ -136,7 +136,7 @@ struct YourOrderView: View {
         .shadow(radius: 5)
         .frame(maxWidth:.infinity)
         .onAppear {
-            loadImageFromURL(urlString: item.image) { image in
+            loadImageFromURL(urlString: item.images?.first ?? "") { image in
                 self.foodImage = image
             }
         }

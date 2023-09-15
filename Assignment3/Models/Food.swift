@@ -62,7 +62,7 @@ struct Food : Identifiable, Hashable, Codable {
     static let sampleData = Food(
         id: "123",
         name: "Margherita Pizza",
-        image: "pizza_image", // Replace with your image file name or URL
+        images: ["pizza_image"], // Replace with your image file name or URL
         thumbnail: "pizza_thumbnail",
         category: "Italian",
         price: 12.99,
@@ -75,7 +75,7 @@ struct Food : Identifiable, Hashable, Codable {
     
     let id: String
     let name: String
-    let image: String
+    let images: [String]?
     let thumbnail: String
     let category: String
     let price: Double
@@ -87,8 +87,9 @@ struct Food : Identifiable, Hashable, Codable {
     let ingredients: [String]?
 }
 
-var FoodList = [Food(id: "1", name: "Burger", image: "burger", thumbnail: "burger", category: "American", price: 12.99, description: "Burger!", calories: nil, rate: nil, comment: nil, ingredients: nil),
-                Food(id: "2", name: "Pizza", image: "pizza", thumbnail: "pizza", category: "Italian", price: 10.99, description: "Pizza!", calories: nil, rate: nil, comment: nil, ingredients: nil),
-                Food(id: "3", name: "French fries", image: "frenchfries", thumbnail: "frenchfries", category: "American", price: 2.99, description: "French fries!", calories: nil, rate: nil, comment: nil, ingredients: nil),
-                Food(id: "4", name: "Fried chicken", image: "friedchicken", thumbnail: "friedchicken", category: "American", price: 11.99, description: "Fried chicken!", calories: nil, rate: nil, comment: nil, ingredients: nil),
-                Food(id: "5", name: "Sushi", image: "sushi", thumbnail: "sushi", category: "Japanese", price: 15.99, description: "Sushi!", calories: nil, rate: nil, comment: nil, ingredients: nil)]
+var FoodList = [
+    Food(id: "1", name: "Burger", images: ["burger"], thumbnail: "burger", category: "American", price: 12.99, description: "Burger!", calories: nil, rate: nil, comment: nil, ingredients: nil),
+    Food(id: "2", name: "Pizza", images: ["pizza"], thumbnail: "pizza", category: "Italian", price: 10.99, description: "Pizza!", calories: nil, rate: nil, comment: nil, ingredients: nil),
+    Food(id: "3", name: "French fries", images: ["frenchfries"], thumbnail: "frenchfries", category: "American", price: 2.99, description: "French fries!", calories: nil, rate: nil, comment: nil, ingredients: nil),
+    Food(id: "4", name: "Fried chicken", images: ["friedchicken"], thumbnail: "friedchicken", category: "American", price: 11.99, description: "Fried chicken!", calories: nil, rate: nil, comment: nil, ingredients: nil),
+    Food(id: "5", name: "Sushi", images: ["sushi"], thumbnail: "sushi", category: "Japanese", price: 15.99, description: "Sushi!", calories: nil, rate: nil, comment: nil, ingredients: nil)]

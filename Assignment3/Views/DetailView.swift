@@ -121,7 +121,7 @@ struct DetailView: View {
             }
             .edgesIgnoringSafeArea(.top)
             .onAppear {
-                loadImageFromURL(urlString: food.image) { image in
+                loadImageFromURL(urlString: food.images?.first ?? "") { image in
                     self.foodImage = image
                 }
             }
@@ -141,7 +141,7 @@ struct detailView_Previews: PreviewProvider {
 let burger = Food(
     id: "123",
     name: "Delicious Burger",
-    image: "burger",
+    images: ["burger"],
     thumbnail: "burger_thumbnail",
     category: "Fast Food",
     price: 9.99,
