@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 @MainActor
 class FoodStore : ObservableObject {
-    @Published var foodList : [Food] = []
+    @Published var foodList: [Food] = []
     
     private var db = Firestore.firestore()
     
@@ -30,6 +30,11 @@ class FoodStore : ObservableObject {
             
             self.foodList = documents.compactMap(FoodService.fromFirebaseDocument)
         }
+    }
+    
+    var top5RatedFoods: [Food] {
+        let sortedFoods = foodList.sorted(by: { ($0.rate ?? 0) > ($1.rate ?? 0) })
+        return Array(sortedFoods.prefix(5))
     }
     
     deinit {
