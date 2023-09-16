@@ -14,7 +14,6 @@ struct HomeView: View {
     @EnvironmentObject private var authStore : AuthStore
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
-    @Binding var isLoggedIn: Bool
 
     var foodCategories = ["All", "Noddle Dishes", "Dessert", "Rice Dishes", "Sandwich", "Salad"]
     
@@ -39,103 +38,102 @@ struct HomeView: View {
     }
     
     var body: some View {
-        if isLoggedIn{
-            NavigationView {
-                TabView(selection: $selectedTab) {
-                    ScrollView(showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 16) {
-                            Text("Welcome, \(authStore.user?.displayName ?? "user")")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color("#F1C27B"))
+        NavigationView {
+            TabView(selection: $selectedTab) {
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Welcome, \(authStore.user?.displayName ?? "user")")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundColor(Color("#F1C27B"))
+                        
+                        Text("What would you like to eat today ?")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        
+                        HStack {
+                            SearchView(search: $searchValue)
                             
-                            Text("What would you like to eat today ?")
-                                .font(.title)
-                                .fontWeight(.bold)
-                            
-                            HStack {
-                                SearchView(search: $searchValue)
+                            Picker("Select category", selection: $selectedCategory) {
+                                ForEach(foodCategories, id: \.self) { category in
+                                    Text(category).tag(category)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                        }
+                        
+                        // Popular dishes
+                        if searchValue.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Popular Dishes")
+                                    .font(.system(size: 24, design: .rounded))
+                                    .fontWeight(.bold)
                                 
-                                Picker("Select category", selection: $selectedCategory) {
-                                    ForEach(foodCategories, id: \.self) { category in
-                                        Text(category).tag(category)
-                                    }
-                                }
-                                .pickerStyle(MenuPickerStyle())
-                            }
-                            
-                            // Popular dishes
-                            if searchValue.isEmpty {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Popular Dishes")
-                                        .font(.system(size: 24, design: .rounded))
-                                        .fontWeight(.bold)
-                                    
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack (spacing: 20) {
-                                            ForEach(foodStore.top5RatedFoods) { foodItem in
-                                                DishCard(food: foodItem)
-                                            }
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack (spacing: 20) {
+                                        ForEach(foodStore.top5RatedFoods) { foodItem in
+                                            DishCard(food: foodItem)
                                         }
-                                        .padding()
                                     }
-                                }
-                            }
-                            
-                            // Menu list
-                            Text("Menu")
-                                .font(.system(size: 24, design: .rounded))
-                                .fontWeight(.bold)
-                            
-                            if filteredFoodList.isEmpty && !searchValue.isEmpty {
-                                Text("No result found")
-                                    .foregroundColor(.gray)
-                            } else {
-                                ForEach(filteredFoodList) { foodItem in
-                                    MenuView(food: foodItem)
+                                    .padding()
                                 }
                             }
                         }
-                        .padding()
+                        
+                        // Menu list
+                        Text("Menu")
+                            .font(.system(size: 24, design: .rounded))
+                            .fontWeight(.bold)
+                        
+                        if filteredFoodList.isEmpty && !searchValue.isEmpty {
+                            Text("No result found")
+                                .foregroundColor(.gray)
+                        } else {
+                            ForEach(filteredFoodList) { foodItem in
+                                MenuView(food: foodItem)
+                            }
+                        }
                     }
-                    .tabItem {
-                        Image(systemName: "house.fill")
-                        Text("Home")
-                    }
-                    .tag(0)
-                    
-                    // ShoppingCartView
-                    CartView()
-                        .tabItem {
-                            //CartButton(numberOfItems: cartManager.items.count)
-                            Image(systemName: "cart.fill")
-                            Text("Cart")
-                        }
-                        .tag(1)
-                    
-                    // HistoryView
-                    HistoryView()
-                        .tabItem {
-                            Image(systemName: "clock.fill")
-                            Text("History")
-                        }
-                        .tag(2)
-                    
-                    ProfileView(isLoggedIn: $isLoggedIn) // Updated tag to 3
-                        .tabItem {
-                            Image(systemName: "person.circle.fill")
-                            Text("Profile")
-                        }
-                        .tag(3) // Updated tag to 3
-                    
+                    .padding()
                 }
-                .accentColor(Color("#F1C27B"))
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text("Home")
+                }
+                .tag(0)
+                
+                // ShoppingCartView
+                CartView()
+                    .tabItem {
+                        //CartButton(numberOfItems: cartManager.items.count)
+                        Image(systemName: "cart.fill")
+                        Text("Cart")
+                    }
+                    .tag(1)
+                
+                // HistoryView
+                HistoryView()
+                    .tabItem {
+                        Image(systemName: "clock.fill")
+                        Text("History")
+                    }
+                    .tag(2)
+                
+                ProfileView() // Updated tag to 3
+                    .tabItem {
+                        Image(systemName: "person.circle.fill")
+                        Text("Profile")
+                    }
+                    .tag(3) // Updated tag to 3
+                
             }
-            .navigationBarBackButtonHidden()
-            
-        } else {
-            LogInView()
+            .accentColor(Color("#F1C27B"))
         }
+        .navigationBarBackButtonHidden()
+            
+        
+            
+        
     }
 }
 
@@ -315,8 +313,7 @@ struct HomeView_Previews: PreviewProvider {
         
         EnvironmentWrapper {
             Group{
-                HomeView(isLoggedIn: .constant(true))
-                //HomeView(isLoggedIn: .constant(false))
+                HomeView()
             }
             
         }

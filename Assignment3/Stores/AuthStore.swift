@@ -38,6 +38,7 @@ class AuthStore : ObservableObject {
             }
 
             UserService.syncAppUserWithFirebaseUser(firebaseUser: currentUser)
+            
             UserService.getAppUser(uid: currentUser.uid, completion: {
                 appUser in
                 if let appUser {

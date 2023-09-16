@@ -17,9 +17,10 @@ struct DetailView: View {
     private let toastOpstions = SimpleToastOptions(
         alignment: .top,
         hideAfter: 1,
-        backdropColor: Color.black.opacity(0.5),
+        backdrop: Color.black.opacity(0.5),
         animation: .default,
-        modifierType: .slide
+        modifierType: .slide,
+        dismissOnTap: true
     )
     
     var body: some View {

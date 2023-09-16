@@ -8,42 +8,34 @@
 import SwiftUI
 
 struct SplashView: View {
-    @State private var isActive = false
-    @State private var size = 0.8
-    @State private var opacity = 0.5
+    
+    @Binding var size: Double
+    @Binding var opacity: Double
     
     var body: some View {
-        
-        if isActive{
-            LogInView()
-        }
-        else{
-            VStack{
-                Image("icon")
-                    .resizable()
-                    .scaledToFit()
-                    .scaleEffect(size)
-                    .opacity(opacity)
-                    .onAppear{
-                        withAnimation(.easeIn(duration: 1.2)){
-                            self.size = 0.9
-                            self.opacity = 1.0
-                        }
-                    }
-            }
-            .onAppear{
-                DispatchQueue.main.asyncAfter(deadline: .now()+2.0){
-                    withAnimation{
-                        self.isActive = true
+        VStack{
+            Spacer()
+            Image("icon")
+                .resizable()
+                .scaledToFit()
+                .scaleEffect(size)
+                .opacity(opacity)
+                .onAppear{
+                    withAnimation(.easeIn(duration: 1.2)){
+                        self.size = 0.9
+                        self.opacity = 1.0
                     }
                 }
-            }
+            Spacer()
         }
     }
 }
 
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
-        SplashView()
+        EnvironmentWrapper {
+            SplashView(
+                size: .constant(0.8), opacity: .constant(0.5))
+        }
     }
 }
