@@ -26,45 +26,9 @@ struct FoodService : FirebaseService {
             let food = try JSONDecoder().decode(Food.self, from: jsonData);
             return food
         } catch {
-            print("error")
+            print("error \(error.localizedDescription)")
             return nil
         }
-//        let id = docSnapshot.documentID
-//        let name = docSnapshot.get("name") as? String
-//        let image = docSnapshot.get("image") as? String
-//        let thumbnail = docSnapshot.get("thumbnail") as? String
-//        let category = docSnapshot.get("category") as? String
-//        let price = docSnapshot.get("price") as? Double
-//        let description = docSnapshot.get("description") as? String
-//        
-//        let calories = docSnapshot.get("calories") as? Int
-//        let rate = docSnapshot.get("rate") as? Double
-//        let comment = docSnapshot.get("comment") as? String
-//        let ingredients = docSnapshot.get("ingredients") as? [String]
-//        
-//        guard
-//            let name,
-//            let image,
-//            let thumbnail,
-//            let category,
-//            let price,
-//            let description
-//        else {
-//            return nil
-//        }
-//        
-//        return Food(id: id,
-//                    name: name,
-//                    image: image,
-//                    thumbnail: thumbnail,
-//                    category: category,
-//                    price: price,
-//                    description: description,
-//                    calories: calories,
-//                    rate: rate,
-//                    comment: comment,
-//                    ingredients: ingredients
-//                )
     }
     
     /**

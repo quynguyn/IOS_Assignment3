@@ -43,7 +43,7 @@ struct ItemRow: View {
                 
             }
             .onAppear {
-                loadImageFromURL(urlString: item.thumbnail) { image in
+                loadImageFromURL(urlString: item.thumbnail.first ?? "") { image in
                     self.foodImage = image
                 }
             }

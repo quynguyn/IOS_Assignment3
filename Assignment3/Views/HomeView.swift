@@ -210,7 +210,7 @@ struct DishCard: View {
             .shadow(radius: 5)
             .frame(width: 200)
             .onAppear {
-                loadImageFromURL(urlString: food.images?.first ?? "") { image in
+                loadImageFromURL(urlString: food.image) { image in
                     self.foodImage = image
                 }
             }
