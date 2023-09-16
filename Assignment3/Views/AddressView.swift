@@ -9,11 +9,14 @@ import SwiftUI
 import MapKit
 
 struct AddressView: View {
-    @State private var address: String = "702 Nguyen Van Linh, Tan Quy, District 7"
-    @State private var customerName: String = "Dustin"
-    @State private var phoneNumber: String = "012345678"
-    @State private var isHomeButtonPressed = false
-    @State private var isWorkButtonPressed = false
+    @EnvironmentObject private var authStore: AuthStore
+    
+    @StateObject private var mapStore = MapStore()
+    
+    @State private var address: String = ""
+    @State private var customerName: String = ""
+    @State private var phoneNumber: String = ""
+    @State private var addressType: AddressType = .home
     
     var body: some View {
         NavigationView {
@@ -77,11 +80,10 @@ struct AddressView: View {
                         HStack(spacing: 16) {
                             // Button Home
                             Button(action: {
-                                isHomeButtonPressed.toggle()
-                                isWorkButtonPressed = false
+                                self.addressType = .home
                             }) {
-                                Image(systemName: isHomeButtonPressed ? "house.fill" : "house")
-                                    .foregroundColor(isHomeButtonPressed ? Color("#F1C27B") : .gray)
+                                Image(systemName: addressType == .home ? "house.fill" : "house")
+                                    .foregroundColor(addressType == .home ? Color("#F1C27B") : .gray)
                                     .font(.title)
                                     .padding()
                             }
@@ -91,11 +93,10 @@ struct AddressView: View {
                             
                             // Button Work
                             Button(action: {
-                                isWorkButtonPressed.toggle()
-                                isHomeButtonPressed = false
+                                self.addressType = .work
                             }) {
-                                Image(systemName: isWorkButtonPressed ? "briefcase.fill" : "briefcase")
-                                    .foregroundColor(isWorkButtonPressed ? Color("#F1C27B") : .gray)
+                                Image(systemName: addressType == .work ? "briefcase.fill" : "briefcase")
+                                    .foregroundColor(addressType == .work ? Color("#F1C27B") : .gray)
                                     .font(.title)
                                     .padding()
                             }
@@ -105,7 +106,7 @@ struct AddressView: View {
                         }
                     }
                     
-                    MapView(coordinate: CLLocationCoordinate2D(latitude: 10.729303, longitude: 106.696129))
+                    MapView(mapStore: mapStore)
                         .frame(height: 250)
                     
                 }
@@ -124,6 +125,17 @@ struct AddressView: View {
                 .cornerRadius(20)
                 .shadow(radius: 5)
                 .navigationBarTitle("Address", displayMode: .inline)
+                .onChange(of: address) { newAddress in
+                    mapStore.getPlace(from: Address(title: newAddress))
+                }
+            }
+        }.onAppear {
+            self.address = authStore.user?.address ?? ""
+            self.customerName = authStore.user?.displayName ?? ""
+            self.phoneNumber = authStore.user?.phone ?? ""
+            
+            if !self.address.isEmpty {
+                mapStore.getPlace(from: Address(title: self.address))
             }
         }
     }
@@ -131,6 +143,8 @@ struct AddressView: View {
 
 struct AddressView_Previews: PreviewProvider {
     static var previews: some View {
-        AddressView()
+        EnvironmentWrapper {
+            AddressView()
+        }
     }
 }

@@ -14,26 +14,20 @@ struct Marker: Identifiable {
 }
 
 struct MapView: View {
-    var coordinate: CLLocationCoordinate2D
-    @State private var region = MKCoordinateRegion()
+    @ObservedObject var mapStore : MapStore
     
     var body: some View {
-        Map(coordinateRegion: $region, annotationItems: [Marker(location: coordinate)]) { marker in
-            MapMarker(coordinate: marker.location, tint: .red)
+        Map(coordinateRegion: $mapStore.region,
+            annotationItems: mapStore.annotationItems) { marker in
+            MapMarker(coordinate: marker.coordinate, tint: .red)
         }
-        .onAppear() {
-                setRegion(coordinate)
-        }
-    }
-    
-    private func setRegion(_ coordinate: CLLocationCoordinate2D) {
-        region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
     }
 }
 
 struct MapView_Previews: PreviewProvider {
+    static var mapStore = MapStore()
     static var previews: some View {
-        MapView(coordinate: CLLocationCoordinate2D(latitude: 10.729303, longitude: 106.696129))
+        MapView(mapStore: mapStore)
     }
 }
 
