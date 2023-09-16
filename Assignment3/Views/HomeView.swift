@@ -277,7 +277,7 @@ struct MenuView: View {
             .shadow(radius: 5)
             .frame(maxWidth:.infinity)
             .onAppear {
-                loadImageFromURL(urlString: food.thumbnail) { image in
+                loadImageFromURL(urlString: food.image) { image in
                     self.foodImage = image
                 }
             }
