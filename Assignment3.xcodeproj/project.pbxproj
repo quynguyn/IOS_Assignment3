@@ -11,6 +11,10 @@
 		101208C42AAE28BB00B45FAF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101208C32AAE28BB00B45FAF /* Constants.swift */; };
 		101208C62AAE28DF00B45FAF /* EncodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101208C52AAE28DF00B45FAF /* EncodableExtension.swift */; };
 		101208C82AAE2C6C00B45FAF /* FirebaseServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101208C72AAE2C6C00B45FAF /* FirebaseServiceProtocol.swift */; };
+		1044C62F2AB5F41E007F6305 /* MapStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1044C62E2AB5F41E007F6305 /* MapStore.swift */; };
+		1044C6312AB5F44B007F6305 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1044C6302AB5F44B007F6305 /* Address.swift */; };
+		1044C6332AB5F48A007F6305 /* AnnotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1044C6322AB5F489007F6305 /* AnnotationItem.swift */; };
+		1044C6372AB60637007F6305 /* AddressType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1044C6362AB60637007F6305 /* AddressType.swift */; };
 		1066D7B42AAF43EA00C5B86B /* FoodOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066D7B32AAF43EA00C5B86B /* FoodOrderService.swift */; };
 		1066D7B62AAF440100C5B86B /* FoodOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066D7B52AAF440100C5B86B /* FoodOrder.swift */; };
 		1066D7B82AAF4A6700C5B86B /* FoodOrderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066D7B72AAF4A6700C5B86B /* FoodOrderStore.swift */; };
@@ -73,6 +77,10 @@
 		101208C32AAE28BB00B45FAF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		101208C52AAE28DF00B45FAF /* EncodableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableExtension.swift; sourceTree = "<group>"; };
 		101208C72AAE2C6C00B45FAF /* FirebaseServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServiceProtocol.swift; sourceTree = "<group>"; };
+		1044C62E2AB5F41E007F6305 /* MapStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStore.swift; sourceTree = "<group>"; };
+		1044C6302AB5F44B007F6305 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		1044C6322AB5F489007F6305 /* AnnotationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationItem.swift; sourceTree = "<group>"; };
+		1044C6362AB60637007F6305 /* AddressType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressType.swift; sourceTree = "<group>"; };
 		1066D7B32AAF43EA00C5B86B /* FoodOrderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodOrderService.swift; sourceTree = "<group>"; };
 		1066D7B52AAF440100C5B86B /* FoodOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodOrder.swift; sourceTree = "<group>"; };
 		1066D7B72AAF4A6700C5B86B /* FoodOrderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodOrderStore.swift; sourceTree = "<group>"; };
@@ -173,6 +181,7 @@
 				10FB6A992AAB9071003ECA6D /* AuthStore.swift */,
 				1066D7B72AAF4A6700C5B86B /* FoodOrderStore.swift */,
 				45C139E32AB21C90008AECDA /* FoodStore.swift */,
+				1044C62E2AB5F41E007F6305 /* MapStore.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -251,6 +260,9 @@
 				15C77D7B2AADEED10009C600 /* Food.swift */,
 				10F1F7572AAEB74100E1D768 /* AppUser.swift */,
 				1066D7B52AAF440100C5B86B /* FoodOrder.swift */,
+				1044C6302AB5F44B007F6305 /* Address.swift */,
+				1044C6322AB5F489007F6305 /* AnnotationItem.swift */,
+				1044C6362AB60637007F6305 /* AddressType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -380,6 +392,7 @@
 				BD230BDF2AAF6F58008484EF /* CartManager.swift in Sources */,
 				45C139DA2AACB507008AECDA /* HomeView.swift in Sources */,
 				15265DD82AAAEF6300AB48A3 /* ContentView.swift in Sources */,
+				1044C62F2AB5F41E007F6305 /* MapStore.swift in Sources */,
 				101208C62AAE28DF00B45FAF /* EncodableExtension.swift in Sources */,
 				101208C42AAE28BB00B45FAF /* Constants.swift in Sources */,
 				1066D7BA2AAF517D00C5B86B /* Utils.swift in Sources */,
@@ -410,11 +423,14 @@
 				15C77D742AADEEAC0009C600 /* SignUpView.swift in Sources */,
 				15C77D732AADEEAC0009C600 /* CustomSetUp.swift in Sources */,
 				15C77D752AADEEAC0009C600 /* LogInView.swift in Sources */,
+				1044C6312AB5F44B007F6305 /* Address.swift in Sources */,
 				10F1F7562AAEB35F00E1D768 /* UserService.swift in Sources */,
 				45C139E62AB226C9008AECDA /* AsyncImage.swift in Sources */,
+				1044C6372AB60637007F6305 /* AddressType.swift in Sources */,
 				15C77D792AADEEC30009C600 /* AccountService.swift in Sources */,
 				15265DD62AAAEF6300AB48A3 /* Assignment3App.swift in Sources */,
 				10A3C3F42AACA9C400937127 /* AuthService.swift in Sources */,
+				1044C6332AB5F48A007F6305 /* AnnotationItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

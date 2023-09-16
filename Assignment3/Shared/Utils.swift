@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct DateUtils {
     static func getDateFromString(_ str: String) -> Date? {
@@ -16,4 +17,22 @@ struct DateUtils {
         return dateFormatter.date(from: str)
     }
 
+}
+
+struct FirestoreUtils {
+    static func fromFirebaseDocument<T : Decodable>(documentSnapshot: DocumentSnapshot) -> T? {
+        do {
+            let jsonObject = documentSnapshot.data()
+            guard var jsonObject else {
+                return nil
+            }
+            jsonObject.updateValue(documentSnapshot.documentID, forKey: "id")
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonObject)
+            return try JSONDecoder().decode(T.self, from: jsonData);
+            
+        } catch {
+            print("error \(error.localizedDescription)")
+            return nil
+        }
+    }
 }

@@ -16,19 +16,7 @@ struct FoodService : FirebaseService {
     
     // This is used in FoodStore to convert Firebase document snapshot to Food object
     static func fromFirebaseDocument(_ docSnapshot: DocumentSnapshot) -> Food? {
-        do {
-            let jsonObject = docSnapshot.data()
-            guard var jsonObject else {
-                return nil
-            }
-            jsonObject.updateValue(docSnapshot.documentID, forKey: "id")
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonObject)
-            let food = try JSONDecoder().decode(Food.self, from: jsonData);
-            return food
-        } catch {
-            print("error \(error.localizedDescription)")
-            return nil
-        }
+        return FirestoreUtils.fromFirebaseDocument(documentSnapshot: docSnapshot)
     }
     
     /**
