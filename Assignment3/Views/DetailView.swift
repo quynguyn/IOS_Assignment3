@@ -142,7 +142,7 @@ let burger = Food(
     id: "123",
     name: "Delicious Burger",
     image: "burger",
-    thumbnail: "burger_thumbnail",
+    thumbnail: ["burger_thumbnail"],
     category: "Fast Food",
     price: 9.99,
     description: "A mouthwatering burger with all the toppings.",
