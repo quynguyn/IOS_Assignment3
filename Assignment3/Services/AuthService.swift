@@ -60,6 +60,7 @@ struct AuthService {
         password: String,
         phone: String?,
         address: String?,
+        name: String?,
         onSuccess: @escaping () -> Void = {},
         onError: @escaping (_ error: any Error) -> Void = {error in }
     ) {
@@ -70,7 +71,7 @@ struct AuthService {
             }
             
             if let authResult {
-                let extraInfo = UpdateAppUser(displayName: nil,
+                let extraInfo = UpdateAppUser(displayName: name,
                                               address: address,
                                               phone: phone)
                 UserService.createAppUserFromFirebaseUser(firebaseUser: authResult.user, extraInfo: extraInfo)

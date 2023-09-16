@@ -59,11 +59,11 @@ struct UserService : FirebaseService {
     static func syncAppUserWithFirebaseUser(firebaseUser: User) {
         var syncData: [String : Any] = [:]
         
-        if let email = firebaseUser.email {
+        if let email = firebaseUser.email, !email.isEmpty {
             syncData["email"] = email
         }
         
-        if let displayName = firebaseUser.displayName {
+        if let displayName = firebaseUser.displayName, !displayName.isEmpty {
             syncData["displayName"] = displayName
         }
         
@@ -71,7 +71,7 @@ struct UserService : FirebaseService {
             return
         }
         
-        Firestore.firestore().collection(USERS_COLLECTION_PATH).document(firebaseUser.uid).setData(syncData)
+        Firestore.firestore().collection(USERS_COLLECTION_PATH).document(firebaseUser.uid).updateData(syncData)
     }
     
     static func createAppUserFromFirebaseUser(firebaseUser: User, extraInfo: UpdateAppUser?) {
@@ -80,7 +80,9 @@ struct UserService : FirebaseService {
                               displayName: extraInfo?.displayName ?? firebaseUser.displayName,
                               address: extraInfo?.address,
                               phone: extraInfo?.phone ?? firebaseUser.phoneNumber)
-        Self.create(appUser, onSuccess: {}, onError: {err in })
+        Self.create(appUser, onSuccess: {}, onError: {err in
+            print("error in creating user: \(err.localizedDescription)")
+        })
     }
     
     static func getAppUser(

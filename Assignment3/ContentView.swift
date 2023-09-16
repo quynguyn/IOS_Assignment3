@@ -8,19 +8,37 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isActive = false
+    @State private var size = 0.8
+    @State private var opacity = 0.5
+    
+    @EnvironmentObject private var authStore : AuthStore
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        if isActive {
+            if authStore.user == nil {
+                LogInView()
+            }
+            else {
+                HomeView()
+            }
         }
-        .padding()
+        else {
+            SplashView(size: $size, opacity: $opacity).onAppear{
+                DispatchQueue.main.asyncAfter(deadline: .now()+2.0){
+                    withAnimation{
+                        self.isActive = true
+                    }
+                }
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        EnvironmentWrapper {
+            ContentView()
+        }
     }
 }

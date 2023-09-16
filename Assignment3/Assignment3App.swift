@@ -17,7 +17,7 @@ struct Assignment3App: App {
     var body: some Scene {
         WindowGroup {
             EnvironmentWrapper {
-                SplashView()
+                ContentView()
             }
         }
     }

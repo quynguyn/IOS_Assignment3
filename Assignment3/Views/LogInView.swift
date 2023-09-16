@@ -16,6 +16,17 @@ struct LogInView: View {
     @State private var alertMessage = ""
     @State private var isLoggedIn = false
     
+    @EnvironmentObject private var authStore : AuthStore
+    
+    private func handleSuccessLogIn() {
+        self.isLoggedIn = true
+    }
+    
+    private func handleErrorLogIn(_ error: Error) {
+        self.showAlert = true
+        self.alertMessage = error.localizedDescription
+    }
+    
     var body: some View {
         NavigationView{
             VStack {
@@ -62,17 +73,7 @@ struct LogInView: View {
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 15).stroke(Color(hex: 0x85a389), lineWidth: 3))
                 }
-                
-                if isLoggedIn {
-                    // https://stackoverflow.com/questions/62348642/how-to-switch-to-another-view-programmatically-in-swiftui-without-a-button-pres
-                    NavigationLink(
-                        destination: HomeView(isLoggedIn: $isLoggedIn),
-                        isActive: $isLoggedIn,
-                        label: { EmptyView() }
-                    )
-                    .hidden()
-                }
-                
+                    //https://stackoverflow.com/questions/62348642/how-to-switch-to-another-view-programmatically-in-swiftui-without-a-button-pres
                 HStack {
                     Image(systemName: "door.right.hand.open")
                     Button("Log In") {
@@ -84,7 +85,11 @@ struct LogInView: View {
                             // Perform login action (e.g., using Firebase)
                             // If successful, navigate to the main app screen
                             // If failed, show an error message
-                            isLoggedIn = true
+                            AuthService.signInWithEmailAndPassword(
+                                email: self.email,
+                                password: self.password,
+                                onSuccess: self.handleSuccessLogIn,
+                                onError: self.handleErrorLogIn)
                         }
                     }
                    
@@ -103,7 +108,7 @@ struct LogInView: View {
                     Text("Don't have an Account?")
                         .foregroundColor(.gray)
                     
-                    NavigationLink(destination: SignUpView(isLoggedIn: $isLoggedIn)) {
+                    NavigationLink(destination: SignUpView()) {
                         Text("Create")
                             .bold()
                             .foregroundColor(Color(hex: 0x85a389))
@@ -112,7 +117,7 @@ struct LogInView: View {
                 .padding()
                 
                 GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .wide, state: .normal)) {
-                    
+                    AuthService.signInWithGoogle(onSuccess: {}, onError: handleErrorLogIn)
                 }
                 
                 
@@ -135,6 +140,9 @@ struct LogInView: View {
 
 struct LogIn_Previews: PreviewProvider {
     static var previews: some View {
-        LogInView()
+        EnvironmentWrapper {
+            LogInView()
+        }
+        
     }
 }
