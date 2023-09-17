@@ -15,7 +15,7 @@ struct ContentView: View {
     @EnvironmentObject private var authStore : AuthStore
     
     var body: some View {
-        if isActive {
+        if isActive && !authStore.isLoadingAuthState {
             if authStore.user == nil {
                 LogInView()
             }

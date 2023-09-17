@@ -28,11 +28,15 @@ class AuthStore : ObservableObject {
     @Published
     var user: AppUser?
     
+    @Published
+    var isLoadingAuthState = true
+    
     private var handle: AuthStateDidChangeListenerHandle?
     
     init() {
         self.handle = Auth.auth().addStateDidChangeListener { auth, user in
             guard let currentUser = user else {
+                self.isLoadingAuthState = false
                 self.user = nil
                 return
             }
@@ -41,6 +45,7 @@ class AuthStore : ObservableObject {
             
             UserService.getAppUser(uid: currentUser.uid, completion: {
                 appUser in
+                self.isLoadingAuthState = false
                 if let appUser {
                     self.user = appUser
                 }
