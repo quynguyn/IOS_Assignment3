@@ -18,6 +18,10 @@ struct CreateFoodOrder : Codable {
     let foodIdList: [String]
     let status: FoodOrderStatus
     let orderedAt: Date
+    
+    let deliveryAddress: String
+    let contactName: String
+    let contactPhone: String
 }
 
 struct UpdateFoodOrder : Codable {
@@ -36,6 +40,10 @@ struct FoodOrder : Identifiable, Codable, Hashable {
     let foodIdList: [String]
     let status: FoodOrderStatus
     let orderedAt: Date
+    
+    let deliveryAddress: String?
+    let contactName: String?
+    let contactPhone: String?
 }
 
 struct FoodOrderWithFoodList {
@@ -44,4 +52,8 @@ struct FoodOrderWithFoodList {
     let foodList: [Food]
     let status: FoodOrderStatus
     let orderedAt: Date
+    
+    let deliveryAddress: String?
+    let contactName: String?
+    let contactPhone: String?
 }
