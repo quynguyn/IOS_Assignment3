@@ -9,9 +9,9 @@ import SwiftUI
 import Firebase
 
 struct HomeView: View {
-    @StateObject var cartManager = CartManager()
     @StateObject private var foodStore = FoodStore()
     @EnvironmentObject private var authStore : AuthStore
+    @EnvironmentObject private var cartManager : CartManager
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
 
@@ -130,10 +130,9 @@ struct HomeView: View {
             .accentColor(Color("#F1C27B"))
         }
         .navigationBarBackButtonHidden()
-            
-        
-            
-        
+        .onAppear {
+            self.cartManager.loadFromUserDefaults()
+        }
     }
 }
 
