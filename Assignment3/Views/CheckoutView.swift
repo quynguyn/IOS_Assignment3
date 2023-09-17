@@ -15,6 +15,8 @@ struct CheckoutView: View {
     @State private var showToast = false
     @State private var address: Address
     
+    @State private var isPlacingOrder = false
+    
     var user : AppUser
     
     init(user: AppUser) {
@@ -37,107 +39,109 @@ struct CheckoutView: View {
     )
     
     var body: some View {
-        VStack {
-            VStack(alignment: .leading, spacing: 30) {
-                // MARK: - Address section
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Image(systemName: "map.fill")
-                            .font(.system(size: 20, design: .rounded))
-                            .foregroundColor(Color("#F1C27B"))
-                        
-                        Text("Address")
-                            .font(.system(size: 24, design: .rounded))
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("#F1C27B"))
-                    }
-
-                    NavigationLink(destination: AddressView(
-                        address: $address
-                    )) {
-                        HStack(spacing: 10) {
-                            Text($address.deliveryAddress.wrappedValue ?? "")
-                                .foregroundColor(.black)
-                                .lineLimit(1)
+        LoadingView(isShowing: $isPlacingOrder) {
+            VStack {
+                VStack(alignment: .leading, spacing: 30) {
+                    // MARK: - Address section
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Image(systemName: "map.fill")
+                                .font(.system(size: 20, design: .rounded))
+                                .foregroundColor(Color("#F1C27B"))
                             
-                            Spacer()
-                            
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.black)
+                            Text("Address")
+                                .font(.system(size: 24, design: .rounded))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("#F1C27B"))
                         }
-                    }
-                    .padding()
-                    .background(Color(.tertiarySystemBackground))
-                    .cornerRadius(20)
-                    .shadow(radius: 5)
-                    .frame(maxWidth:.infinity)
-                }
-                
-                // MARK: - Your Order section
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Image(systemName: "fork.knife")
-                            .font(.system(size: 20, design: .rounded))
-                            .foregroundColor(Color("#F1C27B"))
                         
-                        Text("Your Order")
-                            .font(.system(size: 24, design: .rounded))
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("#F1C27B"))
-                    }
-
-                    ScrollView(.vertical) {
-                        VStack(spacing: 10) {
-                            ForEach(cartManager.items, id: \.id) { item in
-                                YourOrderView(item: item)
+                        NavigationLink(destination: AddressView(
+                            address: $address
+                        )) {
+                            HStack(spacing: 10) {
+                                Text($address.deliveryAddress.wrappedValue ?? "")
+                                    .foregroundColor(.black)
+                                    .lineLimit(1)
+                                
+                                Spacer()
+                                
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.black)
                             }
                         }
                         .padding()
+                        .background(Color(.tertiarySystemBackground))
+                        .cornerRadius(20)
+                        .shadow(radius: 5)
+                        .frame(maxWidth:.infinity)
                     }
-                }
-                
-                // MARK: - Your Order section
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Image(systemName: "doc.plaintext")
-                            .font(.system(size: 20, design: .rounded))
-                            .foregroundColor(Color("#F1C27B"))
+                    
+                    // MARK: - Your Order section
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Image(systemName: "fork.knife")
+                                .font(.system(size: 20, design: .rounded))
+                                .foregroundColor(Color("#F1C27B"))
+                            
+                            Text("Your Order")
+                                .font(.system(size: 24, design: .rounded))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("#F1C27B"))
+                        }
                         
-                        Text("Payment Detail")
-                            .font(.system(size: 24, design: .rounded))
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("#F1C27B"))
+                        ScrollView(.vertical) {
+                            VStack(spacing: 10) {
+                                ForEach(cartManager.items, id: \.id) { item in
+                                    YourOrderView(item: item)
+                                }
+                            }
+                            .padding()
+                        }
                     }
-
-                    PaymentDetailView()
+                    
+                    // MARK: - Your Order section
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Image(systemName: "doc.plaintext")
+                                .font(.system(size: 20, design: .rounded))
+                                .foregroundColor(Color("#F1C27B"))
+                            
+                            Text("Payment Detail")
+                                .font(.system(size: 24, design: .rounded))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("#F1C27B"))
+                        }
+                        
+                        PaymentDetailView()
+                    }
                 }
-            }
-            .padding()
-            
-            Button(action: {
-                placeOrder()
-            }) {
-                Text("Place Order")
-                    .font(.system(size: 18, design: .rounded))
-                    .fontWeight(.medium)
+                .padding()
                 
-                    .foregroundColor(.white)
-                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                Button(action: {
+                    placeOrder()
+                }) {
+                    Text("Place Order")
+                        .font(.system(size: 18, design: .rounded))
+                        .fontWeight(.medium)
+                    
+                        .foregroundColor(.white)
+                        .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                }
+                .background(Color(hex: 0xa2cdb0))
+                .cornerRadius(20)
+                .shadow(radius: 5)
             }
-            .background(Color(hex: 0xa2cdb0))
-            .cornerRadius(20)
-            .shadow(radius: 5)
-        }
-        .navigationBarTitle("Checkout", displayMode: .inline)
-        .simpleToast(isPresented: $showToast, options: toastOpstions){
-            HStack{
-                Image(systemName: "checkmark.seal.fill")
-                Text("Order placed successfully !").bold()
-            }
+            .navigationBarTitle("Checkout", displayMode: .inline)
+            .simpleToast(isPresented: $showToast, options: toastOpstions){
+                HStack{
+                    Image(systemName: "checkmark.seal.fill")
+                    Text("Order placed successfully !").bold()
+                }
                 .padding(20)
                 .background(Color(hex: 0xf1c27b))
                 .foregroundColor(Color.white)
                 .cornerRadius(15)
+            }
         }
     }
 }
@@ -161,11 +165,15 @@ extension CheckoutView {
             contactPhone: self.address.contactPhone ?? ""
         )
         
+        isPlacingOrder = true
+        
         FoodOrderService.create(orderToCreate, onSuccess: {
             print("Order placed successfully!")
+            isPlacingOrder = false
             showToast = true
             cartManager.emptyCart()
         }, onError: { error in
+            isPlacingOrder = false
             print("Error placing order: \(error.localizedDescription)")
         })
     }
