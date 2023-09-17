@@ -29,4 +29,11 @@ class CartManager: ObservableObject {
             result + food.price
         }
     }
+    
+    //Empty cart after placing order
+    func emptyCart() {
+        items.removeAll()
+        total = 0
+    }
+
 }
