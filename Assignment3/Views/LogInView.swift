@@ -14,12 +14,10 @@ struct LogInView: View {
     @State private var password = ""
     @State private var showAlert = false
     @State private var alertMessage = ""
-    @State private var isLoggedIn = false
-    
     @EnvironmentObject private var authStore : AuthStore
     
     private func handleSuccessLogIn() {
-        self.isLoggedIn = true
+        
     }
     
     private func handleErrorLogIn(_ error: Error) {
