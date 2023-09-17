@@ -21,6 +21,10 @@ struct FoodOrderService : FirebaseService {
         let status = docSnapshot.get("status") as? FoodOrderStatus
         let orderedAtDateString = docSnapshot.get("orderedAt") as? String
         
+        let deliveryAddress = docSnapshot.get("deliveryAddress") as? String
+        let contactName = docSnapshot.get("contactName") as? String
+        let contactPhone = docSnapshot.get("contactPhone") as? String
+        
         let orderedAt = orderedAtDateString != nil ? DateUtils.getDateFromString(orderedAtDateString!) : nil
         
         
@@ -32,7 +36,11 @@ struct FoodOrderService : FirebaseService {
                          userId: userId,
                          foodIdList: foodIdList,
                          status: status,
-                         orderedAt: orderedAt)
+                         orderedAt: orderedAt,
+                         deliveryAddress: deliveryAddress,
+                         contactName: contactName,
+                         contactPhone: contactPhone
+        )
     }
     
     static func toFirebaseDocument(_ order: CreateFoodOrder) -> [String : Any] {

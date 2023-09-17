@@ -9,5 +9,7 @@ import Foundation
 
 struct Address : Identifiable {
     let id = UUID()
-    let title: String
+    var deliveryAddress: String?
+    var contactName: String?
+    var contactPhone: String?
 }

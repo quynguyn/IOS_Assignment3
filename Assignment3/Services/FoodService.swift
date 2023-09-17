@@ -112,7 +112,11 @@ struct FoodService : FirebaseService {
                 userId: foodOrder.userId,
                 foodList: foods,
                 status: foodOrder.status,
-                orderedAt: foodOrder.orderedAt)
+                orderedAt: foodOrder.orderedAt,
+                deliveryAddress: foodOrder.deliveryAddress,
+                contactName: foodOrder.contactName,
+                contactPhone: foodOrder.contactPhone
+            )
         } catch {
             return nil
         }

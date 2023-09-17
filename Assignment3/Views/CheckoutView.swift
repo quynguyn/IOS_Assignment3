@@ -10,9 +10,22 @@ import Firebase
 import SimpleToast
 
 struct CheckoutView: View {
-    @EnvironmentObject var cartManager: CartManager
+    @EnvironmentObject private var cartManager: CartManager
     @EnvironmentObject private var authStore : AuthStore
     @State private var showToast = false
+    @State private var address: Address
+    
+    var user : AppUser
+    
+    init(user: AppUser) {
+        self.user = user
+        
+        _address = State(initialValue: Address(
+            deliveryAddress: user.address,
+            contactName: user.displayName,
+            contactPhone: user.phone
+        ))
+    }
     
     private let toastOpstions = SimpleToastOptions(
         alignment: .top,
@@ -38,10 +51,12 @@ struct CheckoutView: View {
                             .fontWeight(.bold)
                             .foregroundColor(Color("#F1C27B"))
                     }
-                    
-                    NavigationLink(destination: AddressView()) {
+
+                    NavigationLink(destination: AddressView(
+                        address: $address
+                    )) {
                         HStack(spacing: 10) {
-                            Text("702 Nguyen Van Linh, Tan Quy, District 7")
+                            Text($address.deliveryAddress.wrappedValue ?? "")
                                 .foregroundColor(.black)
                                 .lineLimit(1)
                             
@@ -101,7 +116,6 @@ struct CheckoutView: View {
             
             Button(action: {
                 placeOrder()
-                showToast.toggle()
             }) {
                 Text("Place Order")
                     .font(.system(size: 18, design: .rounded))
@@ -141,11 +155,15 @@ extension CheckoutView {
             userId: userId,
             foodIdList: foodIds,
             status: .pending,
-            orderedAt: Date()
+            orderedAt: Date(),
+            deliveryAddress: self.address.deliveryAddress ?? "",
+            contactName: self.address.contactName ?? "",
+            contactPhone: self.address.contactPhone ?? ""
         )
         
         FoodOrderService.create(orderToCreate, onSuccess: {
             print("Order placed successfully!")
+            showToast = true
             cartManager.emptyCart()
         }, onError: { error in
             print("Error placing order: \(error.localizedDescription)")
@@ -238,7 +256,7 @@ struct PaymentDetailView: View {
 
 struct CheckoutView_Previews: PreviewProvider {
     static var previews: some View {
-        CheckoutView()
+        CheckoutView(user: AppUser(uid: "1", email: "johndoe@email.com", displayName: "John Doe", address: "23B Baker Street", phone: "911"))
             .environmentObject(CartManager())
     }
 }

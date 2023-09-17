@@ -9,14 +9,25 @@ import SwiftUI
 import MapKit
 
 struct AddressView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject private var authStore: AuthStore
     
     @StateObject private var mapStore = MapStore()
     
-    @State private var address: String = ""
-    @State private var customerName: String = ""
-    @State private var phoneNumber: String = ""
+    @State private var deliveryAddress: String = ""
+    @State private var contactName: String = ""
+    @State private var contactPhone: String = ""
     @State private var addressType: AddressType = .home
+    
+    @Binding var address : Address
+    
+    private func saveAddress() {
+        address.deliveryAddress = self.deliveryAddress
+        address.contactName = self.contactName
+        address.contactPhone = self.contactPhone
+        print("save address \(address)")
+        presentationMode.wrappedValue.dismiss()
+    }
     
     var body: some View {
         NavigationView {
@@ -36,7 +47,7 @@ struct AddressView: View {
                         }
                         
                         HStack {
-                            EditableText(text: $customerName)
+                            EditableText(text: $contactName)
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
@@ -45,7 +56,7 @@ struct AddressView: View {
                         .frame(maxWidth:.infinity)
                         
                         HStack {
-                            EditableText(text: $phoneNumber)
+                            EditableText(text: $contactPhone)
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
@@ -68,7 +79,7 @@ struct AddressView: View {
                         }
                         
                         HStack {
-                            EditableText(text: $address)
+                            EditableText(text: $deliveryAddress)
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
@@ -112,9 +123,7 @@ struct AddressView: View {
                 }
                 .padding()
                 
-                Button(action: {
-                    
-                }) {
+                Button(action: saveAddress) {
                     Text("Save Address")
                         .font(.system(size: 18, design: .rounded))
                         .fontWeight(.medium)
@@ -125,17 +134,17 @@ struct AddressView: View {
                 .cornerRadius(20)
                 .shadow(radius: 5)
                 .navigationBarTitle("Address", displayMode: .inline)
-                .onChange(of: address) { newAddress in
-                    mapStore.getPlace(from: Address(title: newAddress))
+                .onChange(of: deliveryAddress) { address in
+                    mapStore.getPlace(from: address)
                 }
             }
         }.onAppear {
-            self.address = authStore.user?.address ?? ""
-            self.customerName = authStore.user?.displayName ?? ""
-            self.phoneNumber = authStore.user?.phone ?? ""
+            self.deliveryAddress = address.deliveryAddress ?? ""
+            self.contactName = address.contactName ?? ""
+            self.contactPhone = address.contactPhone ?? ""
             
-            if !self.address.isEmpty {
-                mapStore.getPlace(from: Address(title: self.address))
+            if !self.deliveryAddress.isEmpty {
+                mapStore.getPlace(from: self.deliveryAddress)
             }
         }
     }
@@ -144,7 +153,11 @@ struct AddressView: View {
 struct AddressView_Previews: PreviewProvider {
     static var previews: some View {
         EnvironmentWrapper {
-            AddressView()
+            AddressView(address: .constant(Address(
+                deliveryAddress: "702 Nguyen Van Linh, Tan Quy, District 7",
+                contactName: "John Doe",
+                contactPhone: "123456"
+            )))
         }
     }
 }

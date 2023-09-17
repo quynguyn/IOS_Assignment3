@@ -13,11 +13,10 @@ class MapStore : ObservableObject {
     @Published var region = MKCoordinateRegion()
     @Published var annotationItems: [AnnotationItem] = []
     
-    func getPlace(from address: Address) {
+    func getPlace(from address: String) {
         let request = MKLocalSearch.Request()
-        let title = address.title
         
-        request.naturalLanguageQuery = title
+        request.naturalLanguageQuery = address
         
         Task {
             let response = try await MKLocalSearch(request: request).start()

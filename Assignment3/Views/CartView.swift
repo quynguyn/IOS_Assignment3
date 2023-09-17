@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
+    @EnvironmentObject var authStore: AuthStore
     @State private var selectedTab: Int = 0
     
     var body: some View {
@@ -40,7 +41,7 @@ struct CartView: View {
                         .bold()
                 }
                 NavigationLink {
-                    CheckoutView()
+                    CheckoutView(user: authStore.user!)
                 } label: {
                     Text("Check out")
                         .bold()
