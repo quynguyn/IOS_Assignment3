@@ -50,7 +50,11 @@ struct CartView: View {
                         .background(Color("#A2CDB0"))
                         .cornerRadius(10)
                         .padding()
-                }.padding()
+                }
+                .disabled(cartManager.items.isEmpty) // Disable the button if cart is empty
+                .opacity(cartManager.items.isEmpty ? 0.5 : 1)
+                .padding()
+                
             }.frame(maxWidth: .infinity, minHeight: 150, alignment: .bottom)
         }
         .padding(.top)

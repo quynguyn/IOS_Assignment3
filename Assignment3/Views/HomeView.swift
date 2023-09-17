@@ -15,7 +15,7 @@ struct HomeView: View {
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
 
-    var foodCategories = ["All", "Noddle Dishes", "Dessert", "Rice Dishes", "Sandwich", "Salad"]
+    var foodCategories = ["All", "Noodle Dishes", "Dessert", "Rice Dishes", "Sandwich", "Salad"]
     
     @State private var selectedCategory = "All"
     
