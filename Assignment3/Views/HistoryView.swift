@@ -8,15 +8,27 @@
 import SwiftUI
 
 struct HistoryView: View {
+    @EnvironmentObject private var foodOrderStore : FoodOrderStore
+    
     var body: some View {
         ScrollView {
-            Text("You haven't ordered anything.")
+            if foodOrderStore.foodOrders.isEmpty {
+                Text("You haven't ordered anything.")
+            }
+            else {
+                ForEach(foodOrderStore.foodOrders, id: \.id) { order in
+                    Text(order.orderedAt.ISO8601Format())
+                }
+            }
+            
         }
     }
 }
 
 struct HistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        HistoryView()
+        EnvironmentWrapper {
+            HistoryView()
+        }
     }
 }
