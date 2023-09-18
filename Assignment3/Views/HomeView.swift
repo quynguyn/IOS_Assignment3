@@ -12,6 +12,7 @@ struct HomeView: View {
     @StateObject private var foodStore = FoodStore()
     @EnvironmentObject private var authStore : AuthStore
     @EnvironmentObject private var cartManager : CartManager
+    @EnvironmentObject private var foodOrderStore : FoodOrderStore
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
 
@@ -131,7 +132,10 @@ struct HomeView: View {
         }
         .navigationBarBackButtonHidden()
         .onAppear {
-            self.cartManager.loadFromUserDefaults()
+            if let user = authStore.user {
+                self.cartManager.loadFromUserDefaults()
+                self.foodOrderStore.listenToFoodOrderList(userId: user.uid)
+            }
         }
     }
 }

@@ -7,26 +7,45 @@
 
 import Foundation
 import FirebaseAuth
+import FirebaseFirestore
+
 @MainActor
 class FoodOrderStore : ObservableObject {
     @Published var foodOrders: [FoodOrderWithFoodList] = []
     
-    init(userId: String) {
-        Task.init {
-            await self.initFoodOrderList(userId: userId)
-        }
+    private var listener : ListenerRegistration?
+    
+    func listenToFoodOrderList(userId: String) {
+        self.listener?.remove()
+        self.listener = Firestore
+           .firestore()
+           .collection(FOOD_ORDERS_COLLECTION_PATH)
+           .whereField("userId", isEqualTo: userId).addSnapshotListener {
+               (querySnapshot, error) in
+               guard let documents = querySnapshot?.documents else {
+                   return;
+               }
+               
+               Task.init(priority: .high) {
+                   let foodOrderList = documents.compactMap(FoodOrderService.fromFirebaseDocument)
+                   
+                   var foodOrdersWithFoodList: [FoodOrderWithFoodList] = []
+                   
+                   for order in foodOrderList {
+                       let foodListFromOrder = await FoodService.getManyFoods(idList: order.foodIdList)
+                       
+                       let foodOrderWithFoodList = FoodOrderWithFoodList(userId: userId, foodOrder: order, foodList: foodListFromOrder)
+                       
+                       foodOrdersWithFoodList.append(foodOrderWithFoodList)
+                   }
+                   
+                   self.foodOrders = foodOrdersWithFoodList
+               }
+           }
     }
     
-    private func initFoodOrderList(userId: String) async {
-        let foodOrderListOfUser = await FoodOrderService.getFoodOrderList(userId: userId)
-        
-        for foodOrder in foodOrderListOfUser {
-            let foodOrderWithFoodList = await FoodService.getFoodList(foodOrder: foodOrder)
-            
-            if let foodOrderWithFoodList {
-                foodOrders.append(foodOrderWithFoodList)
-            }
-        }
+    deinit {
+        self.listener?.remove()
     }
     
 }
