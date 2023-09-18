@@ -17,6 +17,7 @@ class FoodStore : ObservableObject {
     
     private var db = Firestore.firestore()
     private var filteringCategory = "All"
+    private var filteringName: String?
     
     init() {
         self.findFoodList()
@@ -30,6 +31,7 @@ class FoodStore : ObservableObject {
             do {
                 var query = self.db.collection(FOODS_COLLECTION_PATH)
                     .limit(to: self.currentPage * FOOD_PER_PAGE)
+                
                 if (self.filteringCategory != "All") {
                     query = query.whereField("category", in: [self.filteringCategory])
                 }
@@ -47,7 +49,6 @@ class FoodStore : ObservableObject {
     
     func nextPage() {
         currentPage += 1
-        print("next Page")
         findFoodList()
     }
     
@@ -55,10 +56,29 @@ class FoodStore : ObservableObject {
         currentPage = 1;
     }
     
+    func filterByName(name: String) {
+        self.filteringName = name
+    }
+    
     func filterByCategory(category: String) {
+        if (category == self.filteringCategory){
+            return
+        }
+        
         self.resetPage()
         self.filteringCategory = category
         self.findFoodList()
+    }
+    
+    var filteredList: [Food] {
+        guard let searchTerm = self.filteringName, !searchTerm.isEmpty else {
+            return self.foodList
+        }
+        
+        return self.foodList.filter {
+            food in
+            food.name.lowercased().contains(searchTerm.lowercased())
+        }
     }
     
     var top5RatedFoods: [Food] {

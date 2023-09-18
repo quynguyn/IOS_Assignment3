@@ -68,15 +68,15 @@ struct HomeView: View {
                             .font(.system(size: 24, design: .rounded))
                             .fontWeight(.bold)
                         
-                        if foodStore.foodList.isEmpty && !searchValue.isEmpty {
+                        if foodStore.filteredList.isEmpty && !searchValue.isEmpty {
                             Text("No result found")
                                 .foregroundColor(.gray)
                         } else {
                             LazyVStack {
-                                ForEach(foodStore.foodList, id: \.self) { foodItem in
+                                ForEach(foodStore.filteredList, id: \.self) { foodItem in
                                     MenuView(food: foodItem)
                                         .onAppear {
-                                            let isLast = foodItem == foodStore.foodList.last
+                                            let isLast = foodItem == foodStore.filteredList.last
                                             if isLast {
                                                 self.foodStore.nextPage()
                                             }
@@ -131,7 +131,11 @@ struct HomeView: View {
                 self.cartManager.loadFromUserDefaults()
                 self.foodOrderStore.listenToFoodOrderList(userId: user.uid)
             }
-        }.onChange(of: selectedCategory) { category in
+        }
+        .onChange(of: searchValue) { search in
+            self.foodStore.filterByName(name: search)
+        }
+        .onChange(of: selectedCategory) { category in
             self.foodStore.filterByCategory(category: category)
         }
     }
