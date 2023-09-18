@@ -24,7 +24,10 @@ struct ActivityIndicator: UIViewRepresentable {
 struct LoadingView<Content>: View where Content: View {
 
     @Binding var isShowing: Bool
+    var loadingText = "Loading..."
     var content: () -> Content
+    
+    
 
     var body: some View {
         GeometryReader { geometry in
@@ -35,7 +38,7 @@ struct LoadingView<Content>: View where Content: View {
                     .blur(radius: self.isShowing ? 3 : 0)
 
                 VStack {
-                    Text("Loading...")
+                    Text(loadingText)
                     ActivityIndicator(isAnimating: .constant(true), style: .large)
                 }
                 .frame(width: geometry.size.width / 2,

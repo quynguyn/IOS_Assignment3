@@ -15,7 +15,7 @@ struct CartView: View {
     var body: some View {
         VStack {
             GeometryReader { geo in
-                NavigationView {
+                VStack {
                     ScrollView {
                         VStack {
                             if (cartManager.items.count > 0) {
@@ -66,7 +66,7 @@ struct CartView: View {
 
 struct CartView_Previews: PreviewProvider {
     static var previews: some View {
-        CartView()
-            .environmentObject(CartManager())
+            CartView()
+                .environmentObject(CartManager())
     }
 }
