@@ -33,7 +33,6 @@ private func saveCartToUserDefaults(userId: String, foods: [Food]) {
 
 class CartManager: ObservableObject {
     @Published private(set) var items: [Food] = []
-    @Published private(set) var total: Double = 0
     
     func loadFromUserDefaults() {
         guard let user = Auth.auth().currentUser else {
@@ -55,15 +54,12 @@ class CartManager: ObservableObject {
     
     func addToCart(item: Food) {
         items.append(item)
-        total += item.price
-        
         self.saveToUserDefaults()
     }
     
     func deleteFromCart(item: Food) {
         if let removeItem = items.firstIndex(where: {$0.id == item.id}) {
             items.remove(at: removeItem)
-            total -= item.price
         }
         
         self.saveToUserDefaults()
@@ -79,7 +75,6 @@ class CartManager: ObservableObject {
     //Empty cart after placing order
     func emptyCart() {
         items.removeAll()
-        total = 0
         
         self.saveToUserDefaults()
     }
