@@ -35,7 +35,7 @@ struct SignUpView: View {
     
     var body: some View {
         LoadingView(isShowing: self.$isSigningUp) {
-            NavigationView{
+            VStack {
                 VStack {
                     Image("icon")
                         .resizable()

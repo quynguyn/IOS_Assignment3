@@ -30,7 +30,7 @@ struct AddressView: View {
     }
     
     var body: some View {
-        NavigationView {
+        VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
                     // MARK: - Contact section

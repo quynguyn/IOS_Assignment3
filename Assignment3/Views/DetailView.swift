@@ -17,14 +17,13 @@ struct DetailView: View {
     private let toastOpstions = SimpleToastOptions(
         alignment: .top,
         hideAfter: 1,
-        backdrop: Color.black.opacity(0.5),
         animation: .default,
         modifierType: .slide,
         dismissOnTap: true
     )
     
     var body: some View {
-        NavigationView {
+        VStack {
             VStack(spacing: 20) {
                 
                 if let uiImage = foodImage {
@@ -134,8 +133,7 @@ struct DetailView: View {
 
 struct detailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(food: burger)
-            .environmentObject(CartManager())
+        DetailView(food: burger).environmentObject(CartManager())
     }
 }
 
