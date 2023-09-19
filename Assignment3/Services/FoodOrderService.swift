@@ -75,18 +75,4 @@ struct FoodOrderService : FirebaseService {
             onSuccess()
         }
     }
-    
-    static func getFoodOrderList(userId : String) async -> [FoodOrder]  {
-        do {
-            let querySnapshot = try await Firestore
-               .firestore()
-               .collection(FOOD_ORDERS_COLLECTION_PATH)
-               .whereField("userId", isEqualTo: userId)
-               .getDocuments()
-            return querySnapshot.documents.compactMap(Self.fromFirebaseDocument)
-        } catch {
-            print("Error: \(error.localizedDescription)")
-            return []
-        }
-    }
 }
