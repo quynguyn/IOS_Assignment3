@@ -11,13 +11,19 @@ struct DetailView: View {
     @EnvironmentObject var cartManager: CartManager
     @State private var quantity = 1
     @State private var foodImage: UIImage? = nil
+    @State private var foodImages: [UIImage?] = []
     @State private var showToast = false
+    @State private var showDetails = false
     
+    init(food: Food) {
+        self.food = food
+        _foodImages = State(initialValue: Array(repeating: nil, count: food.thumbnail.count)) // Initialize the array with nils
+    }
     var food: Food
     private let toastOpstions = SimpleToastOptions(
         alignment: .top,
-        hideAfter: 1,
-        backdrop: Color.black.opacity(0.5),
+        hideAfter: 0.75,
+        backdrop: Color.black.opacity(0.1),
         animation: .default,
         modifierType: .slide,
         dismissOnTap: true
@@ -26,21 +32,32 @@ struct DetailView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                
-                if let uiImage = foodImage {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 300) // Adjust as needed
-                        .clipped()
-                        .shadow(radius: 5)
-                } else {
-                    Rectangle()  // Placeholder till image loads
-                        .foregroundColor(.gray)
-                        .frame(width: 100, height: 100)
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 16) {
+                        ForEach(food.thumbnail.indices, id: \.self) { index in
+                            if let uiImage = foodImages[index] {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(maxWidth: 400)
+                                    .frame(height: 500)
+                                    .clipped()
+                                    .shadow(radius: 5)
+                            } else {
+                                Rectangle()
+                                    .foregroundColor(.gray)
+                                    .frame(width: 150, height: 150)
+                                    .onAppear {
+                                        loadImageFromURL(urlString: food.thumbnail[index]) { image in
+                                            self.foodImages[index] = image
+                                        }
+                                    }
+                            }
+                        }
+                    }
                 }
-            
+                .edgesIgnoringSafeArea(.top)
+                
                 
                 VStack(alignment: .center, spacing: 20) {
                     Text(food.name)
@@ -69,30 +86,8 @@ struct DetailView: View {
                     }
                     .padding(.horizontal) // Add horizontal padding
                     
-                    Spacer()
                     
-//                    HStack {
-//                        Button(action: {
-//                            if quantity > 1 {
-//                                quantity -= 1
-//                            }
-//                        }) {
-//                            Image(systemName: "minus.rectangle")
-//                                .font(.title)
-//                                .foregroundColor(Color(hex: 0xf1c27b))
-//                        }
-//
-//                        Text("Quantity: \(quantity)")
-//                            .font(.headline)
-//
-//                        Button(action: {
-//                            quantity += 1
-//                        }) {
-//                            Image(systemName: "plus.rectangle")
-//                                .font(.title)
-//                                .foregroundColor(Color(hex: 0xf1c27b))
-//                        }
-//                    }
+                    Spacer()
                     
                     //cart function
                     Button(action: {
@@ -107,26 +102,35 @@ struct DetailView: View {
                             .background(Color(hex: 0xa2cdb0))
                             .cornerRadius(10)
                     }
-                }
-                .simpleToast(isPresented: $showToast, options: toastOpstions){
-                    HStack{
-                        Image(systemName: "checkmark.seal.fill")
-                        Text("Added to Cart").bold()
-                    }
-                        .padding(20)
-                        .background(Color(hex: 0xf1c27b))
-                        .foregroundColor(Color.white)
-                        .cornerRadius(15)
-                }
-                .padding()
-            }
-            .edgesIgnoringSafeArea(.top)
-            .onAppear {
-                loadImageFromURL(urlString: food.image) { image in
-                    self.foodImage = image
-                }
+                    
+                    Button(action: {
+                                        showDetails.toggle()
+                                    }) {
+                                        Text(showDetails ? "Hide Details" : "Show Details")
+                                            .font(.headline)
+                                            .foregroundColor(.white)
+                                            .frame(maxWidth: .infinity)
+                                            .padding()
+                                            .background(Color(hex: 0xa2cdb0))
+                                            .cornerRadius(10)
+                                    }
+                }.padding()
+                
             }
             
+            .edgesIgnoringSafeArea(.top)
+            .simpleToast(isPresented: $showToast, options: toastOpstions){
+                HStack{
+                    Image(systemName: "checkmark.seal.fill")
+                    Text("Added to Cart").bold()
+                    
+                    
+                }
+                .padding(20)
+                .background(Color(hex: 0xf1c27b))
+                .foregroundColor(Color.white)
+                .cornerRadius(15)
+            }
         }
     }
 }
