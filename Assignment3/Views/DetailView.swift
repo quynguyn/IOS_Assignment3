@@ -13,7 +13,6 @@ struct DetailView: View {
     @State private var foodImage: UIImage? = nil
     @State private var foodImages: [UIImage?] = []
     @State private var showToast = false
-    @State private var showDetails = false
     
     init(food: Food) {
         self.food = food
@@ -99,21 +98,13 @@ struct DetailView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color(hex: 0xa2cdb0))
+                            .background(Color(hex: 0xffd89c))
                             .cornerRadius(10)
                     }
                     
-                    Button(action: {
-                                        showDetails.toggle()
-                                    }) {
-                                        Text(showDetails ? "Hide Details" : "Show Details")
-                                            .font(.headline)
-                                            .foregroundColor(.white)
-                                            .frame(maxWidth: .infinity)
-                                            .padding()
-                                            .background(Color(hex: 0xa2cdb0))
-                                            .cornerRadius(10)
-                                    }
+                    
+                    
+                    
                 }.padding()
                 
             }
@@ -153,5 +144,5 @@ let burger = Food(
     calories: nil,
     rate: nil,
     comment: nil,
-    ingredients: nil
+    ingredients: ["sugary caramel","milk","eggs","vanilla or coffee-flavored","sugar"]
 )
