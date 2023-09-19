@@ -13,6 +13,10 @@ struct CheckoutView: View {
     @EnvironmentObject private var cartManager: CartManager
     @EnvironmentObject private var authStore : AuthStore
     @State private var showToast = false
+    
+    @State private var showErrorToast = false
+    @State private var errorMessage = ""
+    
     @State private var address: Address
     
     @State private var isPlacingOrder = false
@@ -117,7 +121,13 @@ struct CheckoutView: View {
                 .padding()
                 
                 Button(action: {
-                    placeOrder()
+                    AuthService.bioAuthenticate(
+                        onSuccess: placeOrder,
+                        onError: {err in
+                            self.showErrorToast = true
+                            self.errorMessage = err.localizedDescription
+                        }
+                    )
                 }) {
                     Text("Place Order")
                         .font(.system(size: 18, design: .rounded))
@@ -131,6 +141,15 @@ struct CheckoutView: View {
                 .shadow(radius: 5)
             }
             .navigationBarTitle("Checkout", displayMode: .inline)
+            .simpleToast(isPresented: $showErrorToast, options: ERROR_TOAST_OPTIONS) {
+                HStack {
+                    Label(self.errorMessage, systemImage: "x.circle")
+                        .padding()
+                        .background(Color.red.opacity(0.8))
+                        .foregroundColor(Color.white)
+                        .cornerRadius(10)
+                }
+            }
             .simpleToast(isPresented: $showToast, options: toastOpstions){
                 HStack{
                     Image(systemName: "checkmark.seal.fill")
