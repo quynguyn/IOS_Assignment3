@@ -12,6 +12,7 @@ import FirebaseCore
 import FirebaseAuth
 import Firebase
 import FirebaseFirestore
+import LocalAuthentication
 
 private func signInWithCredential(googleUser: GIDGoogleUser,
                                   onSuccess: @escaping () -> Void = {},
@@ -175,6 +176,38 @@ struct AuthService {
             } else {
                 onSuccess()
             }
+        }
+    }
+    
+    // https://www.hackingwithswift.com/books/ios-swiftui/using-touch-id-and-face-id-with-swiftui
+    static func bioAuthenticate(
+        onSuccess: @escaping () -> Void = {},
+        onError: @escaping (_ error: Error) -> Void = { error in }
+    ) {
+        let context = LAContext()
+        var error: NSError?
+
+        // check whether biometric authentication is possible
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            // it's possible, so go ahead and use it
+            let reason = "We need to make sure that you are making the order."
+
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                // authentication has now completed
+                if success {
+                    onSuccess();
+                    return;
+                }
+                
+                if let authenticationError {
+                    onError(authenticationError)
+                    return
+                }
+                
+                onError(RuntimeError("Unable to authenticate. Unknown error"))
+            }
+        } else {
+            onError(RuntimeError("Unable to authenticate. No biometrics allowed"))
         }
     }
 

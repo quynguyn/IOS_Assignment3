@@ -145,4 +145,6 @@ let burger = Food(
     rate: nil,
     comment: nil,
     ingredients: ["sugary caramel","milk","eggs","vanilla or coffee-flavored","sugar"]
+    ingredients: nil,
+    recipe: []
 )
