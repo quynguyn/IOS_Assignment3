@@ -8,27 +8,76 @@
 import Foundation
 import FirebaseFirestore
 
+private let FOOD_PER_PAGE = 5
+
 @MainActor
 class FoodStore : ObservableObject {
     @Published var foodList: [Food] = []
+    @Published var isGettingFood = false
     
     private var db = Firestore.firestore()
-    
-    private var foodListListener : ListenerRegistration?
+    private var filteringCategory = "All"
+    private var filteringName: String?
     
     init() {
         self.findFoodList()
     }
     
+    private var currentPage = 1
+    
     private func findFoodList() {
-        self.foodListListener = self.db.collection("foods").addSnapshotListener{
-            (querySnapshot, error) in
+        isGettingFood = true
+        Task.init(priority: .high) {
+            do {
+                var query = self.db.collection(FOODS_COLLECTION_PATH)
+                    .limit(to: self.currentPage * FOOD_PER_PAGE)
                 
-            guard let documents = querySnapshot?.documents else {
-                return;
+                if (self.filteringCategory != "All") {
+                    query = query.whereField("category", in: [self.filteringCategory])
+                }
+                
+                let querySnapshot = try await query.getDocuments()
+                self.foodList = querySnapshot.documents.compactMap(FoodService.fromFirebaseDocument)
+                isGettingFood = false
+            } catch {
+                isGettingFood = false
             }
-            
-            self.foodList = documents.compactMap(FoodService.fromFirebaseDocument)
+        }
+    }
+        
+    
+    
+    func nextPage() {
+        currentPage += 1
+        findFoodList()
+    }
+    
+    func resetPage() {
+        currentPage = 1;
+    }
+    
+    func filterByName(name: String) {
+        self.filteringName = name
+    }
+    
+    func filterByCategory(category: String) {
+        if (category == self.filteringCategory){
+            return
+        }
+        
+        self.resetPage()
+        self.filteringCategory = category
+        self.findFoodList()
+    }
+    
+    var filteredList: [Food] {
+        guard let searchTerm = self.filteringName, !searchTerm.isEmpty else {
+            return self.foodList
+        }
+        
+        return self.foodList.filter {
+            food in
+            food.name.lowercased().contains(searchTerm.lowercased())
         }
     }
     
@@ -37,7 +86,4 @@ class FoodStore : ObservableObject {
         return Array(sortedFoods.prefix(5))
     }
     
-    deinit {
-        self.foodListListener?.remove()
-    }
 }

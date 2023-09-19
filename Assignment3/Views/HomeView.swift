@@ -9,34 +9,17 @@ import SwiftUI
 import Firebase
 
 struct HomeView: View {
-    @StateObject var cartManager = CartManager()
     @StateObject private var foodStore = FoodStore()
     @EnvironmentObject private var authStore : AuthStore
+    @EnvironmentObject private var cartManager : CartManager
+    @EnvironmentObject private var foodOrderStore : FoodOrderStore
     @State private var searchValue: String = ""
     @State private var selectedTab: Int = 0
 
-    var foodCategories = ["All", "Noddle Dishes", "Dessert", "Rice Dishes", "Sandwich", "Salad"]
+    var foodCategories = ["All", "Noodle Dishes", "Dessert", "Rice Dishes", "Sandwich", "Salad"]
     
     @State private var selectedCategory = "All"
-    
-    var filteredFoodList: [Food] {
-        var filteredFood = foodStore.foodList
-            
-        if !searchValue.isEmpty {
-            filteredFood = filteredFood.filter { food in
-                food.name.lowercased().contains(searchValue.lowercased())
-            }
-        }
-            
-        if selectedCategory != "All" {
-            filteredFood = filteredFood.filter { food in
-                food.category == selectedCategory
-            }
-        }
-            
-        return filteredFood
-    }
-    
+        
     var body: some View {
         NavigationView {
             TabView(selection: $selectedTab) {
@@ -85,13 +68,26 @@ struct HomeView: View {
                             .font(.system(size: 24, design: .rounded))
                             .fontWeight(.bold)
                         
-                        if filteredFoodList.isEmpty && !searchValue.isEmpty {
+                        if foodStore.filteredList.isEmpty && !searchValue.isEmpty {
                             Text("No result found")
                                 .foregroundColor(.gray)
                         } else {
-                            ForEach(filteredFoodList) { foodItem in
-                                MenuView(food: foodItem)
+                            LazyVStack {
+                                ForEach(foodStore.filteredList, id: \.self) { foodItem in
+                                    MenuView(food: foodItem)
+                                        .onAppear {
+                                            let isLast = foodItem == foodStore.filteredList.last
+                                            if isLast {
+                                                self.foodStore.nextPage()
+                                            }
+                                        }
+                                }
+                                
+                                if foodStore.isGettingFood {
+                                    ProgressView()
+                                }
                             }
+                            
                         }
                     }
                     .padding()
@@ -130,10 +126,18 @@ struct HomeView: View {
             .accentColor(Color("#F1C27B"))
         }
         .navigationBarBackButtonHidden()
-            
-        
-            
-        
+        .onAppear {
+            if let user = authStore.user {
+                self.cartManager.loadFromUserDefaults()
+                self.foodOrderStore.listenToFoodOrderList(userId: user.uid)
+            }
+        }
+        .onChange(of: searchValue) { search in
+            self.foodStore.filterByName(name: search)
+        }
+        .onChange(of: selectedCategory) { category in
+            self.foodStore.filterByCategory(category: category)
+        }
     }
 }
 

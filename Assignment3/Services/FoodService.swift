@@ -97,26 +97,18 @@ struct FoodService : FirebaseService {
     }
     
     // https://firebase.google.com/docs/reference/swift/firebasefirestore/api/reference/Classes/FieldPath#/c:objc(cs)FIRFieldPath(cm)documentID
-    static func getFoodList(foodOrder: FoodOrder) async -> FoodOrderWithFoodList? {
+    static func getManyFoods(idList: [String]) async -> [Food] {
         do {
             let querySnapshot = try await Firestore
                 .firestore()
                 .collection(FOODS_COLLECTION_PATH)
-                .whereField(FieldPath.documentID(), in: foodOrder.foodIdList)
+                .whereField(FieldPath.documentID(), in: idList)
                 .getDocuments()
             
-            let foods = querySnapshot.documents.compactMap(Self.fromFirebaseDocument)
-            
-            return FoodOrderWithFoodList(
-                id: foodOrder.id,
-                userId: foodOrder.userId,
-                foodList: foods,
-                status: foodOrder.status,
-                orderedAt: foodOrder.orderedAt)
-        } catch {
-            return nil
+            return querySnapshot.documents.compactMap(Self.fromFirebaseDocument)
         }
-        
+        catch {
+            return [];
+        }
     }
-    
 }

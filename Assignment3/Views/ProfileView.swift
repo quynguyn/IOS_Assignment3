@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ProfileView: View {
-    @State private var name = "John Doe"
-    @State private var phone = "123-456-7890"
-    @State private var email = "johndoe@example.com"
-    @State private var address = "123 Main Street, City, Country"
+    
+    @EnvironmentObject private var authStore : AuthStore
+
+    
+    @State private var name = ""
+    @State private var phone = ""
+    @State private var email = ""
+    @State private var address = ""
     
     var body: some View {
         VStack {
@@ -20,14 +25,16 @@ struct ProfileView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 200, height: 200)
                 .padding(.top, 20)
+            Text("Welcome, \(authStore.user?.displayName ?? "user")")
+            
             VStack (spacing: 20){
-                CustomTextField(placeholder: "Name", iconName: "person.fill", text: $name)
-                CustomTextField(placeholder: "phone", iconName: "phone.fill", text: $phone)
+                CustomTextField(placeholder: "\(authStore.user?.displayName ?? "user")", iconName: "person.fill", text: $name)
+                CustomTextField(placeholder: "\(authStore.user?.phone ?? "user")", iconName: "phone.fill", text: $phone)
                     .keyboardType(.phonePad)
-                CustomTextField(placeholder: "email", iconName: "envelope.fill", text: $email)
+                CustomTextField(placeholder: "\(authStore.user?.email ?? "user")", iconName: "envelope.fill", text: $email)
                     .disabled(true)
                     .foregroundColor(.gray)
-                CustomTextField(placeholder: "address", iconName: "house.fill", text: $address)
+                CustomTextField(placeholder: "\(authStore.user?.address ?? "user")", iconName: "house.fill", text: $address)
                 
                 Spacer()
                 
@@ -38,7 +45,28 @@ struct ProfileView: View {
                             .foregroundColor(Color.white)
                         
                         Button(action: {
-                            
+                            if let user = Auth.auth().currentUser {
+
+                                // `user.uid` contains the Firebase Authentication UID of the currently signed-in user.
+                                let userId = user.uid
+
+                                // Call your `updateUserProfile` function with the `userId` obtained from Firebase Authentication.
+                                AuthService.updateUserProfile(
+                                    userId: userId,
+                                    updatedName: name,
+                                    updatedAddress: address,
+                                    updatedPhone: phone,
+                                    onSuccess: {
+                                        print("User profile updated successfully")
+                                    },
+                                    onError: { error in
+                                        print("Error updating user profile: \(error.localizedDescription)")
+                                    }
+                                )
+                            } else {
+                                // Handle the case where there is no signed-in user.
+                                print("No user is currently signed in.")
+                            }
                         })  {
                             Text("Save")
                                 .font(.system(size: 25,weight: .bold))

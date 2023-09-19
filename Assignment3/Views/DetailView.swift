@@ -30,7 +30,7 @@ struct DetailView: View {
     )
     
     var body: some View {
-        NavigationView {
+        VStack {
             VStack(spacing: 20) {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 16) {
@@ -138,8 +138,7 @@ struct DetailView: View {
 
 struct detailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(food: burger)
-            .environmentObject(CartManager())
+        DetailView(food: burger).environmentObject(CartManager())
     }
 }
 

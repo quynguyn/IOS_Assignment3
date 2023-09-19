@@ -18,6 +18,10 @@ struct CreateFoodOrder : Codable {
     let foodIdList: [String]
     let status: FoodOrderStatus
     let orderedAt: Date
+    
+    let deliveryAddress: String
+    let contactName: String
+    let contactPhone: String
 }
 
 struct UpdateFoodOrder : Codable {
@@ -35,7 +39,15 @@ struct FoodOrder : Identifiable, Codable, Hashable {
     let userId: String
     let foodIdList: [String]
     let status: FoodOrderStatus
-    let orderedAt: Date
+    let orderedAt: String
+    
+    let deliveryAddress: String?
+    let contactName: String?
+    let contactPhone: String?
+    
+    var orderedAtDate: Date {
+        DateUtils.getDateFromString(self.orderedAt) ?? Date();
+    }
 }
 
 struct FoodOrderWithFoodList {
@@ -44,4 +56,19 @@ struct FoodOrderWithFoodList {
     let foodList: [Food]
     let status: FoodOrderStatus
     let orderedAt: Date
+    
+    let deliveryAddress: String?
+    let contactName: String?
+    let contactPhone: String?
+    
+    init(userId: String, foodOrder: FoodOrder, foodList: [Food]) {
+        self.id = foodOrder.id
+        self.userId = userId
+        self.foodList = foodList
+        self.status = foodOrder.status
+        self.orderedAt = foodOrder.orderedAtDate
+        self.deliveryAddress = foodOrder.deliveryAddress
+        self.contactName = foodOrder.contactName
+        self.contactPhone = foodOrder.contactPhone
+    }
 }

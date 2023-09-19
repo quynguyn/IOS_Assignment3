@@ -9,12 +9,13 @@ import SwiftUI
 
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
+    @EnvironmentObject var authStore: AuthStore
     @State private var selectedTab: Int = 0
     
     var body: some View {
         VStack {
             GeometryReader { geo in
-                NavigationView {
+                VStack {
                     ScrollView {
                         VStack {
                             if (cartManager.items.count > 0) {
@@ -25,7 +26,6 @@ struct CartView: View {
                                 }
                             }
                             else { Text("Your cart is empty!") }
-                            
                         }
                     }
                 }
@@ -35,12 +35,12 @@ struct CartView: View {
                 HStack {
                     Text("Your total is:")
                         .padding()
-                    Text("$\(cartManager.total, specifier: "%.2f")")
+                    Text("$\(cartManager.totalPrice, specifier: "%.2f")")
                         .padding()
                         .bold()
                 }
                 NavigationLink {
-                    CheckoutView()
+                    CheckoutView(user: authStore.user!)
                 } label: {
                     Text("Check out")
                         .bold()
@@ -50,7 +50,11 @@ struct CartView: View {
                         .background(Color("#A2CDB0"))
                         .cornerRadius(10)
                         .padding()
-                }.padding()
+                }
+                .disabled(cartManager.items.isEmpty) // Disable the button if cart is empty
+                .opacity(cartManager.items.isEmpty ? 0.5 : 1)
+                .padding()
+                
             }.frame(maxWidth: .infinity, minHeight: 150, alignment: .bottom)
         }
         .padding(.top)
@@ -61,7 +65,7 @@ struct CartView: View {
 
 struct CartView_Previews: PreviewProvider {
     static var previews: some View {
-        CartView()
-            .environmentObject(CartManager())
+            CartView()
+                .environmentObject(CartManager())
     }
 }

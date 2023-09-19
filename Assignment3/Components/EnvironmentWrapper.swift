@@ -12,8 +12,8 @@ struct EnvironmentWrapper<Content: View>: View {
     
     // Global objects
     @StateObject private var authStore = AuthStore()
+    @StateObject private var foodOrderStore = FoodOrderStore()
     @StateObject private var cartManager = CartManager()
-    //@StateObject private var foodStore = FoodStore()
     
     init(@ViewBuilder content: () -> Content) {
         self.content = content()
@@ -25,6 +25,7 @@ struct EnvironmentWrapper<Content: View>: View {
             content
         }
         .environmentObject(authStore)
+        .environmentObject(foodOrderStore)
         .environmentObject(cartManager)
     }
 }

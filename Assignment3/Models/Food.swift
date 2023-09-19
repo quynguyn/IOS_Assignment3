@@ -58,7 +58,7 @@ struct UpdateFood : Hashable, Codable {
     }
 }
 
-struct Food : Identifiable, Hashable, Codable {
+struct Food : Identifiable, Hashable, Codable, Equatable {
     static let sampleData = Food(
         id: "123",
         name: "Margherita Pizza",
@@ -85,6 +85,10 @@ struct Food : Identifiable, Hashable, Codable {
     let rate: Double?
     let comment: String?
     let ingredients: [String]?
+    
+    static func ==(lhs: Food, rhs: Food) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 var FoodList = [

@@ -6,12 +6,40 @@
 //
 
 import SwiftUI
+import Firebase
+import SimpleToast
 
 struct CheckoutView: View {
-    @EnvironmentObject var cartManager: CartManager
+    @EnvironmentObject private var cartManager: CartManager
+    @EnvironmentObject private var authStore : AuthStore
+    @State private var showToast = false
+    @State private var address: Address
+    
+    @State private var isPlacingOrder = false
+    
+    var user : AppUser
+    
+    init(user: AppUser) {
+        self.user = user
+        
+        _address = State(initialValue: Address(
+            deliveryAddress: user.address,
+            contactName: user.displayName,
+            contactPhone: user.phone
+        ))
+    }
+    
+    private let toastOpstions = SimpleToastOptions(
+        alignment: .top,
+        hideAfter: 1,
+        animation: .default,
+        modifierType: .slide,
+        dismissOnTap: true
+    )
+    
     var body: some View {
-        VStack {
-            ScrollView {
+        LoadingView(isShowing: $isPlacingOrder) {
+            VStack {
                 VStack(alignment: .leading, spacing: 30) {
                     // MARK: - Address section
                     VStack(alignment: .leading, spacing: 10) {
@@ -26,9 +54,11 @@ struct CheckoutView: View {
                                 .foregroundColor(Color("#F1C27B"))
                         }
                         
-                        NavigationLink(destination: AddressView()) {
+                        NavigationLink(destination: AddressView(
+                            address: $address
+                        )) {
                             HStack(spacing: 10) {
-                                Text("702 Nguyen Van Linh, Tan Quy, District 7")
+                                Text($address.deliveryAddress.wrappedValue ?? "")
                                     .foregroundColor(.black)
                                     .lineLimit(1)
                                 
@@ -57,9 +87,14 @@ struct CheckoutView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(Color("#F1C27B"))
                         }
-    
-                        ForEach(cartManager.items, id: \.id) { item in
-                            YourOrderView(item: item)
+                        
+                        ScrollView(.vertical) {
+                            VStack(spacing: 10) {
+                                ForEach(cartManager.items, id: \.id) { item in
+                                    YourOrderView(item: item)
+                                }
+                            }
+                            .padding()
                         }
                     }
                     
@@ -75,14 +110,14 @@ struct CheckoutView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(Color("#F1C27B"))
                         }
-    
+                        
                         PaymentDetailView()
                     }
                 }
                 .padding()
                 
                 Button(action: {
-                    
+                    placeOrder()
                 }) {
                     Text("Place Order")
                         .font(.system(size: 18, design: .rounded))
@@ -91,13 +126,58 @@ struct CheckoutView: View {
                         .foregroundColor(.white)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                 }
-                .background(Color(hex: 0xa2cdb0))     .cornerRadius(20)
+                .background(Color(hex: 0xa2cdb0))
+                .cornerRadius(20)
                 .shadow(radius: 5)
-                .navigationBarTitle("Checkout", displayMode: .inline)
+            }
+            .navigationBarTitle("Checkout", displayMode: .inline)
+            .simpleToast(isPresented: $showToast, options: toastOpstions){
+                HStack{
+                    Image(systemName: "checkmark.seal.fill")
+                    Text("Order placed successfully !").bold()
+                }
+                .padding(20)
+                .background(Color(hex: 0xf1c27b))
+                .foregroundColor(Color.white)
+                .cornerRadius(15)
             }
         }
     }
 }
+
+extension CheckoutView {
+    func placeOrder() {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("Error: User is not logged in!")
+            return
+        }
+        
+        let foodIds = cartManager.items.map { $0.id }
+        
+        let orderToCreate = CreateFoodOrder(
+            userId: userId,
+            foodIdList: foodIds,
+            status: .pending,
+            orderedAt: Date(),
+            deliveryAddress: self.address.deliveryAddress ?? "",
+            contactName: self.address.contactName ?? "",
+            contactPhone: self.address.contactPhone ?? ""
+        )
+        
+        isPlacingOrder = true
+        
+        FoodOrderService.create(orderToCreate, onSuccess: {
+            print("Order placed successfully!")
+            isPlacingOrder = false
+            showToast = true
+            cartManager.emptyCart()
+        }, onError: { error in
+            isPlacingOrder = false
+            print("Error placing order: \(error.localizedDescription)")
+        })
+    }
+}
+
 
 struct YourOrderView: View {
     let item: Food
@@ -118,15 +198,13 @@ struct YourOrderView: View {
             
             VStack(alignment: .leading, spacing: 10) {
                 Text(item.name)
+                    .fontWeight(.medium)
+                    .foregroundColor(.black)
                     .lineLimit(1)
                 
-                HStack {
-                    Image(systemName: "dollarsign")
-                        .foregroundColor(Color("#E25E3E"))
-                    
-                    Text("\(item.price, specifier: "%.2f")")
-                        .foregroundColor(.gray)
-                }
+                Text("$ \(item.price, specifier: "%.2f")")
+                    .font(.title3)
+                    .foregroundColor(.black)
             }
             .frame(maxWidth: .infinity)
         }
@@ -185,7 +263,7 @@ struct PaymentDetailView: View {
 
 struct CheckoutView_Previews: PreviewProvider {
     static var previews: some View {
-        CheckoutView()
+        CheckoutView(user: AppUser(uid: "1", email: "johndoe@email.com", displayName: "John Doe", address: "23B Baker Street", phone: "911"))
             .environmentObject(CartManager())
     }
 }
