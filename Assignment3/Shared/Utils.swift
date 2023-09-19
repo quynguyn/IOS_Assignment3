@@ -31,7 +31,8 @@ struct FirestoreUtils {
             return try JSONDecoder().decode(T.self, from: jsonData);
             
         } catch {
-            print("error \(error.localizedDescription)")
+            print("fromFirebaseDocument: error \(error)")
+            print("doc snapshot: \(documentSnapshot.documentID)")
             return nil
         }
     }
