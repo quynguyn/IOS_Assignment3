@@ -161,7 +161,7 @@ struct DishCard: View {
     @State private var foodImage: UIImage? = nil
     var food: Food
     var body: some View {
-        NavigationLink(destination: DetailView(food: food)){
+        NavigationLink(destination: tabFoodView(food: food)){
             VStack(alignment: .leading, spacing: 8) {
                 HStack() {
                     Spacer()
@@ -225,7 +225,7 @@ struct MenuView: View {
     var food: Food
     @State private var foodImage: UIImage? = nil
     var body: some View {
-        NavigationLink(destination: DetailView(food: food)) {
+        NavigationLink(destination: tabFoodView(food: food)) {
             HStack {
                 if let uiImage = foodImage {
                     Image(uiImage: uiImage)
