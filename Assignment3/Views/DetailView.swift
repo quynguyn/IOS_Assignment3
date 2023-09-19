@@ -10,7 +10,6 @@ import SimpleToast
 struct DetailView: View {
     @EnvironmentObject var cartManager: CartManager
     @State private var quantity = 1
-    @State private var foodImage: UIImage? = nil
     @State private var foodImages: [UIImage?] = []
     @State private var showToast = false
     
@@ -31,27 +30,30 @@ struct DetailView: View {
     var body: some View {
         VStack {
             VStack(spacing: 20) {
-                ScrollView(.horizontal) {
-                    LazyHStack(spacing: 16) {
-                        ForEach(food.thumbnail.indices, id: \.self) { index in
-                            if let uiImage = foodImages[index] {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(maxWidth: 400)
-                                    .frame(height: 500)
-                                    .clipped()
-                                    .shadow(radius: 5)
-                            } else {
-                                Rectangle()
-                                    .foregroundColor(.gray)
-                                    .frame(width: 150, height: 150)
-                                    .onAppear {
-                                        loadImageFromURL(urlString: food.thumbnail[index]) { image in
-                                            self.foodImages[index] = image
+                GeometryReader{ geometry in
+                    
+                    ScrollView(.horizontal) {
+                        LazyHStack(spacing: 16) {
+                            ForEach(food.thumbnail.indices, id: \.self) { index in
+                                if let uiImage = foodImages[index] {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: geometry.size.width)
+                                        .clipped()
+                                        .shadow(radius: 5)
+                                } else {
+                                    Rectangle()
+                                        .foregroundColor(.gray)
+                                        .frame(width: 150, height: 150)
+                                        .onAppear {
+                                            loadImageFromURL(urlString: food.thumbnail[index]) { image in
+                                                self.foodImages[index] = image
+                                            }
                                         }
-                                    }
+                                }
                             }
+                            .cornerRadius(10)
                         }
                     }
                 }
@@ -60,7 +62,7 @@ struct DetailView: View {
                 
                 VStack(alignment: .center, spacing: 20) {
                     Text(food.name)
-                        .font(.title)
+                        .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(Color(.black))
                     
@@ -136,15 +138,15 @@ struct detailView_Previews: PreviewProvider {
 let burger = Food(
     id: "123",
     name: "Delicious Burger",
-    image: "burger",
-    thumbnail: ["burger_thumbnail"],
+    image: "https://huyennganbakery.vn/uploads/files/Cac%20lo%E1%BA%A1i%20banh%20khac/6be57415a15a5904004b.jpg",
+    thumbnail: ["https://runawayrice.com/wp-content/uploads/2018/05/Flan-Caramel-Custard-1.jpg","https://yummyvietnam.net/wp-content/uploads/2018/08/vietnamese-banh-flan-recipe-with-condensed-milk20.jpg","https://www.mashed.com/img/gallery/the-untold-truth-of-flan/l-intro-1645644351.jpg"],
     category: "Fast Food",
     price: 9.99,
     description: "A mouthwatering burger with all the toppings.",
     calories: nil,
     rate: nil,
     comment: nil,
-    ingredients: ["sugary caramel","milk","eggs","vanilla or coffee-flavored","sugar"]
-    ingredients: nil,
-    recipe: []
+    ingredients: ["sugary caramel","milk","eggs","vanilla or coffee-flavored","sugar"],
+    recipe: ["Combine maple syrup, coconut sugar (or brown sugar), vanilla extract, and salt, in a medium-sized saucepan over medium heat.", "Cook for approximately three minutes until the mixture is bubbling and the sugar has dissolved.","Remove from heat and carefully divide the caramel into the ramekins or molds, ensuring an even coating on the bottom. Set aside.","Combine coconut milk, sugar, and vanilla extract in the same saucepan.","In a small bowl or glass, using the tines of a fork mix the agar agar powder and cornstarch (or tapioca starch or arrowroot) with plant-based milk until well combined.",
+             "Add this mixture to the saucepan.","Place the saucepan over medium heat and stir continuously until the mixture comes to a gentle boil. Reduce the heat to low and simmer for three minutes, stirring constantly, to activate the agar agar and thicken the custard.","Carefully pour the custard mixture into the ramekins or mold with the caramel, filling them to the top.","Refrigerate for a minimum of 90 minutes until set. For best results, refrigerate the flans overnight to ensure a firm texture.","To unmold the flans, run a knife around the edges to loosen them. Place a serving plate over the ramekin or mold, then carefully invert it, allowing the caramel to drizzle over the flan."]
 )

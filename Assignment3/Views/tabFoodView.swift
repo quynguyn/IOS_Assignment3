@@ -10,6 +10,7 @@ import SwiftUI
 struct tabFoodView: View {
     var food: Food
     @EnvironmentObject var cartManager: CartManager
+    @State private var foodImage: UIImage? = nil
     var body: some View {
         TabView {
             DetailView(food: food)
