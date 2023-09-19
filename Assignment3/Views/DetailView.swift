@@ -148,5 +148,6 @@ let burger = Food(
     calories: nil,
     rate: nil,
     comment: nil,
-    ingredients: nil
+    ingredients: nil,
+    recipe: []
 )
