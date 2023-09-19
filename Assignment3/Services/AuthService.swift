@@ -10,6 +10,8 @@ import Foundation
 import GoogleSignIn
 import FirebaseCore
 import FirebaseAuth
+import Firebase
+import FirebaseFirestore
 
 private func signInWithCredential(googleUser: GIDGoogleUser,
                                   onSuccess: @escaping () -> Void = {},
@@ -139,6 +141,41 @@ struct AuthService {
             signInWithCredential(googleUser: googleUser)
         }
       
+    }
+
+
+    static func updateUserProfile(
+        userId: String, // The user's unique identifier in Firestore
+        updatedName: String?,
+        updatedAddress: String?,
+        updatedPhone: String?,
+        onSuccess: @escaping () -> Void = {},
+        onError: @escaping (_ error: Error) -> Void = { error in }
+    ) {
+        let db = Firestore.firestore()
+        let userRef = db.collection("users").document(userId)
+        
+        var updatedData: [String: Any] = [:]
+        
+        if let newName = updatedName {
+            updatedData["displayName"] = newName
+        }
+        
+        if let newAddress = updatedAddress {
+            updatedData["address"] = newAddress
+        }
+        
+        if let newPhone = updatedPhone {
+            updatedData["phone"] = newPhone
+        }
+        
+        userRef.updateData(updatedData) { error in
+            if let updateError = error {
+                onError(updateError)
+            } else {
+                onSuccess()
+            }
+        }
     }
 
 }

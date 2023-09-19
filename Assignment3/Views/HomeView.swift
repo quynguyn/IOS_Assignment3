@@ -19,25 +19,7 @@ struct HomeView: View {
     var foodCategories = ["All", "Noodle Dishes", "Dessert", "Rice Dishes", "Sandwich", "Salad"]
     
     @State private var selectedCategory = "All"
-    
-    var filteredFoodList: [Food] {
-        var filteredFood = foodStore.foodList
-            
-        if !searchValue.isEmpty {
-            filteredFood = filteredFood.filter { food in
-                food.name.lowercased().contains(searchValue.lowercased())
-            }
-        }
-            
-        if selectedCategory != "All" {
-            filteredFood = filteredFood.filter { food in
-                food.category == selectedCategory
-            }
-        }
-            
-        return filteredFood
-    }
-    
+        
     var body: some View {
         NavigationView {
             TabView(selection: $selectedTab) {
@@ -86,13 +68,26 @@ struct HomeView: View {
                             .font(.system(size: 24, design: .rounded))
                             .fontWeight(.bold)
                         
-                        if filteredFoodList.isEmpty && !searchValue.isEmpty {
+                        if foodStore.filteredList.isEmpty && !searchValue.isEmpty {
                             Text("No result found")
                                 .foregroundColor(.gray)
                         } else {
-                            ForEach(filteredFoodList) { foodItem in
-                                MenuView(food: foodItem)
+                            LazyVStack {
+                                ForEach(foodStore.filteredList, id: \.self) { foodItem in
+                                    MenuView(food: foodItem)
+                                        .onAppear {
+                                            let isLast = foodItem == foodStore.filteredList.last
+                                            if isLast {
+                                                self.foodStore.nextPage()
+                                            }
+                                        }
+                                }
+                                
+                                if foodStore.isGettingFood {
+                                    ProgressView()
+                                }
                             }
+                            
                         }
                     }
                     .padding()
@@ -136,6 +131,12 @@ struct HomeView: View {
                 self.cartManager.loadFromUserDefaults()
                 self.foodOrderStore.listenToFoodOrderList(userId: user.uid)
             }
+        }
+        .onChange(of: searchValue) { search in
+            self.foodStore.filterByName(name: search)
+        }
+        .onChange(of: selectedCategory) { category in
+            self.foodStore.filterByCategory(category: category)
         }
     }
 }

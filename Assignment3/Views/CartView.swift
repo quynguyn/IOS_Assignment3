@@ -26,7 +26,6 @@ struct CartView: View {
                                 }
                             }
                             else { Text("Your cart is empty!") }
-                            
                         }
                     }
                 }
@@ -36,7 +35,7 @@ struct CartView: View {
                 HStack {
                     Text("Your total is:")
                         .padding()
-                    Text("$\(cartManager.total, specifier: "%.2f")")
+                    Text("$\(cartManager.totalPrice, specifier: "%.2f")")
                         .padding()
                         .bold()
                 }
