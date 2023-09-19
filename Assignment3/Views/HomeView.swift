@@ -107,11 +107,11 @@ struct HomeView: View {
                     }
                     .tag(1)
                 
-                // HistoryView
-                HistoryView()
+                // StatusView
+                StatusView()
                     .tabItem {
                         Image(systemName: "clock.fill")
-                        Text("History")
+                        Text("Status")
                     }
                     .tag(2)
                 

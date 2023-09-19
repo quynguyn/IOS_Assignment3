@@ -13,53 +13,53 @@ struct CartView: View {
     @State private var selectedTab: Int = 0
     
     var body: some View {
-        VStack {
-            GeometryReader { geo in
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Cart")
+                .font(.system(size: 24, design: .rounded))
+                .fontWeight(.bold)
+                .padding()
+            ScrollView {
                 VStack {
-                    ScrollView {
-                        VStack {
-                            if (cartManager.items.count > 0) {
-                                ForEach(cartManager.items, id: \.id) {
-                                    item in
-                                    ItemRow(item: item)
-                                        .padding()
-                                }
-                            }
-                            else { Text("Your cart is empty!") }
+                    if (cartManager.items.count > 0) {
+                        ForEach(cartManager.items, id: \.id) {
+                            item in
+                            ItemRow(item: item)
+                                .padding()
                         }
+                    }
+                    else {
+                        Text("Your cart is empty!")
+                            .frame(maxWidth: .infinity, alignment: .center)
                     }
                 }
             }
             Spacer()
             VStack {
-                HStack {
-                    Text("Your total is:")
-                        .padding()
-                    Text("$\(cartManager.totalPrice, specifier: "%.2f")")
-                        .padding()
-                        .bold()
+                LinearGradient(colors: [.white, Color(.sRGB, white: 0.85, opacity: 1)], startPoint: .top, endPoint: .bottom)
+                       .frame(height: 15)
+                       .opacity(0.8)
+                if let user = authStore.user {
+                    NavigationLink {
+                        CheckoutView(user: authStore.user!)
+                    } label: {
+                        Text("Check out - $\(cartManager.totalPrice, specifier: "%.2f")")
+                            .bold()
+                            .font(.system(size: 20))
+                            .foregroundColor(Color.white)
+                            .frame(width: CGFloat(350), height: CGFloat(65))
+                            .background(Color("#A2CDB0"))
+                            .cornerRadius(10)
+                            .padding()
+                    }
+                    .disabled(cartManager.items.isEmpty) // Disable the button if cart is empty
+                    .opacity(cartManager.items.isEmpty ? 0.5 : 1)
+                    .padding()
                 }
-                NavigationLink {
-                    CheckoutView(user: authStore.user!)
-                } label: {
-                    Text("Check out")
-                        .bold()
-                        .font(.system(size: 20))
-                        .foregroundColor(Color.white)
-                        .frame(width: CGFloat(120), height: CGFloat(65))
-                        .background(Color("#A2CDB0"))
-                        .cornerRadius(10)
-                        .padding()
-                }
-                .disabled(cartManager.items.isEmpty) // Disable the button if cart is empty
-                .opacity(cartManager.items.isEmpty ? 0.5 : 1)
-                .padding()
                 
-            }.frame(maxWidth: .infinity, minHeight: 150, alignment: .bottom)
+            }
+            .frame(maxWidth: .infinity, minHeight: 150, alignment: .bottom)
         }
         .padding(.top)
-        
-       
     }
 }
 

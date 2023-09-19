@@ -1,5 +1,5 @@
 //
-//  HistoryView.swift
+//  StatusView.swift
 //  Assignment3
 //
 //  Created by Vũ Nguyệt Minh on 11/09/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HistoryView: View {
+struct StatusView: View {
     @EnvironmentObject private var foodOrderStore : FoodOrderStore
     
     func totalPrice(for order: FoodOrderWithFoodList) -> Double {
@@ -18,13 +18,14 @@ struct HistoryView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("History")
+            Text("Status")
                 .font(.system(size: 24, design: .rounded))
                 .fontWeight(.bold)
             
             ScrollView(showsIndicators: false) {
                 if foodOrderStore.foodOrders.isEmpty {
                     Text("You haven't ordered anything.")
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
                 else {
                     VStack(spacing: 16) {
@@ -100,10 +101,10 @@ struct HistoryView: View {
 
 }
 
-struct HistoryView_Previews: PreviewProvider {
+struct StatusView_Previews: PreviewProvider {
     static var previews: some View {
         EnvironmentWrapper {
-            HistoryView()
+            StatusView()
         }
     }
 }
