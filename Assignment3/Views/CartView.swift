@@ -13,11 +13,16 @@ struct CartView: View {
     @State private var selectedTab: Int = 0
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack {
             Text("Cart")
                 .font(.system(size: 24, design: .rounded))
                 .fontWeight(.bold)
-                .padding()
+                .padding(.bottom)
+                .frame(
+                    maxWidth: UIScreen.main.bounds.width + 10
+                        //, alignment: .leading
+                )
+            
             ScrollView {
                 VStack {
                     if (cartManager.items.count > 0) {
@@ -28,11 +33,16 @@ struct CartView: View {
                         }
                     }
                     else {
+                        Image("emptycart")
+                            .resizable()
+                            .frame(width: 200, height: 200, alignment: .center)
+                            .padding()
                         Text("Your cart is empty!")
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                 }
             }
+            
             Spacer()
             VStack {
                 LinearGradient(colors: [.white, Color(.sRGB, white: 0.85, opacity: 1)], startPoint: .top, endPoint: .bottom)

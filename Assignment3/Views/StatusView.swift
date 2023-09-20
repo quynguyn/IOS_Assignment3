@@ -24,6 +24,10 @@ struct StatusView: View {
             
             ScrollView(showsIndicators: false) {
                 if foodOrderStore.foodOrders.isEmpty {
+                    Image("bill")
+                        .resizable()
+                        .frame(width: 200, height: 200, alignment: .center)
+                        .padding()
                     Text("You haven't ordered anything.")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
