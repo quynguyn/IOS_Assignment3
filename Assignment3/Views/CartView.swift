@@ -14,15 +14,12 @@ struct CartView: View {
     @State private var selectedTab: Int = 0
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("Cart")
                 .font(.system(size: 24, design: .rounded))
                 .fontWeight(.bold)
                 .padding(.bottom)
-                .frame(
-                    maxWidth: UIScreen.main.bounds.width + 10
-                        //, alignment: .leading
-                )
+                .padding(.leading)
             
             ScrollView {
                 VStack {
@@ -78,7 +75,11 @@ struct CartView: View {
 
 struct CartView_Previews: PreviewProvider {
     static var previews: some View {
-            CartView()
-                .environmentObject(CartManager())
+        EnvironmentWrapper {
+            NavigationView {
+                CartView()
+            }
+            
+        }
     }
 }

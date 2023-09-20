@@ -12,8 +12,9 @@ import SimpleToast
 struct ProfileView: View {
     @State private var isDarkMode = false
     @EnvironmentObject private var authStore : AuthStore
-    @State private var showToast = false
-    
+        @State private var showToast = false
+    var user: AppUser
+
     @State private var name = ""
     @State private var phone = ""
     @State private var email = ""
@@ -27,6 +28,14 @@ struct ProfileView: View {
         modifierType: .slide,
         dismissOnTap: true
     )
+    
+    init(user: AppUser) {
+        self.user = user
+        self._name = State(initialValue: user.displayName ?? "")
+        self._phone = State(initialValue: user.phone ?? "")
+        self._email = State(initialValue: user.email)
+        self._address = State(initialValue: user.address ?? "")
+    }
     
     var body: some View {
         VStack {
@@ -179,7 +188,7 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         EnvironmentWrapper {
             Group{
-                ProfileView()
+                ProfileView(user: AppUser.init(uid: "1", email: "john@doe", displayName: "John Doe", address: "A Street", phone: "123123"))
             }
         }
     }
