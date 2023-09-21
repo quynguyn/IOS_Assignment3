@@ -21,6 +21,10 @@ struct CheckoutView: View {
     
     @State private var isPlacingOrder = false
     
+    @State private var navigationTrigger: UUID? = nil
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var mainFlowController: MainFlowController
+    
     var user : AppUser
     
     init(user: AppUser) {
@@ -139,6 +143,11 @@ struct CheckoutView: View {
                 .background(Color(hex: 0xa2cdb0))
                 .cornerRadius(20)
                 .shadow(radius: 5)
+                
+                NavigationLink(destination: StatusView(), tag: UUID(), selection: $navigationTrigger) {
+                    EmptyView()
+                }
+
             }
             .navigationBarTitle("Checkout", displayMode: .inline)
             .simpleToast(isPresented: $showErrorToast, options: ERROR_TOAST_OPTIONS) {
@@ -190,6 +199,10 @@ extension CheckoutView {
             isPlacingOrder = false
             showToast = true
             cartManager.emptyCart()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                mainFlowController.selectedTab = 2
+                presentationMode.wrappedValue.dismiss()
+            }
         }, onError: { error in
             isPlacingOrder = false
             print("Error placing order: \(error.localizedDescription)")

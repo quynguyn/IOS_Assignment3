@@ -16,6 +16,10 @@ struct StatusView: View {
         }
     }
     
+    var sortedOrders: [FoodOrderWithFoodList] {
+        foodOrderStore.foodOrders.sorted(by: { $0.orderedAt > $1.orderedAt })
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Status")
@@ -33,7 +37,7 @@ struct StatusView: View {
                 }
                 else {
                     VStack(spacing: 16) {
-                        ForEach(foodOrderStore.foodOrders, id: \.id) { order in
+                        ForEach(sortedOrders, id: \.id) { order in
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack {
                                     HStack {
