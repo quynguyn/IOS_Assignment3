@@ -7,25 +7,42 @@
 
 import SwiftUI
 import Firebase
+import SimpleToast
 
 struct ProfileView: View {
-    
+    @State private var isDarkMode = false
     @EnvironmentObject private var authStore : AuthStore
-
+    @State private var showToast = false
     
     @State private var name = ""
     @State private var phone = ""
     @State private var email = ""
     @State private var address = ""
     
+    private let toastOpstions = SimpleToastOptions(
+        alignment: .top,
+        hideAfter: 0.75,
+        backdrop: Color.black.opacity(0.1),
+        animation: .default,
+        modifierType: .slide,
+        dismissOnTap: true
+    )
+    
     var body: some View {
         VStack {
+            HStack() {
+                Text("").padding(.leading, 220)
+                Toggle("Dark Mode", isOn: $isDarkMode).padding(.trailing, 20)
+            }
+            
             Image(systemName: "person.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 200, height: 200)
-                .padding(.top, 20)
-            Text("Welcome, \(authStore.user?.displayName ?? "user")")
+                .padding(.top, 15)
+            
+//            Text("Welcome, \(authStore.user?.displayName ?? "user")").foregroundColor(isDarkMode ?.white :.black)
+//                .background(isDarkMode ?.black :.white)
             
             VStack (spacing: 20){
                 CustomTextField(placeholder: "\(authStore.user?.displayName ?? "user")", iconName: "person.fill", text: $name)
@@ -57,6 +74,7 @@ struct ProfileView: View {
                                     updatedAddress: address,
                                     updatedPhone: phone,
                                     onSuccess: {
+                                        showToast.toggle()
                                         print("User profile updated successfully")
                                     },
                                     onError: { error in
@@ -102,9 +120,57 @@ struct ProfileView: View {
                 
             }
             .padding()
+            .preferredColorScheme(isDarkMode ?.dark :.light )
             
             
             
+        }
+        .simpleToast(isPresented: $showToast, options: toastOpstions){
+            HStack{
+                Image(systemName: "square.and.arrow.down.fill")
+                Text("Saved").bold()
+                
+                
+            }
+            .padding(20)
+            .background(Color(hex: 0xf1c27b))
+            .foregroundColor(Color.white)
+            .cornerRadius(15)
+        }
+    }
+}
+
+
+struct SymbolToggleStyle: ToggleStyle {
+ 
+    var systemImage: String = "checkmark"
+    var activeColor: Color = .green
+ 
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            configuration.label
+ 
+            Spacer()
+ 
+            RoundedRectangle(cornerRadius: 30)
+                .fill(configuration.isOn ? activeColor : Color(.systemGray5))
+                .overlay {
+                    Circle()
+                        .fill(.white)
+                        .padding(3)
+                        .overlay {
+                            Image(systemName: systemImage)
+                                .foregroundColor(configuration.isOn ? activeColor : Color(.systemGray5))
+                        }
+                        .offset(x: configuration.isOn ? 10 : -10)
+ 
+                }
+                .frame(width: 50, height: 32)
+                .onTapGesture {
+                    withAnimation(.spring()) {
+                        configuration.isOn.toggle()
+                    }
+                }
         }
     }
 }

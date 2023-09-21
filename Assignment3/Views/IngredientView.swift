@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct IngredientView: View {
+    @Environment(\.colorScheme) var colorScheme
     var food: Food
     @EnvironmentObject var cartManager: CartManager
     @State private var foodImage: UIImage? = nil
@@ -43,13 +44,13 @@ struct IngredientView: View {
                     .fontWeight(.bold)
                     .foregroundColor(Color(hex: 0x85a389))
                     .padding(10)
-                    .background(Color.white)
+                    //.background(colorScheme == .dark ?.white :.black)
                 
                 
                 ForEach(food.ingredients ?? [], id: \.self) { ingredient in
                     HStack {
                         Text("❥ \(ingredient)")
-                            .foregroundColor(.black)
+                            .foregroundColor(colorScheme == .dark ?.white :.black)
                             .font(.body)
                             .padding(.leading, 10)
                     }
@@ -60,7 +61,7 @@ struct IngredientView: View {
                     .fontWeight(.bold)
                     .foregroundColor(Color(hex: 0x85a389))
                     .padding(10)
-                    .background(Color.white)
+                    //.background(colorScheme == .dark ?.white :.black)
                 
                 ForEach(food.recipe , id: \.self) { recipe in
                     Text("➜ \(recipe)")

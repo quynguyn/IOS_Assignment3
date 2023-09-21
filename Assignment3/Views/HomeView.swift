@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 
 struct HomeView: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var foodStore = FoodStore()
     @EnvironmentObject private var authStore : AuthStore
     @EnvironmentObject private var cartManager : CartManager
@@ -159,6 +160,7 @@ struct SearchView: View {
 }
 
 struct DishCard: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var foodImage: UIImage? = nil
     var food: Food
     var body: some View {
@@ -204,7 +206,8 @@ struct DishCard: View {
                 
                 Text("$ \(food.price, specifier: "%.2f")")
                     .font(.title3)
-                    .foregroundColor(.black)
+                    .foregroundColor(colorScheme == .dark ?.white :.black)
+
                 
             }
             .padding()
@@ -223,6 +226,7 @@ struct DishCard: View {
 }
 
 struct MenuView: View {
+    @Environment(\.colorScheme) var colorScheme
     var food: Food
     @State private var foodImage: UIImage? = nil
     var body: some View {
@@ -245,7 +249,7 @@ struct MenuView: View {
                         Text(food.name)
                             .fontWeight(.medium)
                             .lineLimit(1)
-                            .foregroundColor(.black)
+                            .foregroundColor(colorScheme == .dark ?.white :.black)
                         
                         Spacer()
                     }
@@ -270,7 +274,7 @@ struct MenuView: View {
                     
                     Text("$ \(food.price, specifier: "%.2f")")
                         .font(.title3)
-                        .foregroundColor(.black)
+                        .foregroundColor(colorScheme == .dark ?.white :.black)
                 }
                 .frame(maxWidth: .infinity)
             }
