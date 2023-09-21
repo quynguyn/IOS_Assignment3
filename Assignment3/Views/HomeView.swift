@@ -175,7 +175,7 @@ struct DishCard: View {
                             .resizable()
                             .frame(width: 150, height: 150)
                             .aspectRatio(1, contentMode: .fill)
-                            .cornerRadius(20)
+                            .cornerRadius(10)
                     } else {
                         Rectangle()  // Placeholder till image loads
                             .foregroundColor(.gray)
@@ -214,7 +214,7 @@ struct DishCard: View {
             }
             .padding()
             .background(Color(.tertiarySystemBackground))
-            .cornerRadius(20)
+            .cornerRadius(10)
             .shadow(radius: 5)
             .frame(width: 200)
             .onAppear {
@@ -239,7 +239,7 @@ struct MenuView: View {
                         .resizable()
                         .frame(width: 100, height: 100)
                         .aspectRatio(1, contentMode: .fill)
-                        .cornerRadius(20)
+                        .cornerRadius(10)
                 } else {
                     Rectangle()  // Placeholder till image loads
                     .foregroundColor(.gray)
@@ -282,7 +282,7 @@ struct MenuView: View {
             }
             .padding()
             .background(Color(.tertiarySystemBackground))
-            .cornerRadius(20)
+            .cornerRadius(10)
             .shadow(radius: 5)
             .frame(maxWidth:.infinity)
             .onAppear {

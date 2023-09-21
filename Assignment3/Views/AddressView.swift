@@ -51,7 +51,7 @@ struct AddressView: View {
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
-                        .cornerRadius(20)
+                        .cornerRadius(10)
                         .shadow(radius: 5)
                         .frame(maxWidth:.infinity)
                         
@@ -60,7 +60,7 @@ struct AddressView: View {
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
-                        .cornerRadius(20)
+                        .cornerRadius(10)
                         .shadow(radius: 5)
                         .frame(maxWidth:.infinity)
                     }
@@ -83,7 +83,7 @@ struct AddressView: View {
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
-                        .cornerRadius(20)
+                        .cornerRadius(10)
                         .shadow(radius: 5)
                         .frame(maxWidth:.infinity)
                         
@@ -99,7 +99,7 @@ struct AddressView: View {
                                     .padding()
                             }
                             .background(Color(.tertiarySystemBackground))
-                            .cornerRadius(20)
+                            .cornerRadius(10)
                             .shadow(radius: 5)
                             
                             // Button Work
@@ -112,7 +112,7 @@ struct AddressView: View {
                                     .padding()
                             }
                             .background(Color(.tertiarySystemBackground))
-                            .cornerRadius(20)
+                            .cornerRadius(10)
                             .shadow(radius: 5)
                         }
                     }
@@ -124,14 +124,15 @@ struct AddressView: View {
                 .padding()
                 
                 Button(action: saveAddress) {
-                    Text("Save Address")
-                        .font(.system(size: 18, design: .rounded))
-                        .fontWeight(.medium)
+                    Text("Save")
+                        .font(.system(size: 25, design: .rounded))
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                 }
+                .frame(width: 360)
                 .background(Color(hex: 0xa2cdb0))
-                .cornerRadius(20)
+                .cornerRadius(10)
                 .shadow(radius: 5)
                 .navigationBarTitle("Address", displayMode: .inline)
                 .onChange(of: deliveryAddress) { address in

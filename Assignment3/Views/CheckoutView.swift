@@ -80,7 +80,7 @@ struct CheckoutView: View {
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
-                        .cornerRadius(20)
+                        .cornerRadius(10)
                         .shadow(radius: 5)
                         .frame(maxWidth:.infinity)
                     }
@@ -136,14 +136,13 @@ struct CheckoutView: View {
                     )
                 }) {
                     Text("Place Order")
-                        .font(.system(size: 18, design: .rounded))
-                        .fontWeight(.medium)
-                    
+                        .font(.system(size: 25,weight: .bold))
                         .foregroundColor(.white)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                 }
+                .frame(width: 360)
                 .background(Color(hex: 0xa2cdb0))
-                .cornerRadius(20)
+                .cornerRadius(10)
                 .shadow(radius: 5)
                 
                 NavigationLink(destination: StatusView(), tag: UUID(), selection: $navigationTrigger) {
@@ -169,7 +168,7 @@ struct CheckoutView: View {
                 .padding(20)
                 .background(Color(hex: 0xf1c27b))
                 .foregroundColor(Color.white)
-                .cornerRadius(15)
+                .cornerRadius(10)
             }
         }
     }
@@ -224,7 +223,7 @@ struct YourOrderView: View {
                     .resizable()
                     .frame(width: 100, height: 100)
                     .aspectRatio(1, contentMode: .fill)
-                    .cornerRadius(20)
+                    .cornerRadius(10)
             } else {
                 Rectangle()  // Placeholder till image loads
                 .foregroundColor(.gray)
@@ -245,7 +244,7 @@ struct YourOrderView: View {
         }
         .padding()
         .background(Color(.tertiarySystemBackground))
-        .cornerRadius(20)
+        .cornerRadius(10)
         .shadow(radius: 5)
         .frame(maxWidth:.infinity)
         .onAppear {
@@ -291,7 +290,7 @@ struct PaymentDetailView: View {
         }
         .padding()
         .background(Color(.tertiarySystemBackground))
-        .cornerRadius(20)
+        .cornerRadius(10)
         .shadow(radius: 5)
         .frame(maxWidth:.infinity)
     }
