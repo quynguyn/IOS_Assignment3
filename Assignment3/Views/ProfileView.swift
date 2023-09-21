@@ -7,16 +7,26 @@
 
 import SwiftUI
 import Firebase
+import SimpleToast
 
 struct ProfileView: View {
     
     @EnvironmentObject private var authStore : AuthStore
-
+    @State private var showToast = false
     
     @State private var name = ""
     @State private var phone = ""
     @State private var email = ""
     @State private var address = ""
+    
+    private let toastOpstions = SimpleToastOptions(
+        alignment: .top,
+        hideAfter: 0.75,
+        backdrop: Color.black.opacity(0.1),
+        animation: .default,
+        modifierType: .slide,
+        dismissOnTap: true
+    )
     
     var body: some View {
         VStack {
@@ -57,6 +67,7 @@ struct ProfileView: View {
                                     updatedAddress: address,
                                     updatedPhone: phone,
                                     onSuccess: {
+                                        showToast.toggle()
                                         print("User profile updated successfully")
                                     },
                                     onError: { error in
@@ -105,6 +116,18 @@ struct ProfileView: View {
             
             
             
+        }
+        .simpleToast(isPresented: $showToast, options: toastOpstions){
+            HStack{
+                Image(systemName: "square.and.arrow.down.fill")
+                Text("Saved").bold()
+                
+                
+            }
+            .padding(20)
+            .background(Color(hex: 0xf1c27b))
+            .foregroundColor(Color.white)
+            .cornerRadius(15)
         }
     }
 }
