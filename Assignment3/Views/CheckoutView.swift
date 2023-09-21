@@ -10,6 +10,8 @@ import Firebase
 import SimpleToast
 
 struct CheckoutView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     @EnvironmentObject private var cartManager: CartManager
     @EnvironmentObject private var authStore : AuthStore
     @State private var showToast = false
@@ -67,13 +69,13 @@ struct CheckoutView: View {
                         )) {
                             HStack(spacing: 10) {
                                 Text($address.deliveryAddress.wrappedValue ?? "")
-                                    .foregroundColor(.black)
+                                    .foregroundColor(colorScheme == .dark ?.white :.black)
                                     .lineLimit(1)
                                 
                                 Spacer()
                                 
                                 Image(systemName: "chevron.right")
-                                    .foregroundColor(.black)
+                                    .foregroundColor(colorScheme == .dark ?.white :.black)
                             }
                         }
                         .padding()
@@ -212,6 +214,7 @@ extension CheckoutView {
 
 
 struct YourOrderView: View {
+    @Environment(\.colorScheme) var colorScheme
     let item: Food
     @State private var foodImage: UIImage? = nil
     var body: some View {
@@ -231,12 +234,12 @@ struct YourOrderView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text(item.name)
                     .fontWeight(.medium)
-                    .foregroundColor(.black)
+                    .foregroundColor(colorScheme == .dark ?.white :.black)
                     .lineLimit(1)
                 
                 Text("$ \(item.price, specifier: "%.2f")")
                     .font(.title3)
-                    .foregroundColor(.black)
+                    .foregroundColor(colorScheme == .dark ?.white :.black)
             }
             .frame(maxWidth: .infinity)
         }
@@ -268,6 +271,7 @@ struct YourOrderView: View {
 }
 
 struct PaymentDetailView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var cartManager: CartManager
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -275,6 +279,7 @@ struct PaymentDetailView: View {
                 Text("Total payment")
                     .font(.system(size: 24, design: .rounded))
                     .fontWeight(.bold)
+                    .foregroundColor(colorScheme == .dark ?.white :.black)
                 
                 Spacer()
                 

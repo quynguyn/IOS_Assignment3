@@ -10,6 +10,9 @@ import SwiftUI
 struct ItemRow: View {
     @EnvironmentObject var cartManager: CartManager
     
+    @Environment(\.colorScheme) var colorScheme
+    
+    
     @State private var foodImage: UIImage? = nil
     var item: Food
     

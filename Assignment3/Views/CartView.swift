@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CartView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var cartManager: CartManager
     @EnvironmentObject var authStore: AuthStore
     @State private var selectedTab: Int = 0
@@ -45,9 +46,9 @@ struct CartView: View {
             
             Spacer()
             VStack {
-                LinearGradient(colors: [.white, Color(.sRGB, white: 0.85, opacity: 1)], startPoint: .top, endPoint: .bottom)
-                       .frame(height: 15)
-                       .opacity(0.8)
+//                LinearGradient(colors: [.white, Color(.sRGB, white: 0.85, opacity: 1)], startPoint: .top, endPoint: .bottom)
+//                       .frame(height: 15)
+//                       .opacity(0.8)
                 if let user = authStore.user {
                     NavigationLink {
                         CheckoutView(user: authStore.user!)
@@ -68,6 +69,8 @@ struct CartView: View {
                 
             }
             .frame(maxWidth: .infinity, minHeight: 150, alignment: .bottom)
+            .shadow(color: colorScheme == .dark ? Color.gray.opacity(0.2) :
+            Color.gray.opacity(0.5), radius: 10,x: 0, y : -5)
         }
         .padding(.top)
     }
