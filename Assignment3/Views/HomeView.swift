@@ -116,13 +116,15 @@ struct HomeView: View {
                         Text("Status")
                     }
                     .tag(2)
+                if let user = authStore.user {
+                    ProfileView(user: user) // Updated tag to 3
+                        .tabItem {
+                            Image(systemName: "person.circle.fill")
+                            Text("Profile")
+                        }
+                        .tag(3) // Updated tag to 3
+                }
                 
-                ProfileView() // Updated tag to 3
-                    .tabItem {
-                        Image(systemName: "person.circle.fill")
-                        Text("Profile")
-                    }
-                    .tag(3) // Updated tag to 3
                 
             }
             .accentColor(Color("#F1C27B"))
