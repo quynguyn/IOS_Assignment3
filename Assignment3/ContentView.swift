@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var opacity = 0.5
     
     @EnvironmentObject private var authStore : AuthStore
-    
+    @StateObject var mainFlowController = MainFlowController()
     var body: some View {
         if isActive && !authStore.isLoadingAuthState {
             if authStore.user == nil {
@@ -21,6 +21,7 @@ struct ContentView: View {
             }
             else {
                 HomeView()
+                    .environmentObject(mainFlowController)
             }
         }
         else {

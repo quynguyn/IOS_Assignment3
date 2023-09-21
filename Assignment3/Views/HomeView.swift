@@ -19,10 +19,11 @@ struct HomeView: View {
     var foodCategories = ["All", "Noodle Dishes", "Dessert", "Rice Dishes", "Sandwich", "Salad"]
     
     @State private var selectedCategory = "All"
+    @EnvironmentObject var mainFlowController: MainFlowController
         
     var body: some View {
         NavigationView {
-            TabView(selection: $selectedTab) {
+            TabView(selection: $mainFlowController.selectedTab) {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Welcome, \(authStore.user?.displayName ?? "user")")
@@ -107,11 +108,11 @@ struct HomeView: View {
                     }
                     .tag(1)
                 
-                // HistoryView
-                HistoryView()
+                // StatusView
+                StatusView()
                     .tabItem {
                         Image(systemName: "clock.fill")
-                        Text("History")
+                        Text("Status")
                     }
                     .tag(2)
                 
