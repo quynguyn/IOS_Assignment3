@@ -88,7 +88,7 @@ struct AddressView: View {
                         }
                         
                         HStack {
-                            EditableText(placeholder: "Delivery Address", text: $contactPhone)
+                            EditableText(placeholder: "Delivery Address", text: $deliveryAddress)
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
