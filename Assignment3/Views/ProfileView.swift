@@ -40,106 +40,121 @@ struct ProfileView: View {
     var body: some View {
         VStack {
             HStack() {
-                Text("").padding(.leading, 220)
-                Toggle("Dark Mode", isOn: $isDarkMode).padding(.trailing, 20)
-            }
-            
-            Image(systemName: "person.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 200, height: 200)
-                .padding(.top, 15)
-            
-//            Text("Welcome, \(authStore.user?.displayName ?? "user")").foregroundColor(isDarkMode ?.white :.black)
-//                .background(isDarkMode ?.black :.white)
-            
-            VStack (spacing: 20){
-                CustomTextField(placeholder: "\(authStore.user?.displayName ?? "user")", iconName: "person.fill", text: $name)
-                CustomTextField(placeholder: "\(authStore.user?.phone ?? "user")", iconName: "phone.fill", text: $phone)
-                    .keyboardType(.phonePad)
-                CustomTextField(placeholder: "\(authStore.user?.email ?? "user")", iconName: "envelope.fill", text: $email)
-                    .disabled(true)
-                    .foregroundColor(.gray)
-                CustomTextField(placeholder: "\(authStore.user?.address ?? "user")", iconName: "house.fill", text: $address)
-                
                 Spacer()
-                
-                HStack{
-                    HStack{
-                        Image(systemName: "square.and.arrow.down")
-                            .font(.system(size: 25,weight: .bold))
-                            .foregroundColor(Color.white)
-                        
-                        Button(action: {
-                            if let user = Auth.auth().currentUser {
-
-                                // `user.uid` contains the Firebase Authentication UID of the currently signed-in user.
-                                let userId = user.uid
-
-                                // Call your `updateUserProfile` function with the `userId` obtained from Firebase Authentication.
-                                AuthService.updateUserProfile(
-                                    userId: userId,
-                                    updatedName: name,
-                                    updatedAddress: address,
-                                    updatedPhone: phone,
-                                    onSuccess: {
-                                        showToast.toggle()
-                                        print("User profile updated successfully")
-                                    },
-                                    onError: { error in
-                                        print("Error updating user profile: \(error.localizedDescription)")
-                                    }
-                                )
-                            } else {
-                                // Handle the case where there is no signed-in user.
-                                print("No user is currently signed in.")
-                            }
-                        })  {
-                            Text("Save")
-                                .font(.system(size: 25,weight: .bold))
-                                .foregroundColor(Color.white)
-                                .padding()
-                        }
-                    }.frame(maxWidth: .infinity)
-                        .background(Color(hex: 0xa2cdb0))
-                        .cornerRadius(15)
-                
-                
-                HStack{
-                    
-                    Image(systemName: "door.left.hand.open")
-                        .font(.system(size: 25,weight: .bold))
-                        .foregroundColor(Color.white)
-                    
-                    Button(action: {
-                        AuthService.signOut();
-                    })  {
-                        Text("Log Out")
-                            .font(.system(size: 25,weight: .bold))
-                            .foregroundColor(Color.white)
-                            .padding()
-                        
-                    }
-                }.frame(maxWidth: .infinity)
-                    .background(Color(hex: 0xa2cdb0))
-                    .cornerRadius(15)
+                Button(action: {
+                    isDarkMode.toggle()
+                }) {
+                    Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(isDarkMode ? .white : .black)
+                }
+                .padding([.top, .trailing])
             }
-        
+            
+            ScrollView(showsIndicators: false) {
+                Image(systemName: "person.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 150, height: 150)
+                    .padding(.top, 15)
                 
+                VStack (spacing: 16){
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Name")
+                            .font(.system(size: 24, design: .rounded))
+                            .fontWeight(.medium)
+                        
+                        CustomTextField(placeholder: "\(authStore.user?.displayName ?? "user")", iconName: "person.fill", text: $name)
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Phone")
+                            .font(.system(size: 24, design: .rounded))
+                            .fontWeight(.medium)
+                        
+                        CustomTextField(placeholder: "\(authStore.user?.phone ?? "user")", iconName: "phone.fill", text: $phone)
+                            .keyboardType(.phonePad)
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Email")
+                            .font(.system(size: 24, design: .rounded))
+                            .fontWeight(.medium)
+                        
+                        CustomTextField(placeholder: "\(authStore.user?.email ?? "user")", iconName: "envelope.fill", text: $email)
+                            .disabled(true)
+                        .foregroundColor(.gray)
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Address")
+                            .font(.system(size: 24, design: .rounded))
+                            .fontWeight(.medium)
+                        
+                        CustomTextField(placeholder: "\(authStore.user?.address ?? "user")", iconName: "house.fill", text: $address)
+                    }
+                }
+                .padding()
+                .preferredColorScheme(isDarkMode ?.dark :.light )
+            }
+            
+            HStack {
+                Button(action: {
+                    if let user = Auth.auth().currentUser {
+
+                        // `user.uid` contains the Firebase Authentication UID of the currently signed-in user.
+                        let userId = user.uid
+
+                        // Call your `updateUserProfile` function with the `userId` obtained from Firebase Authentication.
+                        AuthService.updateUserProfile(
+                            userId: userId,
+                            updatedName: name,
+                            updatedAddress: address,
+                            updatedPhone: phone,
+                            onSuccess: {
+                                showToast.toggle()
+                                print("User profile updated successfully")
+                            },
+                            onError: { error in
+                                print("Error updating user profile: \(error.localizedDescription)")
+                            }
+                        )
+                    } else {
+                        // Handle the case where there is no signed-in user.
+                        print("No user is currently signed in.")
+                    }
+                })  {
+                    Text("Save")
+                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
+                        .padding()
+                }
+                .frame(width: 150)
+                .background(Color(hex: 0xa2cdb0))
+                .cornerRadius(10)
+                .shadow(radius: 5)
                 
+                Spacer().frame(width: 20)
+                
+                Button(action: {
+                    AuthService.signOut();
+                })  {
+                    Text("Log Out")
+                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
+                        .padding()
+                }
+                .frame(width: 150)
+                .background(Color(hex: 0xa2cdb0))
+                .cornerRadius(10)
+                .shadow(radius: 5)
             }
             .padding()
-            .preferredColorScheme(isDarkMode ?.dark :.light )
-            
-            
-            
         }
         .simpleToast(isPresented: $showToast, options: toastOpstions){
             HStack{
                 Image(systemName: "square.and.arrow.down.fill")
                 Text("Saved").bold()
-                
-                
             }
             .padding(20)
             .background(Color(hex: 0xf1c27b))
