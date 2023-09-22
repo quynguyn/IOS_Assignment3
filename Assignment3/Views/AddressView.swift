@@ -21,6 +21,15 @@ struct AddressView: View {
     
     @Binding var address : Address
     
+    init(address: Binding<Address>) {
+        self._address = Binding(projectedValue: address)
+        
+        self._contactName = State(initialValue: _address.contactName.wrappedValue ?? "")
+        self._contactPhone = State(initialValue: _address.contactPhone.wrappedValue ?? "")
+        self._deliveryAddress = State(initialValue: _address.deliveryAddress.wrappedValue ?? "")
+        
+    }
+    
     private func saveAddress() {
         address.deliveryAddress = self.deliveryAddress
         address.contactName = self.contactName
@@ -47,7 +56,7 @@ struct AddressView: View {
                         }
                         
                         HStack {
-                            EditableText(text: $contactName)
+                            EditableText(placeholder: "Name", text: $contactName)
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
@@ -56,7 +65,7 @@ struct AddressView: View {
                         .frame(maxWidth:.infinity)
                         
                         HStack {
-                            EditableText(text: $contactPhone)
+                            EditableText(placeholder: "Phone", text: $contactPhone)
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
@@ -79,7 +88,7 @@ struct AddressView: View {
                         }
                         
                         HStack {
-                            EditableText(text: $deliveryAddress)
+                            EditableText(placeholder: "Delivery Address", text: $contactPhone)
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))

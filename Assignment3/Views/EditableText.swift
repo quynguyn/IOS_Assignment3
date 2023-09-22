@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EditableText: View {
+    var placeholder: String = ""
+    
     @Binding var text: String
     @State private var temporaryText: String
     @FocusState private var isFocused: Bool
@@ -17,8 +19,14 @@ struct EditableText: View {
         self.temporaryText = text.wrappedValue
     }
     
+    init(placeholder: String, text: Binding<String>) {
+        self.placeholder = placeholder
+        self._text = text
+        self.temporaryText = text.wrappedValue
+    }
+    
     var body: some View {
-        TextField("", text: $temporaryText, onCommit: { text = temporaryText })
+        TextField(placeholder, text: $temporaryText, onCommit: { text = temporaryText })
             .font(.system(size: 16, design: .rounded))
             .fontWeight(.regular)
             .focused($isFocused, equals: true)

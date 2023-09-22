@@ -48,7 +48,7 @@ struct CartView: View {
 //                       .opacity(0.8)
                 if let user = authStore.user {
                     NavigationLink {
-                        CheckoutView(user: authStore.user!)
+                        CheckoutView(user: user)
                     } label: {
                         Text("Check out - $\(cartManager.totalPrice, specifier: "%.2f")")
                             .bold()
