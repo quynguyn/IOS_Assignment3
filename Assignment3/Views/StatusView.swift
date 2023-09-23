@@ -69,7 +69,7 @@ struct StatusView: View {
                                             Text("$ \(totalPrice(for: order), specifier: "%.2f")")
                                                 .fontWeight(.bold)
                                             
-                                            Text("(\(order.foodList.count) items)")
+                                            Text("(\(order.foodList.count) \(order.foodList.count == 1 ? "item" : "items"))")
                                                 .foregroundColor(.gray)
                                             
                                         }

@@ -56,7 +56,7 @@ struct UserService : FirebaseService {
         // not implementing delete user
     }
     
-    static func syncAppUserWithFirebaseUser(firebaseUser: User) {
+    static func syncAppUserWithFirebaseUser(firebaseUser: User) async {
         var syncData: [String : Any] = [:]
         
         if let email = firebaseUser.email, !email.isEmpty {
@@ -70,8 +70,13 @@ struct UserService : FirebaseService {
         guard !syncData.isEmpty else {
             return
         }
+        do {
+            try await Firestore.firestore().collection(USERS_COLLECTION_PATH).document(firebaseUser.uid).updateData(syncData)
+        }
+        catch {
+            print("Error happened when updating user! \(error)")
+        }
         
-        Firestore.firestore().collection(USERS_COLLECTION_PATH).document(firebaseUser.uid).updateData(syncData)
     }
     
     static func createAppUserFromFirebaseUser(firebaseUser: User, extraInfo: UpdateAppUser?) {
@@ -85,18 +90,19 @@ struct UserService : FirebaseService {
         })
     }
     
-    static func getAppUser(
+    static func listenToAppUserChange(
     uid: String,
-    completion: @escaping (_ appUser: AppUser?) -> Void
-    ) {
-        Firestore.firestore().collection(USERS_COLLECTION_PATH).document(uid).getDocument {
-            doc, error in
-            guard let userDocument = doc else {
-                completion(nil)
+    onChange: @escaping (_ appUser: AppUser) -> Void
+    ) -> ListenerRegistration {
+        return  Firestore.firestore().collection(USERS_COLLECTION_PATH).document(uid).addSnapshotListener {
+            snapshot, error in
+            if let error {
                 return
             }
             
-            completion(Self.fromFirebaseDocument(userDocument))
+            if let snapshot, let updatedUser = Self.fromFirebaseDocument(snapshot) {
+                onChange(updatedUser)
+            }
             
         }
     }

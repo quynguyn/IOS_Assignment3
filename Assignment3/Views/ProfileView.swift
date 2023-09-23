@@ -10,7 +10,7 @@ import Firebase
 import SimpleToast
 
 struct ProfileView: View {
-    @State private var isDarkMode = false
+    @AppStorage(IS_DARK_MODE_UD_KEY) var isDarkMode : Bool = false
     @EnvironmentObject private var authStore : AuthStore
         @State private var showToast = false
     var user: AppUser
