@@ -10,6 +10,7 @@ import Foundation
 import GoogleSignIn
 import FirebaseCore
 import FirebaseAuth
+import FirebaseFirestore
 
 struct RuntimeError: LocalizedError {
     let description: String
@@ -33,6 +34,8 @@ class AuthStore : ObservableObject {
     
     private var handle: AuthStateDidChangeListenerHandle?
     
+    private var userListener: ListenerRegistration?
+    
     init() {
         self.handle = Auth.auth().addStateDidChangeListener { auth, user in
             guard let currentUser = user else {
@@ -40,16 +43,17 @@ class AuthStore : ObservableObject {
                 self.user = nil
                 return
             }
-
-            UserService.syncAppUserWithFirebaseUser(firebaseUser: currentUser)
-            
-            UserService.getAppUser(uid: currentUser.uid, completion: {
-                appUser in
-                self.isLoadingAuthState = false
-                if let appUser {
+            Task.init(priority: .high) {
+                await UserService.syncAppUserWithFirebaseUser(firebaseUser: currentUser)
+                
+                self.userListener?.remove();
+                
+                self.userListener = UserService.listenToAppUserChange(uid: currentUser.uid, onChange: {
+                    appUser in
+                    self.isLoadingAuthState = false
                     self.user = appUser
-                }
-            })
+                })
+            }
         }
     }
     

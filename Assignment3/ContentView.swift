@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage(IS_DARK_MODE_UD_KEY) var isDarkMode : Bool = false
     @State private var isActive = false
     @State private var size = 0.8
     @State private var opacity = 0.5
@@ -15,13 +16,16 @@ struct ContentView: View {
     @EnvironmentObject private var authStore : AuthStore
     @StateObject var mainFlowController = MainFlowController()
     var body: some View {
+        
         if isActive && !authStore.isLoadingAuthState {
             if authStore.user == nil {
                 LogInView()
+                    .preferredColorScheme(isDarkMode ? .dark : .light)
             }
             else {
                 HomeView()
                     .environmentObject(mainFlowController)
+                    .preferredColorScheme(isDarkMode ? .dark : .light)
             }
         }
         else {
@@ -33,6 +37,8 @@ struct ContentView: View {
                 }
             }
         }
+        
+        
     }
 }
 

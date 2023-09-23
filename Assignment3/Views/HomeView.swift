@@ -48,7 +48,7 @@ struct HomeView: View {
                         }
                         
                         // Popular dishes
-                        if searchValue.isEmpty {
+                        if searchValue.isEmpty && selectedCategory == "All" {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Popular Dishes")
                                     .font(.system(size: 24, design: .rounded))

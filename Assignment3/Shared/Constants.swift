@@ -46,4 +46,4 @@ let SUCCESS_TOAST_OPTIONS = SimpleToastOptions(
     dismissOnTap: true
 )
 
-
+let IS_DARK_MODE_UD_KEY = "DARK_MODE"
