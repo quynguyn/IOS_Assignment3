@@ -1,10 +1,19 @@
-//
-//  detailView.swift
-//  Assignment3
-//
-//  Created by quy.nguyn on 09/09/2023.
-//
-
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2023B
+  Assessment: Assignment 3
+  Author:
+ Nguyen Quoc Hoang Trung - s3818328
+ Vu Nguyet Minh - s3878520
+ Pham Duy Anh - s3802674
+ Nguyen Minh Hien - s3877996
+ Nguyen Van Quy - s3878636
+ Created  date: 8/9/2023
+ Last modified: 23/9/2023
+  Acknowledgement:
+    “Full-text search | firestore | Firebase,” Google, https://firebase.google.com/docs/firestore/solutions/search?provider=algolia (accessed Sep. 21, 2023).
+*/
 import SwiftUI
 import SimpleToast
 struct DetailView: View {
@@ -31,31 +40,42 @@ struct DetailView: View {
         VStack {
             VStack(spacing: 20) {
                 GeometryReader{ geometry in
-                    
-                    ScrollView(.horizontal) {
-                        LazyHStack(spacing: 16) {
-                            ForEach(food.thumbnail.indices, id: \.self) { index in
-                                if let uiImage = foodImages[index] {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: geometry.size.width)
-                                        .clipped()
-                                        .shadow(radius: 5)
-                                } else {
-                                    Rectangle()
-                                        .foregroundColor(.gray)
-                                        .frame(width: 150, height: 150)
-                                        .onAppear {
-                                            loadImageFromURL(urlString: food.thumbnail[index]) { image in
-                                                self.foodImages[index] = image
+                    ZStack (alignment: .bottom){
+                        ScrollView(.horizontal) {
+                            LazyHStack(spacing: 16) {
+                                ForEach(food.thumbnail.indices, id: \.self) { index in
+                                    if let uiImage = foodImages[index] {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: geometry.size.width)
+                                            .clipped()
+                                            .shadow(radius: 5)
+                                    } else {
+                                        Rectangle()
+                                            .foregroundColor(.gray)
+                                            .frame(width: 150, height: 150)
+                                            .onAppear {
+                                                loadImageFromURL(urlString: food.thumbnail[index]) { image in
+                                                    self.foodImages[index] = image
+                                                }
                                             }
-                                        }
+                                    }
                                 }
+                                .cornerRadius(10)
                             }
-                            .cornerRadius(10)
+                        }.scrollIndicators(.hidden)
+                        
+                        HStack{
+                            Image(systemName: "arrow.left")
+                                .padding(5)
+                            Image(systemName: "arrow.right") .padding(5)
                         }
+                        .foregroundColor(.black)
+                        .background(.white)
+                        .cornerRadius(20)
                     }
+                    
                 }
                 .edgesIgnoringSafeArea(.top)
                 
